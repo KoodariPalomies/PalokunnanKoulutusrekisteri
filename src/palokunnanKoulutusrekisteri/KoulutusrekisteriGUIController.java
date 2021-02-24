@@ -3,6 +3,7 @@ package palokunnanKoulutusrekisteri;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 /**
  * @author mitulint
@@ -105,7 +106,7 @@ public class KoulutusrekisteriGUIController {
      * Käsitellään sovelluksen tietojen hakeminen
      */
     @FXML private void handleTietoja() {
-        Dialogs.showMessageDialog("Ei löydy tietoa :(");
+        //Dialogs.showMessageDialog("Ei löydy tietoa :(");
+        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TietojaView.fxml"), "Tietoja", null, "");
     }
-    
 }
