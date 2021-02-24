@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 /**
- * Esitetään tietoja ohjelmasta
+ * Esitetään tietoja ohjelmastar
  * @author mitulint
  * @version 24.2.2021
  *
