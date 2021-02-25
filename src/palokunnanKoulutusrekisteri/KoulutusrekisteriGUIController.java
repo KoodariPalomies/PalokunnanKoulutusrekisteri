@@ -97,7 +97,7 @@ public class KoulutusrekisteriGUIController {
     
     /**
      * Käsitellään apujen hakeminen
-     * TODO: lukeminen tiedostosta
+     * TODO: lukeminen tiedostosta tai selaimessa
      */
     @FXML private void handleApua() {
         Dialogs.showMessageDialog("Try harder!");

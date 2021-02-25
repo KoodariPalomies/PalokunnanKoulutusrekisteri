@@ -172,6 +172,9 @@
                <bottom>
                   <Label alignment="CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
                </bottom>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
             </BorderPane>
             <BorderPane>
                <top>
@@ -180,6 +183,16 @@
                <center>
                   <StringGrid maxWidth="270.0" prefWidth="270.0" maxHeight="300" prefHeight="300" editable="false" rivit="Koulutus|Suoritettu|Umpeutuu&#10;Vesisukeltaja|01.01.2021|01.01.2022&#10;Nostolava|02.02.2022|02.02.2031&#10;" BorderPane.alignment="CENTER" />
                </center>
+               <bottom>
+               <Button onAction="#handleMuokkaaKoulutusta" text="_Muokkaa koulutusta" BorderPane.alignment="CENTER" >
+                  		<tooltip>
+                  			<Tooltip text="Muokkaa koulutusta" />
+                  		</tooltip>
+               </Button>
+               </bottom>
+               <padding>
+                  <Insets bottom="30.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </BorderPane>
         </items>
          <padding>
@@ -215,12 +228,8 @@
                   <Button mnemonicParsing="true" text="Lisää _koulutus" onAction="#handleLisaaKoulutus">
                      <tooltip>
                         <Tooltip text="Lisää työntekijälle uuden koulutuksen" />
-                     </tooltip></Button>
-                     <Button onAction="#handleMuokkaaKoulutusta" text="_Muokkaa koulutusta">
-                  		<tooltip>
-                  			<Tooltip text="Muokkaa koulutusta" />
-                  		</tooltip>
-                  	</Button>
+                     </tooltip>
+                  </Button>
                   <Button mnemonicParsing="false" text="Poista koulutus" onAction="#handlePoistaKoulutus">
                      <tooltip>
                         <Tooltip text="Poistetaan kohdalla oleva koulutus" />
