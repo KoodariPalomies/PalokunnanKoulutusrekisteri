@@ -153,6 +153,11 @@
                               <TextField text="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                               <TextField text="Pelastus" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
                               <TextField text="Palomies" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                           	  <Button onAction="#handleMuokkaaTyontekija" text="_Muokkaa työntekijää" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
+                  				<tooltip>
+                  					<Tooltip text="Muokkaa työntekijää" />
+                  				</tooltip>
+                  			  </Button>
                            </children>
                            <opaqueInsets>
                               <Insets left="10.0" top="10.0" />
@@ -173,7 +178,7 @@
                   <Label text="Työntekijän koulutukset" BorderPane.alignment="CENTER" />
                </top>
                <center>
-                  <StringGrid maxWidth="270.0" prefWidth="270.0" editable="false" rivit="Koulutus|Suoritettu|Umpeutuu&#10;Vesisukeltaja|01.01.2021|01.01.2022&#10;Nostolava|02.02.2022|02.02.2031&#10;" BorderPane.alignment="CENTER" />
+                  <StringGrid maxWidth="270.0" prefWidth="270.0" maxHeight="300" prefHeight="300" editable="false" rivit="Koulutus|Suoritettu|Umpeutuu&#10;Vesisukeltaja|01.01.2021|01.01.2022&#10;Nostolava|02.02.2022|02.02.2031&#10;" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
         </items>
@@ -192,11 +197,6 @@
                         <Tooltip text="Lisää uuden työntekijän rekisteriin" />
                      </tooltip>
                   </Button>
-                  	<Button onAction="#handleMuokkaaTyontekija" text="_Muokkaa työntekijää">
-                  		<tooltip>
-                  			<Tooltip text="Muokkaa työntekijää" />
-                  		</tooltip>
-                  	</Button>
                   <Button onAction="#handlePoistaTyontekija" text="_Poista työntekijä">
                   </Button>
                   <Button mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna">

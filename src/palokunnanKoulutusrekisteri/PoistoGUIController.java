@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 /**
+ * Poistetaan valittu jäsen
  * @author Tuomas Lintula
  * @version 25.2.2021
  *

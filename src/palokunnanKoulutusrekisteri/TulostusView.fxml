@@ -10,8 +10,8 @@
    <bottom>
       <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <buttons>
-            <Button mnemonicParsing="false" text="Tulosta" />
-          <Button defaultButton="true" mnemonicParsing="false" text="OK" />
+            <Button fx:id="buttonTulosta" defaultButton="true" mnemonicParsing="false" text="Tulosta" onAction="#handleTulosta" />
+          <Button fx:id="buttonSulje" cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#handleDefaultCancel" />
         </buttons>
          <padding>
             <Insets right="10.0" />
@@ -19,6 +19,7 @@
       </ButtonBar>
    </bottom>
    <center>
-      <TextArea fx:id="tulostusAlue" prefHeight="200.0" prefWidth="200.0" text="Valitut työntekijät&#10;" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="tulostusAlue" prefHeight="200.0" prefWidth="200.0" text="Valitut työntekijät&#10;" BorderPane.alignment="CENTER">
+	</TextArea>
    </center>
 </BorderPane>

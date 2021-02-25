@@ -4,6 +4,7 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 
 /**
@@ -18,10 +19,19 @@ public class TulostusController implements ModalControllerInterface<String> {
     @FXML private void handleOK() {
         ModalController.closeStage(tulostusAlue);
     }
+    
+    
+    @FXML private Button buttonSulje;
+    
+    @FXML private void handleDefaultCancel() {
+        ModalController.closeStage(buttonSulje);
+    }
 
     
+    @FXML private Button buttonTulosta;
+    
     @FXML private void handleTulosta() {
-        Dialogs.showMessageDialog("Ei osata vielä tulostaa");
+        ModalController.closeStage(buttonTulosta);
     }
 
     
