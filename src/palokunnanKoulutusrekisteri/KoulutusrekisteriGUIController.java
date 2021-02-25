@@ -34,7 +34,7 @@ public class KoulutusrekisteriGUIController {
      * Käsitellään työntekijän poistaminen
      */
     @FXML private void handlePoistaTyontekija() {
-       // Dialogs.showMessageDialog("Ei osata poistaa työntekijää");
+        Dialogs.showQuestionDialog("Poista työntekijä", "Poistetaanko työntekijä?", "Kyllä", "Ei");
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("PoistoGUIView.fxml"), "Poista työntekijä", null, "");
     }
     
@@ -75,6 +75,7 @@ public class KoulutusrekisteriGUIController {
      * Käsitellään lisää työntekijälle koulutus
      */
     @FXML private void handleLisaaKoulutus() {
+        Dialogs.showQuestionDialog("Lisää koulutus", "Lisätäänkö työntekijälle koulutus?", "Kyllä", "Ei");
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", null, "");
     }
     
@@ -83,7 +84,7 @@ public class KoulutusrekisteriGUIController {
      * Käsitellään koulutuksen muokkaaminen
      */
     @FXML private void handleMuokkaaKoulutusta() {
-        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("MuokkaaKoulutustaDialogView.fxml"), "Muokkaa työntekijän koulutusta", null, "");
+        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("MuokkaaKoulutustaDialogView.fxml"), "Muokkaa koulutusta", null, "");
     }
     
     
@@ -91,7 +92,8 @@ public class KoulutusrekisteriGUIController {
      * Käsitellään koulutuksen poistaminen
      */
     @FXML private void handlePoistaKoulutus() {
-        Dialogs.showMessageDialog("Ei osata poistaa koulutusta");
+        Dialogs.showQuestionDialog("Poista koulutus", "Poistetaanko työntekijän koulutus?", "Kyllä", "Ei");
+        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("PoistaKoulutusGUIView.fxml"), "Poista koulutus", null, "");
     }
     
     
