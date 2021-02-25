@@ -34,7 +34,8 @@ public class KoulutusrekisteriGUIController {
      * Käsitellään työntekijän poistaminen
      */
     @FXML private void handlePoistaTyontekija() {
-        Dialogs.showMessageDialog("Ei osata poistaa työntekijää");
+       // Dialogs.showMessageDialog("Ei osata poistaa työntekijää");
+        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("PoistoGUIView.fxml"), "Poista työntekijä", null, "");
     }
     
     
@@ -109,6 +110,5 @@ public class KoulutusrekisteriGUIController {
         //Dialogs.showMessageDialog("Ei löydy tietoa :(");
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TietojaView.fxml"), "Tietoja", null, "");
     }
-    
     
 }
