@@ -84,7 +84,7 @@ public class KoulutusrekisteriGUIController {
      * Käsitellään koulutuksen muokkaaminen
      */
     @FXML private void handleMuokkaaKoulutusta() {
-        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("MuokkaaKoulutustaDialogView.fxml"), "Muokkaa koulutusta", null, "");
+        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("MuokkaaKoulutustaDialogView.fxml"), "Muokkaa työntekijän koulutusta", null, "");
     }
     
     
