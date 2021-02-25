@@ -192,6 +192,8 @@
                         <Tooltip text="Lisää uuden työntekijän rekisteriin" />
                      </tooltip>
                   </Button>
+                  <Button onAction="#handlePoistaTyontekija" text="_Poista työntekijä">
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna">
                      <tooltip>
                         <Tooltip text="Tallentaa rekisterin tiedot" />
