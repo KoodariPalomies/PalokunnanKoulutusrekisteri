@@ -192,6 +192,11 @@
                         <Tooltip text="Lisää uuden työntekijän rekisteriin" />
                      </tooltip>
                   </Button>
+                  	<Button onAction="#handleMuokkaaTyontekija" text="_Muokkaa työntekijää">
+                  		<tooltip>
+                  			<Tooltip text="Muokkaa työntekijää" />
+                  		</tooltip>
+                  	</Button>
                   <Button onAction="#handlePoistaTyontekija" text="_Poista työntekijä">
                   </Button>
                   <Button mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna">
@@ -211,6 +216,11 @@
                      <tooltip>
                         <Tooltip text="Lisää työntekijälle uuden koulutuksen" />
                      </tooltip></Button>
+                     <Button onAction="#handleMuokkaaKoulutusta" text="_Muokkaa koulutusta">
+                  		<tooltip>
+                  			<Tooltip text="Muokkaa koulutusta" />
+                  		</tooltip>
+                  	</Button>
                   <Button mnemonicParsing="false" text="Poista koulutus" onAction="#handlePoistaKoulutus">
                      <tooltip>
                         <Tooltip text="Poistetaan kohdalla oleva koulutus" />

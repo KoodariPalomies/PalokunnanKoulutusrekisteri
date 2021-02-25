@@ -97,6 +97,7 @@ public class KoulutusrekisteriGUIController {
     
     /**
      * Käsitellään apujen hakeminen
+     * TODO: lukeminen tiedostosta
      */
     @FXML private void handleApua() {
         Dialogs.showMessageDialog("Try harder!");
@@ -107,7 +108,6 @@ public class KoulutusrekisteriGUIController {
      * Käsitellään sovelluksen tietojen hakeminen
      */
     @FXML private void handleTietoja() {
-        //Dialogs.showMessageDialog("Ei löydy tietoa :(");
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TietojaView.fxml"), "Tietoja", null, "");
     }
     

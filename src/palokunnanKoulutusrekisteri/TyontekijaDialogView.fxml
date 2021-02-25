@@ -17,7 +17,7 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
                 <Button fx:id="buttonTallenna" defaultButton="true" mnemonicParsing="false" text="OK" onAction="#handleDefaultOK" />
-                  <Button cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#handleDefaultCancel" />
+                  <Button fx:id="buttonSulje" cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#handleDefaultCancel" />
               </buttons>
                <padding>
                   <Insets right="10.0" />
