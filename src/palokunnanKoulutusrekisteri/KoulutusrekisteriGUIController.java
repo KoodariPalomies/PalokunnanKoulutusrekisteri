@@ -109,4 +109,6 @@ public class KoulutusrekisteriGUIController {
         //Dialogs.showMessageDialog("Ei löydy tietoa :(");
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TietojaView.fxml"), "Tietoja", null, "");
     }
+    
+    
 }
