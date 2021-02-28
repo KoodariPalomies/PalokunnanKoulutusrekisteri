@@ -23,7 +23,7 @@ import koulutusRekisteri.Tyontekija;
 
 /**
  * @author mitulint
- * @version 18.2.2021
+ * @version 28.2.2021
  * Luokka käyttöliittymän tapahtumien hoitamiseksi
  */
 public class KoulutusrekisteriGUIController implements Initializable {
@@ -33,6 +33,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private Label labelVirhe;
     @FXML private ListChooser<Tyontekija> chooserTyontekijat;
     @FXML private ScrollPane panelTyontekija;
+    
+    private String kayttajatunnus = "mitulint";
     
     
     /**
@@ -100,7 +102,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään tietojen tallentaminen
      */
     @FXML private void handleTallenna() {
-        Dialogs.showMessageDialog("Ei osata vielä tallentaa");
+        tallenna();
     }
     
     
@@ -164,13 +166,62 @@ public class KoulutusrekisteriGUIController implements Initializable {
     }
     
     
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
+    }
+    
+    
+    private void setTitle(String title) {
+        ModalController.getStage(hakuehto).setTitle(title);
+    }
+    
+    
+    /**
+     * Alustaa koulutusrekisterin lukemalla sen valitun nimisestä tiedostosta
+     * @param nimi tiedosto josta työntekijän tiedot luetaan
+     */
+    protected void lueTiedosto(String nimi) {
+        //tyontekijannimi = nimi;
+        //setTitle("Kerho - " + tyontekijannimi);
+        //String virhe = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
+        // if (virhe != null) 
+           // Dialogs.showMessageDialog(virhe);
+    }
+    
+    
+    /**
+     * Kysytään tiedoston nimi ja luetaan se
+     * @return true jos onnistui, false jos ei
+     */
     public boolean avaa() {
         //String uusinimi = KerhonNimiController.kysyNimi(null, kerhonnimi);
-        String uusinimi = AloitusIkkunaController.kysyNimi(null, kerhonnimi;)
+        String uusinimi = AloitusIkkunaGUIController.kysyNimi(null, kayttajatunnus);
         if (uusinimi == null) return false;
         lueTiedosto(uusinimi);
         return true;
     }
+    
+        /**
+         * Tarkistetaan onko tallennus tehty
+         * @return true jos saa sulkea sovelluksen, false jos ei
+         */
+        public boolean voikoSulkea() {
+            tallenna();
+            return true;
+        }
+        
+            /**
+             * Tietojen tallennus
+             */
+            private void tallenna() {
+                Dialogs.showMessageDialog("Tallennetaan, sitten kun osataan!");
+            }
     
     
     private void naytaTyontekija() {

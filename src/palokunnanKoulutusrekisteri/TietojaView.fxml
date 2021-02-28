@@ -31,7 +31,7 @@
 				<Font name="Arial Bold" size="24.0"/>
 				</font>
 			</Label>
-			<Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Versio 24.2.2021"/>
+			<Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="Versio 28.2.2021"/>
 			<Label alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" prefHeight="40.0" text="Mikko Tuomas Lintula">
 				<font>
 				<Font name="System Bold Italic" size="20.0"/>
