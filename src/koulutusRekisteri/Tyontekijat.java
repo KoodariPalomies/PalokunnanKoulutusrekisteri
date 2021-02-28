@@ -100,7 +100,7 @@ public class Tyontekijat {
             tyontekijat.lisaa(aku2);
             tyontekijat.lisaa(aku2);
         } catch (SailoException e) {
-            System.err.println(e.getMessage());
+            System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.
         }
         
         System.out.println("========== Työntekijät testi ==========");
