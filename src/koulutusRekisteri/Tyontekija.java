@@ -75,6 +75,14 @@ public class Tyontekija {
     
     
     /**
+     * @return työntekijän nimi
+     */
+    public String getNimi() {
+        return nimi;
+    }
+    
+    
+    /**
      * Palautetaan työntekijän työntekijätunnus.
      * @return työntekijän työntekijätunnus
      */
