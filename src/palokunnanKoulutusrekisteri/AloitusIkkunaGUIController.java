@@ -7,10 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * Kystään kerhon nimi ja luodaan tätä varten dialogi.
+ * Kysytään käyttäjätunnus ja salasana sekä luodaan tätä varten dialogi.
  * 
  * @author mitulint
- * @version 28.2.2021
+ * @version 3.3.2021
  */
 public class AloitusIkkunaGUIController implements ModalControllerInterface<String> {
     

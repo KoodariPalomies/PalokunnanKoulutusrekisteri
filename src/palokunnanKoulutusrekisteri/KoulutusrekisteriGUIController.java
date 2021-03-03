@@ -34,7 +34,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ListChooser<Tyontekija> chooserTyontekijat;
     @FXML private ScrollPane panelTyontekija;
     
-    private String kayttajatunnus = "mitulint";
+    private String kayttajatunnus = "";
+    private String salasana = "";
     
     
     /**

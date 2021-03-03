@@ -5,6 +5,7 @@ package kanta;
  * Luokka henkilötunnuksen tarkistamiseksi
  * @author mitulint
  * @version 27.2.2021
+ * TODO: muokkaa tätä omaan ohjelmaan sopivaksi --> tarkistus koulutusten suoritus ja umpeutumispäivämäärille
  *
  */
 public class HetuTarkistus  {
