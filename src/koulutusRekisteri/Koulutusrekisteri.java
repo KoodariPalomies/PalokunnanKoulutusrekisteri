@@ -2,9 +2,23 @@ package koulutusRekisteri;
 
 
 /**
- * CRC-kortin sisältö tähän
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi:   Koulutusrekisteri                   | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                   | 
+ * |                                                    | - Tyontekija      |
+ * | - Huolehtii Tyontekijat ja Koulutukset -luokkien   |                   | 
+ * |   välisestä yhteistyöstä ja välittää näitä tietoja | - Tyontekijat     | 
+ * |   pyydettäessä.                                    |                   |
+ * |                                                    | - Koulutus        |
+ * | - Lukee ja kirjoittaa Koulutusrekisterin tiedostoon|                   | 
+ * |   pyytämällä apua avustajilta.                     | - Koulutukset     |
+ * |                                                    |                   |
+ * |                                                    | - Relaatiot       |
+ * |                                                    |                   | 
+ * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 28.2.2021
+ * @version 3.3.2021
  *
  */
 public class Koulutusrekisteri {

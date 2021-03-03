@@ -9,9 +9,30 @@ import java.io.PrintStream;
 import static kanta.HetuTarkistus.*; // HetuTarkistus --> kanta packet --> voi käyttää johonkin muuhun tarkistamiseen
 
 /**
- * Kopioi CRC-kortin sisältö
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi:   Tyontekija                          | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                   | 
+ * |                                                    |                   |
+ * | - Ei tiedä Koulutusrekisteristä eikä               |                   |
+ * |   käyttöliittymästä.                               |                   |
+ * |                                                    |                   |
+ * | - Tietää työntekijän kentät                        |                   |
+ * | (Työntekijätunnus, Nimi, Tehtäväalue, Virka-asema).|                   |
+ * |                                                    |                   |
+ * | - Osaa tarkistaa tietyn kentän oikeellisuuden      |                   |
+ * |   (syntaksin).                                     |                   |
+ * |                                                    |                   |
+ * | - Osaa muuttaa 1|Ankka Aku|.. - merkkijonon        |                   |
+ * |   työntekijän tiedoiksi.                           |                   |
+ * |                                                    |                   |  
+ * | - Osaa antaa merkkijonona i:n kentän tiedot.       |                   |
+ * |                                                    |                   |
+ * | - Osaa laittaa merkkijonon i:neksi kentäksi.       |                   |
+ * |                                                    |                   |  
+ * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 27.2.2021
+ * @version 3.3.2021
 */
 public class Tyontekija {
     

@@ -4,9 +4,21 @@
 package koulutusRekisteri;
 
 /**
- * Kopioi CRC-korti tietoja tähän
+ * |------------------------------------------------------------------------|
+ * | Luokan nimi:   Tyontekijat                         | Avustajat:        |
+ * |-------------------------------------------------------------------------
+ * | Vastuualueet:                                      |                   | 
+ * |                                                    | - Tyontekija      | 
+ * | - Pitää yllä varsinaista työntekijälistaa, eli     |                   | 
+ * |   osaa lisätä ja poistaa työntekijän.              |                   |
+ * |                                                    |                   | 
+ * | - Lukee ja kirjoittaa työntekijät tiedostoon.      |                   |
+ * |                                                    |                   | 
+ * | - Osaa etsiä ja lajitella.                         |                   |  
+ * |                                                    |                   | 
+ * |-------------------------------------------------------------------------
  * @author mitulit
- * @version 27.2.2021
+ * @version 3.3.2021
  *
  */
 public class Tyontekijat {

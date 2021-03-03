@@ -105,7 +105,7 @@
         <items>
             <BorderPane maxWidth="200.0" prefWidth="200.0">
                <center>
-                  <ListChooser fx:id="chooserTyontekijat" maxHeight="1.7976931348623157E308" prefHeight="200.0" maxWidth="200.0" rivit="Ankka Aku&#10;Susi Sepe&#10;Ponteva Veli&#10;" BorderPane.alignment="CENTER" />
+                  <ListChooser fx:id="chooserTyontekijat" maxHeight="1.7976931348623157E308" prefHeight="200.0" maxWidth="200.0" rivit="Ankka Aku&#10;Ponteva Veli&#10;Susi Sepe&#10;" BorderPane.alignment="CENTER" />
                </center>
                <top>
                   <VBox BorderPane.alignment="CENTER">
