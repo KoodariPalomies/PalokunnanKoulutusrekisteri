@@ -15,6 +15,10 @@
 					</font>
 				</Label>
 			</children>
+				<children>
+					<Label alignment="CENTER" prefHeight="20.0" text="Kuva tähän">
+					</Label> 
+				</children>
 		</VBox>
 	</center>
 <bottom>
@@ -22,32 +26,30 @@
 		<children>
 			<HBox>
 		<children>
-			<Label text="Käyttäjätunnus">
+		<GridPane hgap="10.0">
+			<Label text="Käyttäjätunnus" GridPane.rowIndex="1" />
 				<padding>
-				<Insets left="10.0" right="10.0" top="10.0"/>
+					<Insets left="10.0" right="10.0" top="10.0"/>
 				</padding>
-			</Label>
-				<TextField fx:id="textVastaus" text="" HBox.hgrow="ALWAYS">
+				<TextField fx:id="textVastaus" text="" HBox.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
 					<padding>
 					<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
 					</padding>
 						<HBox.margin>
 						<Insets right="10.0" top="5.0"/>
 						</HBox.margin>
-				</TextField>
-						<Label text="Salasana">
+						<Label text="Salasana" GridPane.rowIndex="2" />
 						<padding>
 							<Insets left="10.0" right="10.0" top="10.0"/>
 							</padding>
-						</Label>
-							<TextField fx:id="textVastaus" text="" HBox.hgrow="ALWAYS">
+							<PasswordField fx:id="textVastaus" text="" HBox.hgrow="ALWAYS" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
 								<padding>
 								<Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
 								</padding>
 									<HBox.margin>
-									<Insets right="10.0" top="5.0"/>
+									<Insets left="10.0" right="10.0" top="5.0"/>
 									</HBox.margin>
-							</TextField>
+						 </GridPane>
 		</children>
 			</HBox>
 				<ButtonBar prefHeight="40.0" prefWidth="200.0">

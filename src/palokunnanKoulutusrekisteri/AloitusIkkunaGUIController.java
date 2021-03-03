@@ -4,6 +4,7 @@ import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 /**
@@ -13,6 +14,8 @@ import javafx.stage.Stage;
  * @version 3.3.2021
  */
 public class AloitusIkkunaGUIController implements ModalControllerInterface<String> {
+    
+    @FXML private ImageView imageview;
     
     @FXML private TextField textVastaus;
     private String vastaus = null;
