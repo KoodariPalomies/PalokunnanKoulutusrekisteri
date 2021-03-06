@@ -117,7 +117,7 @@ public class Tyontekija {
      * TODO: poista kun kaikki toimii
      */
     public void vastaaAkuAnkka() {
-        tyontekijaTunnus = 1;
+        //tyontekijaTunnus = 1;
         nimi = "Ankka Aku";
         tehtavaAlue = "Pelastus";
         virkaAsema = "Palomies";
