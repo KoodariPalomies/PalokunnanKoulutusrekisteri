@@ -23,16 +23,16 @@ package koulutusRekisteri;
  */
 public class Tyontekijat {
     
-    private static final int MAX_TYONTEKIJOITA = 5;         // Vakio, mallin vuoksi 5 kpl
-    private int lkm = 0;
-    private Tyontekija[] alkiot;
+    private static final int    MAX_TYONTEKIJOITA   = 5;         // Vakio, mallin vuoksi 5 kpl
+    private int                 lkm                 = 0;
+    private Tyontekija[]        alkiot              = new Tyontekija[MAX_TYONTEKIJOITA];
     
     
     /**
      * Luodaan alustava taulukko
      */
     public Tyontekijat() {
-        alkiot = new Tyontekija[MAX_TYONTEKIJOITA];
+        //alkiot = new Tyontekija[MAX_TYONTEKIJOITA]; Attribuuttien oma alustus riittää
     }
 
     
@@ -87,6 +87,17 @@ public class Tyontekijat {
             throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         return alkiot[i];
     }
+    
+    
+       //   /**
+      //     * Lukee jäsenistön tiedostosta.  Kesken.
+       //    * @param hakemisto tiedoston hakemisto
+       //    * @throws SailoException jos lukeminen epäonnistuu
+        //   */
+        //  public void lueTiedostosta(String hakemisto) throws SailoException {
+        //      tiedostonNimi = hakemisto + "/nimet.dat";
+        //      throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
+        //  }
     
     
     /**

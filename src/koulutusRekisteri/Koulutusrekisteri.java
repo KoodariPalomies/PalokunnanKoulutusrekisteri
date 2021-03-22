@@ -37,7 +37,7 @@ public class Koulutusrekisteri {
     
     
     /**
-     * @return jäsenten lkm
+     * @return työntekijöiden lkm
      */
     public int getTyontekijoita() {
         return this.tyontekijat.getLkm();
@@ -52,6 +52,23 @@ public class Koulutusrekisteri {
     public Tyontekija annaTyontekija(int i) {
         return tyontekijat.anna(i);
     }
+    
+    
+    /**
+     * 
+     */
+    public Koulutukset koulutukset = new Koulutukset();
+    
+    
+    /**
+     * Lisätään uusi koulutus
+     * @param koulutus lisättävä koulutus
+     * @throws SailoException jos lisääminen ei onnistu
+     */
+    public void lisaa(Koulutus koulutus) throws SailoException {
+        this.koulutukset.lisaa(koulutus);
+    }
+    
     
     
     /**
