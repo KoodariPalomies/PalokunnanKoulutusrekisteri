@@ -23,9 +23,9 @@ package koulutusRekisteri;
  */
 public class Koulutukset {
     
-    private static final int    MAX_TYONTEKIJOITA   = 5;         // Vakio, mallin vuoksi 5 kpl
+    private static final int    MAX_KOULUTUKSIA     = 10;         // Vakio, mallin vuoksi 5 kpl
     private int                 lkm                 = 0;
-    private Koulutus[]        alkiot                = new Koulutus[MAX_TYONTEKIJOITA];
+    private Koulutus[]        alkiot                = new Koulutus[MAX_KOULUTUKSIA];
     
     
     /**
@@ -37,7 +37,7 @@ public class Koulutukset {
 
     
     /**
-     * Lisää uuden työntekijän tietorakenteeseen. Ottaa työntekijän omistukseensa.
+     * Lisää uuden koulutuksen tietorakenteeseen. Ottaa koulutuksen omistukseensa.
      * @param koulutus lisättävän työntekijän viite. Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
      * @example
@@ -68,8 +68,8 @@ public class Koulutukset {
     
     
     /**
-     * Palauttaa koulutusrekisterin työntekijöiden lukumäärän
-     * @return työntekijöiden lukumäärä
+     * Palauttaa koulutusrekisterin koulutusten lukumäärän
+     * @return koulutusten lukumäärä
      */
     public int getLkm() {
         return lkm;
@@ -77,9 +77,9 @@ public class Koulutukset {
     
     
     /**
-     * Palauttaa viitteen i:teen työntekijään.
-     * @param i monennenko työntekijän viite halutaan
-     * @return viite työntekijään, jonka indeksi on i
+     * Palauttaa viitteen i:teen koulutukseen.
+     * @param i monennenko koulutuksen viite halutaan
+     * @return viite koulutukseen, jonka indeksi on i
      * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
      */
     public Koulutus anna(int i) throws IndexOutOfBoundsException {
@@ -130,7 +130,7 @@ public class Koulutukset {
         
         for (int i = 0; i < tyontekijat.getLkm(); i++) {
             Tyontekija tyontekija = tyontekijat.anna(i);
-            System.out.println("Työntekijä indeksi: " + i);
+            System.out.println("Koulutus indeksi: " + i);
             tyontekija.tulosta(System.out);
         }
     }

@@ -36,11 +36,9 @@ import java.io.PrintStream;
 public class Koulutus {
     
     private int         koulutusTunnus;
-    private String      nimi                     = "";
-    private String      tehtavaAlue              = "";
-    //private String      virkaAsema               = "";
+    private String      koulutus  = "";
     
-    private static int  seuraavaTyontekijatunnus = 1;   // Tällä saadaan uutta työntekijää luotaessa seuraava tunnus!
+    private static int  seuraavaKoulutustunnus = 1;   // Tällä saadaan uutta työntekijää luotaessa seuraava tunnus!
 
     
     /**
@@ -53,14 +51,21 @@ public class Koulutus {
     
     
     /**
-     * Tulostetaan työntekijän tiedot
+     * Alustetaan tietyn työntekijän koulutus
+     * @param koulutusTunnus koulutuksen tunnusluku
+     */
+    public Koulutus(int koulutusTunnus) {
+        this.koulutusTunnus = koulutusTunnus;
+    }
+    
+    
+    /**
+     * Tulostetaan koulutuksen tiedot
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
         out.println(" Koulutus: " + String.format("%03d", koulutusTunnus));
-        out.println(" Suoritettu: " + nimi);
-        out.println(" Umpeutuu: " + tehtavaAlue);
-        //out.println(" Työntekijän virka-asema: " + virkaAsema);
+        out.println(" Suoritettu: " + koulutus);
     }
     
     
@@ -73,7 +78,7 @@ public class Koulutus {
     }
     
     /**
-     * Antaa uudelle työntekijälle seuraavan työntekijätunnuksen.
+     * Antaa uudelle koulutukselle seuraavan koulutustunnuksen.
      * @return työntekijän uusi tunnusNro
      * @example
      * <pre name="test">
@@ -87,26 +92,26 @@ public class Koulutus {
      *      n1 === n2-1;
      * </pre>
      */
-    public int lisaaTyontekija() {
-        this.koulutusTunnus = seuraavaTyontekijatunnus;
-        seuraavaTyontekijatunnus++;
-        return this.koulutusTunnus;
+    public int lisaaKoulutus() {
+        koulutusTunnus = seuraavaKoulutustunnus;
+        seuraavaKoulutustunnus++;
+        return koulutusTunnus;
     }
     
     
     /**
-     * @return työntekijän nimi
+     * @return koulutuksen nimi
      */
     public String getNimi() {
-        return nimi;
+        return koulutus;
     }
     
     
     /**
-     * Palautetaan työntekijän työntekijätunnus.
-     * @return työntekijän työntekijätunnus
+     * Palautetaan koulutuksen koulutustunnus.
+     * @return koulutuksen koulutustunnus
      */
-    public int getTyontekijaTunnus() {
+    public int getKoulutusTunnus() {
         return koulutusTunnus;
     }
     
@@ -116,29 +121,18 @@ public class Koulutus {
      * TODO: poista kun kaikki toimii
      */
     public void vastaaAkuAnkka() {
-        //tyontekijaTunnus = 1;
-        nimi = "Ankka Aku";
-        tehtavaAlue = "Pelastus";
-        //virkaAsema = "Palomies";
+        koulutusTunnus      = 1;
+        koulutus            = "Vesisukeltaja";
     }
     
     /**
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Tyontekija aku = new Tyontekija();
-        Tyontekija aku2 = new Tyontekija();
-        
-        aku.lisaaTyontekija();
-        aku2.lisaaTyontekija();
-        
-        aku.tulosta(System.out);
-        aku.vastaaAkuAnkka();       // aku.taytaAkuAnkkaTiedoilla();
-        aku.tulosta(System.out);
-        
-        aku2.tulosta(System.out);
-        aku2.vastaaAkuAnkka();      // aku2.taytaAkuAnkkaTiedoilla();
-        aku2.tulosta(System.out);
+        Koulutus koul = new Koulutus();
+        koul.lisaaKoulutus();
+        koul.vastaaAkuAnkka();
+        koul.tulosta(System.out);
     }
-
+        
 }
