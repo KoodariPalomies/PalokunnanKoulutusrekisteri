@@ -44,6 +44,32 @@ public class Tyontekija {
     private static int  seuraavaTyontekijatunnus = 1;   // Tällä saadaan uutta työntekijää luotaessa seuraava tunnus!
 
     
+          /**
+           * @return työntekijän nimi
+           * @example
+           * <pre name="test">
+           *   Tyontekija aku = new Jasen();
+           *   aku.vastaaAkuAnkka();
+           *   aku.getNimi() =R= "Ankka Aku .*";
+           * </pre>
+           */
+          public String getNimi() {
+              return nimi;
+          }
+          
+    
+          /**
+           * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
+           * TODO: poista kun kaikki toimii
+           */
+          public void vastaaAkuAnkka() {
+              //tyontekijaTunnus = 1;
+              nimi = "Ankka Aku";
+              tehtavaAlue = "Pelastus";
+              virkaAsema = "Palomies";
+          }
+    
+    
     /**
      * Alustetaan kaikki tyhjäksi
      */
@@ -73,9 +99,10 @@ public class Tyontekija {
         tulosta(new PrintStream(os));
     }
     
+    
     /**
      * Antaa uudelle työntekijälle seuraavan työntekijätunnuksen.
-     * @return työntekijän uusi tunnusNro
+     * @return työntekijän uusi tyontekijaTunnus
      * @example
      * <pre name="test">
      *      Tyontekija aku1 = new Tyontekija();
@@ -96,14 +123,6 @@ public class Tyontekija {
     
     
     /**
-     * @return työntekijän nimi
-     */
-    public String getNimi() {
-        return nimi;
-    }
-    
-    
-    /**
      * Palautetaan työntekijän työntekijätunnus.
      * @return työntekijän työntekijätunnus
      */
@@ -111,17 +130,6 @@ public class Tyontekija {
         return tyontekijaTunnus;
     }
     
-    
-    /**
-     * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
-     * TODO: poista kun kaikki toimii
-     */
-    public void vastaaAkuAnkka() {
-        //tyontekijaTunnus = 1;
-        nimi = "Ankka Aku";
-        tehtavaAlue = "Pelastus";
-        virkaAsema = "Palomies";
-    }
     
     /**
      * @param args ei käytössä

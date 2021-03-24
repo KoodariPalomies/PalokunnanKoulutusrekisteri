@@ -4,6 +4,7 @@
 package koulutusRekisteri;
 
 import java.io.OutputStream;
+import static kanta.HetuTarkistus.rand;         // jotta voi tulostaa lukuja randomilla
 import java.io.PrintStream;
 
 /**
@@ -35,6 +36,7 @@ import java.io.PrintStream;
  */
 public class Koulutus {
     
+    private int         tyontekijaTunnus;
     private int         koulutusTunnus;
     private String      koulutus  = "";
     
@@ -58,24 +60,6 @@ public class Koulutus {
         this.koulutusTunnus = koulutusTunnus;
     }
     
-    
-    /**
-     * Tulostetaan koulutuksen tiedot
-     * @param out tietovirta johon tulostetaan
-     */
-    public void tulosta(PrintStream out) {
-        out.println(" Koulutus: " + String.format("%03d", koulutusTunnus));
-        out.println(" Suoritettu: " + koulutus);
-    }
-    
-    
-    /**
-     * Tulostetaan työntekijän tiedot
-     * @param os tietovirta johon tulostetaan
-     */
-    public void tulosta(OutputStream os) {
-        tulosta(new PrintStream(os));
-    }
     
     /**
      * Antaa uudelle koulutukselle seuraavan koulutustunnuksen.
@@ -119,20 +103,42 @@ public class Koulutus {
     /**
      * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
      * TODO: poista kun kaikki toimii
+     * @param nro viite työntekijään, jonka koulutuksesta on kyse
      */
-    public void vastaaAkuAnkka() {
-        koulutusTunnus      = 1;
+    public void vastaaVesisukeltaja(int nro) {
+        tyontekijaTunnus = nro;
+        koulutusTunnus      = rand(1, 20);                    // toistaiseksi muodostaa randomilla
         koulutus            = "Vesisukeltaja";
     }
+    
+    
+    /**
+     * Tulostetaan koulutuksen tiedot
+     * @param out tietovirta johon tulostetaan
+     */
+    public void tulosta(PrintStream out) {
+        out.println(" Koulutus: " + String.format("%03d", koulutusTunnus));
+        out.println(" Suoritettu: " + koulutus);
+    }
+    
+    
+    /**
+     * Tulostetaan työntekijän tiedot
+     * @param os tietovirta johon tulostetaan
+     */
+    public void tulosta(OutputStream os) {
+        tulosta(new PrintStream(os));
+    }
+    
     
     /**
      * @param args ei käytössä
      */
     public static void main(String[] args) {
         Koulutus koul = new Koulutus();
-        koul.lisaaKoulutus();
-        koul.vastaaAkuAnkka();
+        //koul.lisaaKoulutus();
+        koul.vastaaVesisukeltaja(1);
         koul.tulosta(System.out);
     }
-        
+
 }

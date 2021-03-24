@@ -27,13 +27,13 @@ public class TyontekijatTest {
     tyontekijat.lisaa(aku1); assertEquals("From: Tyontekijat line: 37", 1, tyontekijat.getLkm()); 
     tyontekijat.lisaa(aku2); assertEquals("From: Tyontekijat line: 38", 2, tyontekijat.getLkm()); 
     tyontekijat.lisaa(aku1); assertEquals("From: Tyontekijat line: 39", 3, tyontekijat.getLkm()); 
-    assertEquals("From: Tyontekijat line: 40", aku1, tyontekijat.anna(0)); 
-    assertEquals("From: Tyontekijat line: 41", aku2, tyontekijat.anna(1)); 
-    assertEquals("From: Tyontekijat line: 42", aku1, tyontekijat.anna(2)); 
-    assertEquals("From: Tyontekijat line: 43", false, tyontekijat.anna(1) == aku1); 
-    assertEquals("From: Tyontekijat line: 44", true, tyontekijat.anna(1) == aku2); 
+    assertEquals("From: Tyontekijat line: 40", aku1, tyontekijat.annaTyontekija(0)); 
+    assertEquals("From: Tyontekijat line: 41", aku2, tyontekijat.annaTyontekija(1)); 
+    assertEquals("From: Tyontekijat line: 42", aku1, tyontekijat.annaTyontekija(2)); 
+    assertEquals("From: Tyontekijat line: 43", false, tyontekijat.annaTyontekija(1) == aku1); 
+    assertEquals("From: Tyontekijat line: 44", true, tyontekijat.annaTyontekija(1) == aku2); 
     try {
-    assertEquals("From: Tyontekijat line: 45", aku1, tyontekijat.anna(3)); 
+    assertEquals("From: Tyontekijat line: 45", aku1, tyontekijat.annaTyontekija(3)); 
     fail("Tyontekijat: 45 Did not throw IndexOutOfBoundsException");
     } catch(IndexOutOfBoundsException _e_){ _e_.getMessage(); }
     tyontekijat.lisaa(aku1); assertEquals("From: Tyontekijat line: 46", 4, tyontekijat.getLkm()); 
