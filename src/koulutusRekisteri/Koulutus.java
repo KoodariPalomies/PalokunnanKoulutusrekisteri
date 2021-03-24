@@ -4,7 +4,7 @@
 package koulutusRekisteri;
 
 import java.io.OutputStream;
-import static kanta.HetuTarkistus.rand;         // jotta voi tulostaa lukuja randomilla
+//import static kanta.HetuTarkistus.rand;         // jotta voi tulostaa lukuja randomilla
 import java.io.PrintStream;
 
 /**
@@ -77,8 +77,8 @@ public class Koulutus {
      * </pre>
      */
     public int lisaaKoulutus() {
-        koulutusTunnus = seuraavaKoulutustunnus;
-        seuraavaKoulutustunnus++;
+        //koulutusTunnus = seuraavaKoulutustunnus;          // Laitettu kommenteiksi, koska en halua yhdelle koulutukselle useita tunnuksia
+        //seuraavaKoulutustunnus++;                         //
         return koulutusTunnus;
     }
     
@@ -86,7 +86,7 @@ public class Koulutus {
     /**
      * @return koulutuksen nimi
      */
-    public String getNimi() {
+    public String getKoulutus() {
         return koulutus;
     }
     
@@ -106,8 +106,9 @@ public class Koulutus {
      * @param nro viite työntekijään, jonka koulutuksesta on kyse
      */
     public void vastaaVesisukeltaja(int nro) {
-        tyontekijaTunnus = nro;
-        koulutusTunnus      = rand(1, 20);                    // toistaiseksi muodostaa randomilla
+        tyontekijaTunnus    = nro;
+        //koulutusTunnus      = rand(1, 20);                    // toistaiseksi muodostaa randomilla
+        koulutusTunnus      = 1;
         koulutus            = "Vesisukeltaja";
     }
     
@@ -117,8 +118,8 @@ public class Koulutus {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(" Koulutus: " + String.format("%03d", koulutusTunnus));
-        out.println(" Suoritettu: " + koulutus);
+        out.println(" Koulutuksen tunnus: "     + String.format("%03d", koulutusTunnus));
+        out.println(" Koulutus: "               + koulutus);
     }
     
     

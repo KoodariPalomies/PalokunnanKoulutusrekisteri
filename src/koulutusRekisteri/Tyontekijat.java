@@ -76,30 +76,30 @@ public class Tyontekijat {
      * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
      */
     public Tyontekija annaTyontekija(int i) throws IndexOutOfBoundsException {
-        if (i < 0 || this.lkm <= i)
+        if (i < 0 || lkm <= i)
             throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         return alkiot[i];
     }
     
     
-          /**
-           * Lukee työntekijät tiedostosta.  Kesken.
-           * @param hakemisto tiedoston hakemisto
-           * @throws SailoException jos lukeminen epäonnistuu
-           */
-          public void lueTiedostosta(String hakemisto) throws SailoException {
-              tiedostonNimi = hakemisto + "/nimet.dat";
-              throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
-          }
+      /**
+       * Lukee työntekijät tiedostosta.  Kesken.
+       * @param hakemisto tiedoston hakemisto
+       * @throws SailoException jos lukeminen epäonnistuu
+       */
+      public void lueTiedostosta(String hakemisto) throws SailoException {
+          tiedostonNimi = hakemisto + "/nimet.dat";
+          throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
+      }
     
     
-                /**
-                 * Tallentaa työntekijät tiedostoon.  Kesken.
-                 * @throws SailoException jos talletus epäonnistuu
-                 */
-                public void talleta() throws SailoException {
-                    throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
-                }
+    /**
+     * Tallentaa työntekijät tiedostoon.  Kesken.
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void talleta() throws SailoException {
+        throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
+    }
     
     
     /**
@@ -107,34 +107,30 @@ public class Tyontekijat {
      */
     public static void main(String[] args) {
         Tyontekijat tyontekijat = new Tyontekijat();
-        Tyontekija aku = new Tyontekija();
-        Tyontekija aku2 = new Tyontekija();
         
+        Tyontekija aku          = new Tyontekija();
+        Tyontekija aku2         = new Tyontekija();
         aku.lisaaTyontekija();
-        aku.vastaaAkuAnkka();       // aku.taytaAkuAnkkaTiedoilla();
+        aku.vastaaAkuAnkka();
         aku2.lisaaTyontekija();
-        aku2.vastaaAkuAnkka();      // aku2.taytaAkuAnkkaTiedoilla();
+        aku2.vastaaAkuAnkka();
         
         try {
             tyontekijat.lisaa(aku);
             tyontekijat.lisaa(aku2);
-            tyontekijat.lisaa(aku2);
-            tyontekijat.lisaa(aku2);
-            tyontekijat.lisaa(aku2);
-            tyontekijat.lisaa(aku2);    // Ensimmäinen poikkeus --> SailoException
-            tyontekijat.lisaa(aku2);
-            tyontekijat.lisaa(aku2);
+            
+            System.out.println("========== Työntekijät testi ==========");
+            
+            for (int i = 0; i < tyontekijat.getLkm(); i++) {
+                Tyontekija tyontekija = tyontekijat.annaTyontekija(i);
+                System.out.println("Työntekijä indeksi: " + i);
+                tyontekija.tulosta(System.out);
+            }
+
         } catch (SailoException e) {
             System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.
         }
-        
-        System.out.println("========== Työntekijät testi ==========");
-        
-        for (int i = 0; i < tyontekijat.getLkm(); i++) {
-            Tyontekija tyontekija = tyontekijat.annaTyontekija(i);
-            System.out.println("Työntekijä indeksi: " + i);
-            tyontekija.tulosta(System.out);
-        }
+
     }
 
 }

@@ -43,40 +43,31 @@ public class Tyontekija {
     
     private static int  seuraavaTyontekijatunnus = 1;   // Tällä saadaan uutta työntekijää luotaessa seuraava tunnus!
 
-    
-          /**
-           * @return työntekijän nimi
-           * @example
-           * <pre name="test">
-           *   Tyontekija aku = new Jasen();
-           *   aku.vastaaAkuAnkka();
-           *   aku.getNimi() =R= "Ankka Aku .*";
-           * </pre>
-           */
-          public String getNimi() {
-              return nimi;
-          }
-          
-    
-          /**
-           * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
-           * TODO: poista kun kaikki toimii
-           */
-          public void vastaaAkuAnkka() {
-              //tyontekijaTunnus = 1;
-              nimi = "Ankka Aku";
-              tehtavaAlue = "Pelastus";
-              virkaAsema = "Palomies";
-          }
-    
-    
-    /**
-     * Alustetaan kaikki tyhjäksi
-     */
-    public Tyontekija() {
-        // alustuslauseet hoitaa kaiken
-        // lisaaTyontekija();
-    }
+
+      /**
+       * @return työntekijän nimi
+       * @example
+       * <pre name="test">
+       *   Tyontekija aku = new Jasen();
+       *   aku.vastaaAkuAnkka();
+       *   aku.getNimi() =R= "Ankka Aku .*";
+       * </pre>
+       */
+      public String getNimi() {
+          return nimi;
+      }
+      
+
+      /**
+       * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
+       * TODO: poista kun kaikki toimii
+       */
+      public void vastaaAkuAnkka() {
+          //tyontekijaTunnus = 1;
+          nimi          = "Ankka Aku";
+          tehtavaAlue   = "Pelastus";
+          virkaAsema    = "Palomies";
+      }
     
     
     /**
@@ -84,10 +75,10 @@ public class Tyontekija {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
-        out.println(" Työntekijätunnus: " + String.format("%03d", tyontekijaTunnus));
-        out.println(" Työntekijän nimi: " + nimi);
-        out.println(" Työntekijän tehtäväalue: " + tehtavaAlue);
-        out.println(" Työntekijän virka-asema: " + virkaAsema);
+        out.println(" Työntekijätunnus: "           + String.format("%03d", tyontekijaTunnus));
+        out.println(" Työntekijän nimi: "           + nimi);
+        out.println(" Työntekijän tehtäväalue: "    + tehtavaAlue);
+        out.println(" Työntekijän virka-asema: "    + virkaAsema);
     }
     
     
@@ -135,18 +126,17 @@ public class Tyontekija {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Tyontekija aku = new Tyontekija();
-        Tyontekija aku2 = new Tyontekija();
+        Tyontekija aku = new Tyontekija(), aku2 = new Tyontekija();
         
         aku.lisaaTyontekija();
         aku2.lisaaTyontekija();
         
         aku.tulosta(System.out);
-        aku.vastaaAkuAnkka();       // aku.taytaAkuAnkkaTiedoilla();
+        aku.vastaaAkuAnkka();
         aku.tulosta(System.out);
         
         aku2.tulosta(System.out);
-        aku2.vastaaAkuAnkka();      // aku2.taytaAkuAnkkaTiedoilla();
+        aku2.vastaaAkuAnkka();
         aku2.tulosta(System.out);
     }
 

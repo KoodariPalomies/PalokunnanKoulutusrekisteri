@@ -37,8 +37,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ListChooser<Tyontekija> chooserTyontekijat;
     @FXML private ScrollPane panelTyontekija;
     
-    private String kayttajatunnus = "";
-    private String salasana = "";
+    private String kayttajatunnus   = "";
+    private String salasana         = "";
     
     
     /**
@@ -338,9 +338,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
              os.println("----------------------------------------------");
              tyontekija.tulosta(os);
              os.println("----------------------------------------------");
-             List<Koulutus> harrastukset = koulutusrekisteri.annaKoulutukset(tyontekija);   
-             for (Koulutus har:harrastukset)
-                 har.tulosta(os); 
+             List<Koulutus> koulutukset = koulutusrekisteri.annaKoulutukset(tyontekija);   
+             for (Koulutus koul:koulutukset)
+                 koul.tulosta(os); 
          }
         
         

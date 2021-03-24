@@ -35,16 +35,17 @@ public class Koulutusrekisteri {
     public int getTyontekijoita() {
         return this.tyontekijat.getLkm();
     }
-    
-    
-          /**
-           * Poistaa työntekijöistä ja koulutuksista ne joilla on nro. Kesken.
-           * @param nro viitenumero, jonka mukaan poistetaan
-           * @return montako työntekijää poistettiin
-           */
-          public int poista(@SuppressWarnings("unused") int nro) {
-              return 0;
-          }
+
+
+    /**
+     * Poistaa työntekijöistä ja koulutuksista ne joilla on nro. Kesken.
+     * @param nro viitenumero, jonka mukaan poistetaan
+     * @return montako työntekijää poistettiin
+     */
+    public int poista(@SuppressWarnings("unused") int nro) {
+        return 0;
+    }
+
     
     /**
      * Lisää uuden työntekijän
@@ -96,33 +97,33 @@ public class Koulutusrekisteri {
     }
     
 
-          /**
-           * Haetaan kaikki jäsen harrastukset
-           * @param tyontekija jäsen jolle harrastuksia haetaan
-           * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
-           * @example
-           * <pre name="test">
-           * #import java.util.*;
-           *
-           *  Kerho kerho = new Kerho();
-           *  Jasen aku1 = new Jasen(), aku2 = new Jasen(), aku3 = new Jasen();
-           *  aku1.rekisteroi(); aku2.rekisteroi(); aku3.rekisteroi();
-           *  int id1 = aku1.getTunnusNro();
-          *  int id2 = aku2.getTunnusNro();
-          *  Harrastus pitsi11 = new Harrastus(id1); kerho.lisaa(pitsi11);
-          *  Harrastus pitsi12 = new Harrastus(id1); kerho.lisaa(pitsi12);
-          *  Harrastus pitsi21 = new Harrastus(id2); kerho.lisaa(pitsi21);
-          *  Harrastus pitsi22 = new Harrastus(id2); kerho.lisaa(pitsi22);
-          *  Harrastus pitsi23 = new Harrastus(id2); kerho.lisaa(pitsi23);
+         /**
+          * Haetaan kaikki työntekijän koulutukset
+          * @param tyontekija työntekijä jolle koulutuksia haetaan
+          * @return tietorakenne jossa viiteet löydetteyihin koulutuksiin
+          * @example
+          * <pre name="test">
+          * #import java.util.*;
+          *
+          *  Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
+          *  Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija(), aku3 = new Tyontekija();
+          *  aku1.lisaaTyontekija(); aku2.lisaaTyontekija(); aku3.lisaaTyontekija();
+          *  int id1 = aku1.getTyontekijaTunnus();
+          *  int id2 = aku2.getTyontekijaTunnus();
+          *  Koulutus pitsi11 = new Koulutus(id1); koulutusrekisteri.lisaa(pitsi11);
+          *  Koulutus pitsi12 = new Koulutus(id1); koulutusrekisteri.lisaa(pitsi12);
+          *  Koulutus pitsi21 = new Koulutus(id2); koulutusrekisteri.lisaa(pitsi21);
+          *  Koulutus pitsi22 = new Koulutus(id2); koulutusrekisteri.lisaa(pitsi22);
+          *  Koulutus pitsi23 = new Koulutus(id2); koulutusrekisteri.lisaa(pitsi23);
           * 
-          *  List<Harrastus> loytyneet;
-          *  loytyneet = kerho.annaHarrastukset(aku3);
+          *  List<Koulutus> loytyneet;
+          *  loytyneet = koulutusrekisteri.annaKoulutukset(aku3);
           *  loytyneet.size() === 0;
-          *  loytyneet = kerho.annaHarrastukset(aku1);
+          *  loytyneet = koulutusrekisteri.annaKoulutukset(aku1);
           *  loytyneet.size() === 2;
           *  loytyneet.get(0) == pitsi11 === true;
           *  loytyneet.get(1) == pitsi12 === true;
-          *  loytyneet = kerho.annaHarrastukset(aku2);
+          *  loytyneet = koulutusrekisteri.annaKoulutukset(aku2);
           *  loytyneet.size() === 3;
           *  loytyneet.get(0) == pitsi21 === true;
           * </pre>
@@ -132,27 +133,28 @@ public class Koulutusrekisteri {
          }
          
          
-              /**
-               * Lukee koulutusrekisterin tiedot tiedostosta
-               * @param nimi jota käyteään lukemisessa
-               * @throws SailoException jos lukeminen epäonnistuu
-               */
-              public void lueTiedostosta(String nimi) throws SailoException {
-                  tyontekijat.lueTiedostosta(nimi);
-                  koulutukset.lueTiedostosta(nimi);
-              }
-              
-              
-                   /**
-                    * Tallettaa koulutusrekisterin tiedot tiedostoon
-                    * @throws SailoException jos tallettamisessa ongelmia
-                    */
-                   public void talleta() throws SailoException {
-                       tyontekijat.talleta();
-                       koulutukset.talleta();
-                       // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
-                   }
+      /**
+       * Lukee koulutusrekisterin tiedot tiedostosta
+       * @param nimi jota käyteään lukemisessa
+       * @throws SailoException jos lukeminen epäonnistuu
+       */
+      public void lueTiedostosta(String nimi) throws SailoException {
+          tyontekijat.lueTiedostosta(nimi);
+          koulutukset.lueTiedostosta(nimi);
+      }
+  
+  
+       /**
+        * Tallettaa koulutusrekisterin tiedot tiedostoon
+        * @throws SailoException jos tallettamisessa ongelmia
+        */
+       public void talleta() throws SailoException {
+           tyontekijat.talleta();
+           koulutukset.talleta();
+           // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
+       }
     
+       
     /**
      * @param args ei käytössä
      */
@@ -160,37 +162,38 @@ public class Koulutusrekisteri {
         Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
         
         try {
-                         // kerho.lueTiedostosta("kelmit");
-             
-                         Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
-                         aku1.lisaaTyontekija();
-                         aku1.vastaaAkuAnkka();
-                         aku2.lisaaTyontekija();
-                         aku2.vastaaAkuAnkka();
-             
-                         koulutusrekisteri.lisaa(aku1);
-                         koulutusrekisteri.lisaa(aku2);
-                         int id1 = aku1.getTyontekijaTunnus();
-                         int id2 = aku2.getTyontekijaTunnus();
-                         Koulutus pitsi11 = new Koulutus(id1); pitsi11.vastaaVesisukeltaja(id1); koulutusrekisteri.lisaa(pitsi11);
-                         Koulutus pitsi12 = new Koulutus(id1); pitsi12.vastaaVesisukeltaja(id1); koulutusrekisteri.lisaa(pitsi12);
-                         Koulutus pitsi21 = new Koulutus(id2); pitsi21.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi21);
-                         Koulutus pitsi22 = new Koulutus(id2); pitsi22.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi22);
-                         Koulutus pitsi23 = new Koulutus(id2); pitsi23.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi23);
-             
-                         System.out.println("============= Kerhon testi =================");
-             
-                         for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
-                             Tyontekija jasen = koulutusrekisteri.annaTyontekija(i);
-                             System.out.println("Jäsen paikassa: " + i);
-                             jasen.tulosta(System.out);
-                             List<Koulutus> loytyneet = koulutusrekisteri.annaKoulutukset(jasen);
-                             for (Koulutus harrastus : loytyneet)
-                                 harrastus.tulosta(System.out);
-                         }
-             
-                     } catch (SailoException ex) {
-                         System.out.println(ex.getMessage());
-}
+             // kerho.lueTiedostosta("kelmit");
+ 
+             Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
+             aku1.lisaaTyontekija();
+             aku1.vastaaAkuAnkka();
+             aku2.lisaaTyontekija();
+             aku2.vastaaAkuAnkka();
+ 
+             koulutusrekisteri.lisaa(aku1);
+             koulutusrekisteri.lisaa(aku2);
+             int id1 = aku1.getTyontekijaTunnus();
+             int id2 = aku2.getTyontekijaTunnus();
+             Koulutus pitsi11 = new Koulutus(id1); pitsi11.vastaaVesisukeltaja(id1); koulutusrekisteri.lisaa(pitsi11);
+             Koulutus pitsi12 = new Koulutus(id1); pitsi12.vastaaVesisukeltaja(id1); koulutusrekisteri.lisaa(pitsi12);
+             Koulutus pitsi21 = new Koulutus(id2); pitsi21.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi21);
+             Koulutus pitsi22 = new Koulutus(id2); pitsi22.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi22);
+             Koulutus pitsi23 = new Koulutus(id2); pitsi23.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi23);
+ 
+             System.out.println("============= Kerhon testi =================");
+ 
+             for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
+                 Tyontekija jasen = koulutusrekisteri.annaTyontekija(i);
+                 System.out.println("Jäsen paikassa: " + i);
+                 jasen.tulosta(System.out);
+                 List<Koulutus> loytyneet = koulutusrekisteri.annaKoulutukset(jasen);
+                 for (Koulutus harrastus : loytyneet)
+                     harrastus.tulosta(System.out);
+             }
+ 
+         } catch (SailoException ex) {
+             System.out.println(ex.getMessage());
+         }
     }
+    
 }
