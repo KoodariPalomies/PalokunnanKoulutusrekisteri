@@ -31,11 +31,11 @@ import koulutusRekisteri.Tyontekija;
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
-    @FXML private TextField hakuehto;
-    @FXML private ComboBoxChooser<String> cbKentat;
-    @FXML private Label labelVirhe;
-    @FXML private ListChooser<Tyontekija> chooserTyontekijat;
-    @FXML private ScrollPane panelTyontekija;
+    @FXML private TextField                 hakuehto;
+    @FXML private ComboBoxChooser<String>   cbKentat;
+    @FXML private Label                     labelVirhe;
+    @FXML private ListChooser<Tyontekija>   chooserTyontekijat;
+    @FXML private ScrollPane                panelTyontekija;
     
     private String kayttajatunnus   = "";
     private String salasana         = "";
@@ -90,7 +90,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään tietojen avaaminen
      */
     @FXML private void handleAvaa() {
-        //Dialogs.showMessageDialog("Ei osata vielä avata");
         avaa();
     }
 
@@ -99,7 +98,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään valittujen asioiden tulostaminen
      */
     @FXML private void handleTulosta() {
-        //TulostusController.tulosta("Ei osata vielä tulostaa");
         TulostusController tulostusCtrl = TulostusController.tulosta(null); 
         tulostaValitut(tulostusCtrl.getTextArea()); 
     }
@@ -224,7 +222,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * @return true jos onnistui, false jos ei
      */
     public boolean avaa() {
-        //String uusinimi = KerhonNimiController.kysyNimi(null, kerhonnimi);
         String uusinimi = AloitusIkkunaGUIController.kysyNimi(null, kayttajatunnus);
         if (uusinimi == null) return false;
         lueTiedosto(uusinimi);
@@ -254,14 +251,12 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Näyttää listasta valitun työntekijän tiedot, tilapäisesti yhteen isoon edit-kenttään
      */
     private void naytaTyontekija() {
-        //Tyontekija tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
         
         if (tyontekijaKohdalla == null) return;
         
         areaTyontekija.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
-            //tyontekijaKohdalla.tulosta(os);
             tulosta(os, tyontekijaKohdalla);
         }
     }
@@ -295,14 +290,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;
-            //e.printStackTrace();
         }
         hae(uusi.getTyontekijaTunnus());
     }
     
     
     /**
-     * Tekee uuden tyhjän koulutksen editointia varten
+     * Tekee uuden tyhjän koulutuksen editointia varten
      */ 
     public void uusiKoulutus() { 
         if ( tyontekijaKohdalla == null ) return; 
@@ -312,10 +306,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
         try {
             koulutusrekisteri.lisaa(koul);
         } catch (SailoException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } 
-        hae(tyontekijaKohdalla.getTyontekijaTunnus());         
+        hae(koul.getKoulutusTunnus());
     }
     
     
@@ -350,10 +343,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
           */
          public void tulostaValitut(TextArea text) {
              try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
-                 os.println("Tulostetaan kaikki jäsenet");
+                 os.println("Tulostetaan kaikki työntekijät");
                  for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
-                     Tyontekija jasen = koulutusrekisteri.annaTyontekija(i);
-                     tulosta(os, jasen);
+                     Tyontekija tyontekija = koulutusrekisteri.annaTyontekija(i);
+                     tulosta(os, tyontekija);
                      os.println("\n\n");
                  }
              }
