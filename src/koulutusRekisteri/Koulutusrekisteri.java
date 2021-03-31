@@ -42,7 +42,7 @@ public class Koulutusrekisteri {
      * @param nro viitenumero, jonka mukaan poistetaan
      * @return montako työntekijää poistettiin
      */
-    public int poista(@SuppressWarnings("unused") int nro) {
+    public int poista(@SuppressWarnings("unused") int nro) {                // 7 vaiheessa ei saa olla SuppressWarnings
         return 0;
     }
 
@@ -57,17 +57,17 @@ public class Koulutusrekisteri {
        * Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
        * Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
        * aku1.rekisteroi(); aku2.rekisteroi();
-       * koulutusrekisteri.getJasenia() === 0;
-       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getJasenia() === 1;
-       * koulutusrekisteri.lisaa(aku2); koulutusrekisteri.getJasenia() === 2;
-       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getJasenia() === 3;
-       * koulutusrekisteri.getJasenia() === 3;
+       * koulutusrekisteri.getTyontekijoita() === 0;
+       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getTyontekijoita() === 1;
+       * koulutusrekisteri.lisaa(aku2); koulutusrekisteri.getTyontekijoita() === 2;
+       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getTyontekijoita() === 3;
+       * koulutusrekisteri.getTyontekijoita() === 3;
        * koulutusrekisteri.annaTyontekija(0) === aku1;
        * koulutusrekisteri.annaTyontekija(1) === aku2;
        * koulutusrekisteri.annaTyontekija(2) === aku1;
        * koulutusrekisteri.annaTyontekija(3) === aku1; #THROWS IndexOutOfBoundsException
-       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getJasenia() === 4;
-       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getJasenia() === 5;
+       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getTyontekijoita() === 4;
+       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getTyontekijoita() === 5;
        * koulutusrekisteri.lisaa(aku1);            #THROWS SailoException
        * </pre>
        */
@@ -180,8 +180,9 @@ public class Koulutusrekisteri {
              Koulutus pitsi22 = new Koulutus(id2); pitsi22.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi22);
              Koulutus pitsi23 = new Koulutus(id2); pitsi23.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi23);
  
+             // lisää relaatio-oliot (työntekijäid + koulutusid) --> muut tulee täytettynä
              System.out.println("============= Kerhon testi =================");
- 
+
              for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
                  Tyontekija jasen = koulutusrekisteri.annaTyontekija(i);
                  System.out.println("Jäsen paikassa: " + i);

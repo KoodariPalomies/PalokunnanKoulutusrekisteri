@@ -129,6 +129,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
         uusiKoulutus();
     }
     
+    /**
+     * Käsitellään koulutuksen lisäämisen koulutusrekisteriin
+     */
+    @FXML private void handleLisaaKoulutusRekisteriin() {
+        //
+    }
+    
     
     /**
      * Käsitellään koulutuksen muokkaaminen

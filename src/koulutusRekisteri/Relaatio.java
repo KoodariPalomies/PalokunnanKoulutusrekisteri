@@ -17,8 +17,8 @@ import java.time.LocalDate; // import the LocalDate class
  * |   käyttöliittymästä.                               |                   |
  * |                                                    |                   |
  * | - Tietää relaation kentät                          |                   |
- * | (Työntekijätunnus, Koulutuksen tunnus,             |                   |
- * |  Suoritettu, Umpeutuu).                            |                   |
+ * | (Relaatiotunnus, Työntekijätunnus,                 |                   |
+ * | Koulutuksen tunnus, Suoritettu, Umpeutuu).         |                   |
  * |                                                    |                   |
  * | - Osaa tarkistaa tietyn kentän oikeellisuuden      |                   |
  * |   (syntaksin).                                     |                   |
@@ -33,54 +33,43 @@ import java.time.LocalDate; // import the LocalDate class
  * |-------------------------------------------------------------------------
  * @author mitulint
  * @version 24.3.2021
- *
+ * https://tim.jyu.fi/view/kurssit/tie/ohj2/harjoitustyo/vaiheet/harrastukset-relaatioilla 
  */
 public class Relaatio {
+    // ota kaikki työntekijät ja koulutukset pois --> tilalle relaatio
     
+    private int         relaatioTunnus;
     private int         tyontekijaTunnus;
     private int         koulutusTunnus;
     private LocalDate   suoritettu;
     private LocalDate   umpeutuu;
     
-    private static int  seuraavaKoulutustunnus = 1;   // Tällä saadaan uutta koulutusta luotaessa seuraava tunnus!
+    private static int  seuraavaRelaatioTunnus = 1;   // Tällä saadaan uutta relaatiota luotaessa seuraava tunnus!
 
     
     /**
-     * Alustetaan kaikki tyhjäksi
+     * Lisätään relaatiotunnus, joka lisääntyy aina yhdellä.
+     * @return seuraavan relaation tunnus
      */
-    public void Koulutus() {
-        // alustuslauseet hoitaa kaiken
-        // lisaaTyontekija();
+    public int lisaaRelaatio() {                        // lisaaRelaatio rel = new Relaatio // getRelaatioTunnus, vaihda testien teemat vastaamaan relaatiootaa
+        relaatioTunnus = seuraavaRelaatioTunnus;        // muokkaa vastaamaan relaatioid:tä
+        seuraavaRelaatioTunnus++;
+        return relaatioTunnus;
     }
     
     
     /**
-     * Alustetaan tietyn työntekijän koulutus
-     * @param koulutusTunnus koulutuksen tunnusluku
+     * Palautetaan relaation relaatiotunnus.
+     * @return relaation relaatiotunnus
      */
-    public void Koulutus(int koulutusTunnus) {
-        this.koulutusTunnus = koulutusTunnus;
+    public int getRelaatioTunnus() {
+        return relaatioTunnus;
     }
-    
-    
     /**
-     * Antaa uudelle koulutukselle seuraavan koulutustunnuksen.
-     * @return työntekijän uusi tunnusNro
-     * @example
-     * <pre name="test">
-     *      Tyontekija aku1 = new Tyontekija();
-     *      aku1.getTyontekijaTunnus() === 0;
-     *      aku1.lisaaTyontekija();
-     *      Tyontekija aku2 = new Tyontekija();
-     *      aku2.lisaaTyontekija();
-     *      int n1 = aku1.getTyontekijaTunnus();
-     *      int n2 = aku2.getTyontekijaTunnus();
-     *      n1 === n2-1;
-     * </pre>
+     * Palautetaan koulutuksen koulutustunnus.
+     * @return koulutuksen koulutustunnus
      */
-    public int lisaaKoulutus() {
-        koulutusTunnus = seuraavaKoulutustunnus;
-        seuraavaKoulutustunnus++;
+    public int getKoulutusTunnus() {
         return koulutusTunnus;
     }
     
@@ -102,21 +91,13 @@ public class Relaatio {
     
     
     /**
-     * Palautetaan koulutuksen koulutustunnus.
-     * @return koulutuksen koulutustunnus
-     */
-    public int getKoulutusTunnus() {
-        return koulutusTunnus;
-    }
-    
-    
-    /**
      * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
      * TODO: poista kun kaikki toimii
      * @param nro viite työntekijään, jonka koulutuksesta on kyse
      */
-    public void vastaaVesisukeltaja(int nro) {
-        tyontekijaTunnus    = nro;
+    public void vastaaVesisukeltaja(int nro) {                              
+        relaatioTunnus      = nro;                      // joku luku suoraan
+        tyontekijaTunnus    = nro;                      // joku luku suoraan
         koulutusTunnus      = 1;
         suoritettu          = LocalDate.now();
         umpeutuu            = LocalDate.now();
@@ -128,6 +109,7 @@ public class Relaatio {
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
+        out.println(" Relaatiotunnus: "     + String.format("%03d", relaatioTunnus));
         out.println(" Työntekijätunnus: "   + String.format("%03d", tyontekijaTunnus));
         out.println(" Koulutuksen tunnus: " + koulutusTunnus);
         out.println(" Suoritettu: "         + suoritettu);

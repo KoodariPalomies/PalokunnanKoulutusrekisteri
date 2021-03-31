@@ -163,7 +163,7 @@ public class Relaatiot implements Iterable<Koulutus> {
     * @param args ei käytössä
     */
    public static void main(String[] args) {
-       Koulutukset koulutukset = new Koulutukset();
+       Koulutukset koulutukset = new Koulutukset();             // pelkästään relaatio-olioita
        Koulutus pitsi1 = new Koulutus();
        pitsi1.vastaaVesisukeltaja(2);
        Koulutus pitsi2 = new Koulutus();
