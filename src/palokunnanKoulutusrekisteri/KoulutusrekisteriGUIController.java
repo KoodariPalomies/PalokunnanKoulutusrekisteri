@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import koulutusRekisteri.Koulutus;
 import koulutusRekisteri.Koulutusrekisteri;
+import koulutusRekisteri.Relaatio;
 import koulutusRekisteri.SailoException;
 import koulutusRekisteri.Tyontekija;
 
@@ -133,7 +134,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään koulutuksen lisäämisen koulutusrekisteriin
      */
     @FXML private void handleLisaaKoulutusRekisteriin() {
-        //
+        lisaaKoulutusRekisteriin();
     }
     
     
@@ -316,6 +317,23 @@ public class KoulutusrekisteriGUIController implements Initializable {
             e.printStackTrace();
         } 
         hae(koul.getKoulutusTunnus());
+    }
+    
+    
+    /**
+     * Lisätään koulutusrekisteriin uusi koulutus
+     */
+    public void lisaaKoulutusRekisteriin() {
+        if ( tyontekijaKohdalla == null ) return; 
+        Relaatio rel = new Relaatio();
+        rel.lisaaRelaatio();
+        rel.vastaaVesisukeltaja();
+        try {
+            koulutusrekisteri.lisaa(rel);
+        } catch (SailoException e) {
+            e.printStackTrace();
+        }
+        hae(rel.getRelaatioTunnus());
     }
     
     

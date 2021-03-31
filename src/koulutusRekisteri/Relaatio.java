@@ -91,13 +91,12 @@ public class Relaatio {
     
     
     /**
-     * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
+     * Apumetodi, jolla saadaan täytettyä testiarvot relaatiolle.
      * TODO: poista kun kaikki toimii
-     * @param nro viite työntekijään, jonka koulutuksesta on kyse
      */
-    public void vastaaVesisukeltaja(int nro) {                              
-        relaatioTunnus      = nro;                      // joku luku suoraan
-        tyontekijaTunnus    = nro;                      // joku luku suoraan
+    public void vastaaVesisukeltaja() {                              
+        relaatioTunnus      = 1;                      // joku luku suoraan
+        tyontekijaTunnus    = 1;                      // joku luku suoraan
         koulutusTunnus      = 1;
         suoritettu          = LocalDate.now();
         umpeutuu            = LocalDate.now();
@@ -105,20 +104,20 @@ public class Relaatio {
     
     
     /**
-     * Tulostetaan koulutuksen tiedot
+     * Tulostetaan relaation tiedot
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
         out.println(" Relaatiotunnus: "     + String.format("%03d", relaatioTunnus));
         out.println(" Työntekijätunnus: "   + String.format("%03d", tyontekijaTunnus));
-        out.println(" Koulutuksen tunnus: " + koulutusTunnus);
+        out.println(" Koulutuksen tunnus: " + String.format("%03d", koulutusTunnus));
         out.println(" Suoritettu: "         + suoritettu);
         out.println(" Umpeutuu: "           + umpeutuu);
     }
     
     
     /**
-     * Tulostetaan työntekijän tiedot
+     * Tulostetaan relaation tiedot
      * @param os tietovirta johon tulostetaan
      */
     public void tulosta(OutputStream os) {
@@ -130,10 +129,10 @@ public class Relaatio {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Koulutus koul = new Koulutus();
-        //koul.lisaaKoulutus();
-        koul.vastaaVesisukeltaja(1);
-        koul.tulosta(System.out);
+        Relaatio rel = new Relaatio();
+        rel.lisaaRelaatio();
+        rel.vastaaVesisukeltaja();
+        rel.tulosta(System.out);
     }
 
 }

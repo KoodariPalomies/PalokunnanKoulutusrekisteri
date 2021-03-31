@@ -23,171 +23,116 @@ import java.util.*;
  * @version 22.3.2021
  *
  */
-public class Relaatiot implements Iterable<Koulutus> {
+public class Relaatiot {
     
-  private String                      tiedostonNimi = "";
-    
-  /** 
-   * Taulukko harrastuksista 
-   */
-  private final Collection<Koulutus> alkiot        = new ArrayList<Koulutus>();
-  
-  
-  /**
-   * Koulutusten alustaminen
-   */
-  public Relaatiot() {
-      //alkiot = new Tyontekija[MAX_TYONTEKIJOITA]; Attribuuttien oma alustus riittää
-  }
+    private static final int    MAX_RELAATIOITA   = 5;         // Vakio, mallin vuoksi 5 kpl
+    private int                 lkm               = 0;
+    private String              tiedostonNimi     = "";
+    private Relaatio[]          alkiot            = new Relaatio[MAX_RELAATIOITA];
 
-  
+    
     /**
-     * Lisää uuden koulutuksen tietorakenteeseen.  Ottaa koulutuksen omistukseensa.
-     * @param koul lisättävä koulutus.  Huom tietorakenne muuttuu omistajaksi
+     * Lisää uuden relaation tietorakenteeseen. Ottaa relaation omistukseensa.
+     * @param relaatio lisättävän relaation viite. Huom tietorakenne muuttuu omistajaksi
+     * @throws SailoException jos tietorakenne on jo täynnä
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * Tyontekijat tyontekijat = new Tyontekijat();
+     * Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
+     * tyontekijat.getLkm() === 0;
+     * tyontekijat.lisaa(aku1); tyontekijat.getLkm() === 1;
+     * tyontekijat.lisaa(aku2); tyontekijat.getLkm() === 2;
+     * tyontekijat.lisaa(aku1); tyontekijat.getLkm() === 3;
+     * tyontekijat.annaTyontekija(0) === aku1;
+     * tyontekijat.annaTyontekija(1) === aku2;
+     * tyontekijat.annaTyontekija(2) === aku1;
+     * tyontekijat.annaTyontekija(1) == aku1 === false;
+     * tyontekijat.annaTyontekija(1) == aku2 === true;
+     * tyontekijat.annaTyontekija(3) === aku1; #THROWS IndexOutOfBoundsException 
+     * tyontekijat.lisaa(aku1); tyontekijat.getLkm() === 4;
+     * tyontekijat.lisaa(aku1); tyontekijat.getLkm() === 5;
+     * tyontekijat.lisaa(aku1);  #THROWS SailoException
+     * </pre>
      */
-    public void lisaa(Koulutus koul) {
-        alkiot.add(koul);
+    public void lisaa(Relaatio relaatio) throws SailoException {
+        if ( lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
+        this.alkiot[this.lkm] = relaatio;
+        lkm++;
     }
-  
+    
+    
+    /**
+     * Palauttaa koulutusrekisterin relaatioiden lukumäärän
+     * @return relaatioiden lukumäärä
+     */
+    public int getLkm() {
+        return lkm;
+    }
+    
+    
+    /**
+     * Palauttaa viitteen i:teen relaatioon.
+     * @param i monennenko relaation viite halutaan
+     * @return viite relaatioon, jonka indeksi on i
+     * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
+     */
+    public Relaatio annaRelaatio(int i) throws IndexOutOfBoundsException {
+        if (i < 0 || lkm <= i)
+            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+        return alkiot[i];
+    }
+    
+    
+      /**
+       * Lukee työntekijät tiedostosta.  Kesken.
+       * @param hakemisto tiedoston hakemisto
+       * @throws SailoException jos lukeminen epäonnistuu
+       */
+      public void lueTiedostosta(String hakemisto) throws SailoException {
+          tiedostonNimi = hakemisto + "/nimet.dat";
+          throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
+      }
+    
+    
+    /**
+     * Tallentaa työntekijät tiedostoon.  Kesken.
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void talleta() throws SailoException {
+        throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
+    }
+    
+    
+    /**
+     * @param args ei käytössä
+     */
+    public static void main(String[] args) {
+        Relaatiot relaatiot = new Relaatiot();
         
-  /**
-   * Lukee työntekijät tiedostosta. 
-   * TODO Kesken.
-   * @param hakemisto tiedoston hakemisto
-   * @throws SailoException jos lukeminen epäonnistuu
-   */
-  public void lueTiedostosta(String hakemisto) throws SailoException {
-      tiedostonNimi = hakemisto + ".har";
-      throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
-  }
-  
-              
-  /**
-   * Palauttaa koulutusrekisterin koulutusten lukumäärän
-   * @return koulutusten lukumäärä
-   */
-  public int getLkm() {
-      return alkiot.size();
-  }
-  
-  
-        /**
-         * Tallentaa työntekijät tiedostoon. 
-         * TODO Kesken.
-         * @throws SailoException jos talletus epäonnistuu
-         */
-        public void talleta() throws SailoException {
-            throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
+        Relaatio aku          = new Relaatio();
+        Relaatio aku2         = new Relaatio();
+        aku.lisaaRelaatio();
+        aku.vastaaVesisukeltaja();
+        aku2.lisaaRelaatio();
+        aku2.vastaaVesisukeltaja();
+        
+        try {
+            relaatiot.lisaa(aku);
+            relaatiot.lisaa(aku2);
+            
+            System.out.println("========== Työntekijät testi ==========");
+            
+            for (int i = 0; i < relaatiot.getLkm(); i++) {
+                Relaatio tyontekija = relaatiot.annaRelaatio(i);
+                System.out.println("Työntekijä indeksi: " + i);
+                tyontekija.tulosta(System.out);
+            }
+
+        } catch (SailoException e) {
+            System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.
         }
-  
-        
-  /**
-   * Iteraattori kaikkien koulutusten läpikäymiseen
-   * @return koulutusiteraattori
-   *
-   * @example
-   * <pre name="test">
-   * #PACKAGEIMPORT
-   * #import java.util.*;
-   *
-   *  Koulutukset harrasteet = new Koulutukset();
-   *  Koulutus pitsi21 = new Koulutus(2); harrasteet.lisaa(pitsi21);
-   *  Koulutus pitsi11 = new Koulutus(1); harrasteet.lisaa(pitsi11);
-   *  Koulutus pitsi22 = new Koulutus(2); harrasteet.lisaa(pitsi22);
-   *  Koulutus pitsi12 = new Koulutus(1); harrasteet.lisaa(pitsi12);
-   *  Koulutus pitsi23 = new Koulutus(2); harrasteet.lisaa(pitsi23);
-   *
-   *  Iterator<Koulutus> i2=harrasteet.iterator();
-   *  i2.next() === pitsi21;
-   *  i2.next() === pitsi11;
-   *  i2.next() === pitsi22;
-   *  i2.next() === pitsi12;
-   *  i2.next() === pitsi23;
-   *  i2.next() === pitsi12;  #THROWS NoSuchElementException 
-   * 
-   *  int n = 0;
-   *  int jnrot[] = {2,1,2,1,2};
-   * 
-   *  for ( Koulutus har:harrasteet ) {
-   *    har.getTyontekijaTunnus() === jnrot[n]; n++; 
-   *  }
-   * 
-   *  n === 5;
-   * 
-  * </pre>
-  */
- @Override
- public Iterator<Koulutus> iterator() {
-     return alkiot.iterator();
- }
-             
-             
-   /**
-   * Haetaan kaikki jäsen harrastukset
-   * @param tunnusnro jäsenen tunnusnumero jolle harrastuksia haetaan
-   * @return tietorakenne jossa viiteet löydetteyihin harrastuksiin
-   * @example
-   * <pre name="test">
-   * #import java.util.*;
-   *
-   *  Koulutukset koulutukset = new Koulutukset();
-   *  Koulutus pitsi21 = new Koulutus(2); koulutukset.lisaa(pitsi21);
-   *  Koulutus pitsi11 = new Koulutus(1); koulutukset.lisaa(pitsi11);
-   *  Koulutus pitsi22 = new Koulutus(2); koulutukset.lisaa(pitsi22);
-   *  Koulutus pitsi12 = new Koulutus(1); koulutukset.lisaa(pitsi12);
-   *  Koulutus pitsi23 = new Koulutus(2); koulutukset.lisaa(pitsi23);
-   *  Koulutus pitsi51 = new Koulutus(5); koulutukset.lisaa(pitsi51);
-   * 
-   *  List<Harrastus> loytyneet;
-   *  loytyneet = koulutukset.annaKoulutukset(3);
-   *  loytyneet.size() === 0;
-   *  loytyneet = koulutukset.annaKoulutukset(1);
-   *  loytyneet.size() === 2;
-   *  loytyneet.get(0) == pitsi11 === true;
-   *  loytyneet.get(1) == pitsi12 === true;
-   *  loytyneet = koulutukset.annaKoulutukset(5);
-   *  loytyneet.size() === 1;
-   *  loytyneet.get(0) == pitsi51 === true;
-   * </pre>
-   */
-  public List<Koulutus> annaKoulutukset(int tunnusnro) {
-      List<Koulutus> loydetyt = new ArrayList<Koulutus>();
-      for (Koulutus koul : alkiot)
-          if (koul.getKoulutusTunnus() == tunnusnro) loydetyt.add(koul);
-      return loydetyt;
-  }
-  
-  
-   /**
-    * Testiohjelma harrastuksille
-    * @param args ei käytössä
-    */
-   public static void main(String[] args) {
-       Koulutukset koulutukset = new Koulutukset();             // pelkästään relaatio-olioita
-       Koulutus pitsi1 = new Koulutus();
-       pitsi1.vastaaVesisukeltaja(2);
-       Koulutus pitsi2 = new Koulutus();
-       pitsi2.vastaaVesisukeltaja(1);
-       Koulutus pitsi3 = new Koulutus();
-       pitsi3.vastaaVesisukeltaja(2);
-       Koulutus pitsi4 = new Koulutus();
-       pitsi4.vastaaVesisukeltaja(2);
 
-       koulutukset.lisaa(pitsi1);
-       koulutukset.lisaa(pitsi2);
-       koulutukset.lisaa(pitsi3);
-       koulutukset.lisaa(pitsi2);
-       koulutukset.lisaa(pitsi4);
+    }
 
-       System.out.println("============= Harrastukset testi =================");
-
-       List<Koulutus> koulutukset2 = koulutukset.annaKoulutukset(2);
-
-       for (Koulutus koul : koulutukset2) {
-           System.out.print(koul.getKoulutusTunnus() + " ");
-           koul.tulosta(System.out);
-       }
-
-  }
-   
 }

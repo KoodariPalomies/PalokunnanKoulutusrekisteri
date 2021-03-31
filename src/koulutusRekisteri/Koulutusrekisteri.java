@@ -26,6 +26,7 @@ public class Koulutusrekisteri {
     
     private final Tyontekijat tyontekijat = new Tyontekijat();
     private final Koulutukset koulutukset = new Koulutukset();
+    private final Relaatiot   relaatiot   = new Relaatiot();
     
     
     /**
@@ -34,6 +35,15 @@ public class Koulutusrekisteri {
      */
     public int getTyontekijoita() {
         return this.tyontekijat.getLkm();
+    }
+    
+    
+    /**
+     * Palauttaa koulutusrekisterin relaatioiden määrän
+     * @return relaatioiden lkm
+     */
+    public int getRelaatioTunnus() {
+        return this.relaatiot.getLkm();
     }
 
 
@@ -86,6 +96,18 @@ public class Koulutusrekisteri {
     }
     
     
+
+    /**
+     * Lisätään uusi relaatio
+     * @param relaatio lisättävä relaatio
+     * @throws SailoException jos lisääminen ei onnistu
+     */
+    public void lisaa(Relaatio relaatio) throws SailoException {
+        relaatiot.lisaa(relaatio);
+        
+    }
+    
+    
     /**
      * Antaa koulutusrekisterin i:n työntekijän
      * @param i monesko työntekijä (alkaa 0:sta)
@@ -131,6 +153,16 @@ public class Koulutusrekisteri {
          public List<Koulutus> annaKoulutukset(Tyontekija tyontekija) {
              return koulutukset.annaKoulutukset(tyontekija.getTyontekijaTunnus());
          }
+         
+        
+    /**
+     * @param i monesko relaatio
+     * @return relaatio paikassa i
+     * @throws IndexOutOfBoundsException jos i väärin
+     */
+    public Relaatio annaRelaatio(int i) throws IndexOutOfBoundsException {
+         return relaatiot.annaRelaatio(i);
+     }
          
          
       /**
