@@ -48,7 +48,7 @@ public class Tyontekija {
        * @return työntekijän nimi
        * @example
        * <pre name="test">
-       *   Tyontekija aku = new Jasen();
+       *   Tyontekija aku = new Tyontekija();
        *   aku.vastaaAkuAnkka();
        *   aku.getNimi() =R= "Ankka Aku .*";
        * </pre>

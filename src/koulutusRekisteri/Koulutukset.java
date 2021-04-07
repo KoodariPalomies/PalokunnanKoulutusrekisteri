@@ -164,14 +164,16 @@ public class Koulutukset implements Iterable<Koulutus> {
       */
      public static void main(String[] args) {
          Koulutukset koulutukset = new Koulutukset();
+         
          Koulutus pitsi1 = new Koulutus();
-         pitsi1.vastaaVesisukeltaja(2);
          Koulutus pitsi2 = new Koulutus();
-         pitsi2.vastaaVesisukeltaja(1);
          Koulutus pitsi3 = new Koulutus();
-         pitsi3.vastaaVesisukeltaja(2);
          Koulutus pitsi4 = new Koulutus();
-         pitsi4.vastaaVesisukeltaja(2);
+         
+         pitsi1.vastaaVesisukeltaja();
+         pitsi2.vastaaVesisukeltaja();
+         pitsi3.vastaaVesisukeltaja();
+         pitsi4.vastaaVesisukeltaja();
  
          koulutukset.lisaa(pitsi1);
          koulutukset.lisaa(pitsi2);

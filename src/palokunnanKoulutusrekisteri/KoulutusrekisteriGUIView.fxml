@@ -178,10 +178,10 @@
             </BorderPane>
             <BorderPane>
                <top>
-                  <Label text="Työntekijän koulutukset" BorderPane.alignment="CENTER" />
+                  <Label text="Koulutukset" BorderPane.alignment="CENTER" />
                </top>
                <center>
-                  <StringGrid maxWidth="270.0" prefWidth="270.0" maxHeight="300" prefHeight="300" editable="false" rivit="Koulutus|Suoritettu|Umpeutuu&#10;Vesisukeltaja|01.01.2021|01.01.2022&#10;Nostolava|02.02.2022|02.02.2031&#10;" BorderPane.alignment="CENTER" />
+                  <ListChooser fx:id="chooserKoulutukset" maxHeight="1.7976931348623157E308" prefHeight="200.0" maxWidth="200.0" rivit="Vesisukeltaja&#10;Nostolava&#10;Kemikaalivalvonta -peruskurssi&#10;" BorderPane.alignment="CENTER" />
                </center>
                <bottom>
                <Button onAction="#handleMuokkaaKoulutusta" text="_Muokkaa koulutusta" BorderPane.alignment="CENTER" >
@@ -225,7 +225,7 @@
          <right>
             <HBox spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-               <Button mnemonicParsing="true" text="Lisää koulutusrekisteriin koulutuksen" onAction="#handleLisaaKoulutusRekisteriin">
+               <Button mnemonicParsing="true" text="Lisää koulutusrekisteriin koulutus" onAction="#handleLisaaKoulutusRekisteriin">
                      <tooltip>
                         <Tooltip text="Lisää koulutusrekisteriin uuden koulutuksen" />
                      </tooltip>

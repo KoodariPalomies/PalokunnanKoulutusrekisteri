@@ -173,6 +173,7 @@ public class Koulutusrekisteri {
       public void lueTiedostosta(String nimi) throws SailoException {
           tyontekijat.lueTiedostosta(nimi);
           koulutukset.lueTiedostosta(nimi);
+          relaatiot.lueTiedostosta(nimi);
       }
   
   
@@ -183,6 +184,7 @@ public class Koulutusrekisteri {
        public void talleta() throws SailoException {
            tyontekijat.talleta();
            koulutukset.talleta();
+           relaatiot.talleta();
            // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
        }
     
@@ -197,6 +199,7 @@ public class Koulutusrekisteri {
              // kerho.lueTiedostosta("kelmit");
  
              Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
+             
              aku1.lisaaTyontekija();
              aku1.vastaaAkuAnkka();
              aku2.lisaaTyontekija();
@@ -204,13 +207,15 @@ public class Koulutusrekisteri {
  
              koulutusrekisteri.lisaa(aku1);
              koulutusrekisteri.lisaa(aku2);
-             int id1 = aku1.getTyontekijaTunnus();
-             int id2 = aku2.getTyontekijaTunnus();
-             Koulutus pitsi11 = new Koulutus(id1); pitsi11.vastaaVesisukeltaja(id1); koulutusrekisteri.lisaa(pitsi11);
-             Koulutus pitsi12 = new Koulutus(id1); pitsi12.vastaaVesisukeltaja(id1); koulutusrekisteri.lisaa(pitsi12);
-             Koulutus pitsi21 = new Koulutus(id2); pitsi21.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi21);
-             Koulutus pitsi22 = new Koulutus(id2); pitsi22.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi22);
-             Koulutus pitsi23 = new Koulutus(id2); pitsi23.vastaaVesisukeltaja(id2); koulutusrekisteri.lisaa(pitsi23);
+             
+             //int id1 = aku1.getTyontekijaTunnus();
+             //int id2 = aku2.getTyontekijaTunnus();
+             
+             Koulutus pitsi11 = new Koulutus(); pitsi11.vastaaVesisukeltaja(); koulutusrekisteri.lisaa(pitsi11);
+             Koulutus pitsi12 = new Koulutus(); pitsi12.vastaaVesisukeltaja(); koulutusrekisteri.lisaa(pitsi12);
+             Koulutus pitsi21 = new Koulutus(); pitsi21.vastaaVesisukeltaja(); koulutusrekisteri.lisaa(pitsi21);
+             Koulutus pitsi22 = new Koulutus(); pitsi22.vastaaVesisukeltaja(); koulutusrekisteri.lisaa(pitsi22);
+             Koulutus pitsi23 = new Koulutus(); pitsi23.vastaaVesisukeltaja(); koulutusrekisteri.lisaa(pitsi23);
  
              // lisää relaatio-oliot (työntekijäid + koulutusid) --> muut tulee täytettynä
              System.out.println("============= Kerhon testi =================");

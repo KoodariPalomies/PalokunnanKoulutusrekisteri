@@ -108,11 +108,13 @@ public class Tyontekijat {
     public static void main(String[] args) {
         Tyontekijat tyontekijat = new Tyontekijat();
         
-        Tyontekija aku          = new Tyontekija();
-        Tyontekija aku2         = new Tyontekija();
+        Tyontekija aku  = new Tyontekija();
+        Tyontekija aku2 = new Tyontekija();
+        
         aku.lisaaTyontekija();
-        aku.vastaaAkuAnkka();
         aku2.lisaaTyontekija();
+        
+        aku.vastaaAkuAnkka();
         aku2.vastaaAkuAnkka();
         
         try {

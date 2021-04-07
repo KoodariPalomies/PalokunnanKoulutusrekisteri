@@ -36,29 +36,10 @@ import java.io.PrintStream;
  */
 public class Koulutus {
     
-    private int         tyontekijaTunnus;
     private int         koulutusTunnus;
     private String      koulutus  = "";
     
-    private static int  seuraavaKoulutustunnus = 1;   // Tällä saadaan uutta työntekijää luotaessa seuraava tunnus!
-
-    
-    /**
-     * Alustetaan kaikki tyhjäksi
-     */
-    public Koulutus() {
-        // alustuslauseet hoitaa kaiken
-        // lisaaTyontekija();
-    }
-    
-    
-    /**
-     * Alustetaan tietyn työntekijän koulutus
-     * @param koulutusTunnus koulutuksen tunnusluku
-     */
-    public Koulutus(int koulutusTunnus) {
-        this.koulutusTunnus = koulutusTunnus;
-    }
+    private static int  seuraavaKoulutustunnus = 1;   // Tällä saadaan uutta koulutusta luotaessa seuraava tunnus!
     
     
     /**
@@ -77,8 +58,8 @@ public class Koulutus {
      * </pre>
      */
     public int lisaaKoulutus() {
-        //koulutusTunnus = seuraavaKoulutustunnus;          // Laitettu kommenteiksi, koska en halua yhdelle koulutukselle useita tunnuksia
-        //seuraavaKoulutustunnus++;                         //
+        koulutusTunnus = seuraavaKoulutustunnus;
+        seuraavaKoulutustunnus++;  
         return koulutusTunnus;
     }
     
@@ -103,12 +84,8 @@ public class Koulutus {
     /**
      * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
      * TODO: poista kun kaikki toimii
-     * @param nro viite työntekijään, jonka koulutuksesta on kyse
      */
-    public void vastaaVesisukeltaja(int nro) {
-        tyontekijaTunnus    = nro;
-        //koulutusTunnus      = rand(1, 20);                    // toistaiseksi muodostaa randomilla
-        koulutusTunnus      = 1;
+    public void vastaaVesisukeltaja() {
         koulutus            = "Vesisukeltaja";
     }
     
@@ -136,10 +113,16 @@ public class Koulutus {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Koulutus koul = new Koulutus();
-        //koul.lisaaKoulutus();
-        koul.vastaaVesisukeltaja(1);
+        Koulutus koul = new Koulutus(), koul2 = new Koulutus();
+        
+        koul.lisaaKoulutus();
+        koul2.lisaaKoulutus();
+        
+        koul.vastaaVesisukeltaja();
+        koul2.vastaaVesisukeltaja();
+        
         koul.tulosta(System.out);
+        koul2.tulosta(System.out);
     }
 
 }

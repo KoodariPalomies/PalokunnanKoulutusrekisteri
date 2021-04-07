@@ -2,6 +2,7 @@ package palokunnanKoulutusrekisteri;
 
 import java.io.PrintStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -37,6 +38,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private Label                     labelVirhe;
     @FXML private ListChooser<Tyontekija>   chooserTyontekijat;
     @FXML private ScrollPane                panelTyontekija;
+    @FXML private ListChooser<Koulutus>     chooserKoulutukset;
+    @FXML private ScrollPane                panelKoulutus;
     
     private String kayttajatunnus   = "";
     private String salasana         = "";
@@ -122,16 +125,14 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
-     * Käsitellään lisää työntekijälle koulutus
+     * Käsitellään uuden koulutuksen lisääminen
      */
     @FXML private void handleLisaaKoulutus() {
-        //Dialogs.showQuestionDialog("Lisää koulutus", "Lisätäänkö työntekijälle koulutus?", "Kyllä", "Ei");
-        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", null, "");
         uusiKoulutus();
     }
     
     /**
-     * Käsitellään koulutuksen lisäämisen koulutusrekisteriin
+     * Käsitellään työntekijän koulutustietojen lisäämisen koulutusrekisteriin
      */
     @FXML private void handleLisaaKoulutusRekisteriin() {
         lisaaKoulutusRekisteriin();
@@ -178,7 +179,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     private Koulutusrekisteri   koulutusrekisteri;
     private Tyontekija          tyontekijaKohdalla;
-    private TextArea            areaTyontekija = new TextArea();   // TODO: poista lopuksi
+   // private Koulutus            koulutusKohdalla;
+    private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
+    //private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi
     
     
     /**
@@ -191,8 +194,15 @@ public class KoulutusrekisteriGUIController implements Initializable {
         areaTyontekija.setFont(new Font("Courier New", 12));
         panelTyontekija.setFitToHeight(true);
         
+        //panelTyontekija.setContent(areaKoulutus);
+        //areaKoulutus.setFont(new Font("Courier New", 12));
+        //panelTyontekija.setFitToHeight(true);
+        
         chooserTyontekijat.clear();
         chooserTyontekijat.addSelectionListener(e -> naytaTyontekija());
+        
+        //chooserKoulutukset.clear();
+        //chooserKoulutukset.addSelectionListener(e -> naytaKoulutus());
     }
     
     
@@ -269,6 +279,32 @@ public class KoulutusrekisteriGUIController implements Initializable {
         }
     }
     
+    
+    /**
+     * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
+     */
+    //private void nautaKoulutus() {
+      //  koulutusKohdalla = chooserKoulutukset.getSelectedObject();
+        
+      //  if (koulutusKohdalla == null) return;
+        
+      //  areaKoulutus.setText("");
+       // try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKoulutus)) {
+        //    tulosta(os, koulutusKohdalla);
+     //   }
+   // }
+    
+    
+   // private void tulosta(PrintStream os, final Koulutus koulutus) {
+   //     os.println("----------------------------------------------");
+   //     koulutus.tulosta(os);
+   //     os.println("----------------------------------------------");
+   //     List<Koulutus> koulutukset = koulutusrekisteri.annaKoulutukset(koulutus);   
+   //     for (Koulutus koul:koulutukset)
+   //         koul.tulosta(os); 
+   // }
+
+
     /**
      * Hakee työntekijän tiedot listaan
      * @param tnro työntekijäntunnus, joka aktivoituu haun jälkeen
@@ -304,24 +340,24 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
-     * Tekee uuden tyhjän koulutuksen editointia varten
+     * Lisätään rekisteriin uusi koulutus
      */ 
     public void uusiKoulutus() { 
-        if ( tyontekijaKohdalla == null ) return; 
         Koulutus koul = new Koulutus(); 
         koul.lisaaKoulutus(); 
-        koul.vastaaVesisukeltaja(tyontekijaKohdalla.getTyontekijaTunnus()); 
+        koul.vastaaVesisukeltaja(); 
         try {
             koulutusrekisteri.lisaa(koul);
         } catch (SailoException e) {
-            e.printStackTrace();
+            Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
+            return;
         } 
         hae(koul.getKoulutusTunnus());
     }
     
     
     /**
-     * Lisätään koulutusrekisteriin uusi koulutus
+     * Lisätään koulutusrekisteriin työntekijän koulutustiedot
      */
     public void lisaaKoulutusRekisteriin() {
         if ( tyontekijaKohdalla == null ) return; 
