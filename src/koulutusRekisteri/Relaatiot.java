@@ -23,42 +23,30 @@ import java.util.*;
  * @version 22.3.2021
  *
  */
-public class Relaatiot {
+public class Relaatiot implements Iterable<Relaatio> {
     
-    private static final int    MAX_RELAATIOITA   = 5;         // Vakio, mallin vuoksi 5 kpl
-    private int                 lkm               = 0;
-    private String              tiedostonNimi     = "";
-    private Relaatio[]          alkiot            = new Relaatio[MAX_RELAATIOITA];
+    private String tiedostonNimi = "";
+    
+    /**
+     * Taulukko työntekijän koulutuksista
+     */
+    private final Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
+    
+    
+    /**
+     * Relaatioiden alustaminen
+     */
+    public Relaatiot() {
+        // EI vielä
+    }
 
     
     /**
      * Lisää uuden relaation tietorakenteeseen. Ottaa relaation omistukseensa.
-     * @param relaatio lisättävän relaation viite. Huom tietorakenne muuttuu omistajaksi
-     * @throws SailoException jos tietorakenne on jo täynnä
-     * @example
-     * <pre name="test">
-     * #THROWS SailoException 
-     * Tyontekijat tyontekijat = new Tyontekijat();
-     * Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
-     * tyontekijat.getLkm() === 0;
-     * tyontekijat.lisaa(aku1); tyontekijat.getLkm() === 1;
-     * tyontekijat.lisaa(aku2); tyontekijat.getLkm() === 2;
-     * tyontekijat.lisaa(aku1); tyontekijat.getLkm() === 3;
-     * tyontekijat.annaTyontekija(0) === aku1;
-     * tyontekijat.annaTyontekija(1) === aku2;
-     * tyontekijat.annaTyontekija(2) === aku1;
-     * tyontekijat.annaTyontekija(1) == aku1 === false;
-     * tyontekijat.annaTyontekija(1) == aku2 === true;
-     * tyontekijat.annaTyontekija(3) === aku1; #THROWS IndexOutOfBoundsException 
-     * tyontekijat.lisaa(aku1); tyontekijat.getLkm() === 4;
-     * tyontekijat.lisaa(aku1); tyontekijat.getLkm() === 5;
-     * tyontekijat.lisaa(aku1);  #THROWS SailoException
-     * </pre>
+     * @param rel lisättävä relaatio. Huom tietorakenne muuttuu omistajaksi
      */
-    public void lisaa(Relaatio relaatio) throws SailoException {
-        if ( lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
-        this.alkiot[this.lkm] = relaatio;
-        lkm++;
+    public void lisaa(Relaatio rel) {
+        alkiot.add(rel);
     }
     
     
@@ -67,20 +55,76 @@ public class Relaatiot {
      * @return relaatioiden lukumäärä
      */
     public int getLkm() {
-        return lkm;
+        return alkiot.size();
     }
     
     
     /**
-     * Palauttaa viitteen i:teen relaatioon.
-     * @param i monennenko relaation viite halutaan
-     * @return viite relaatioon, jonka indeksi on i
-     * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
+     * Iteraattori kaikkien relaatioiden läpikäymiseen
+     * @return relaatioiteraattori
+     * 
+     * @example
+     * <pre name="test">
+     * #PACKAGEIMPORT
+     * #import java.util.*;
+     * 
+     * Relaatiot relaatiot = new Relaatiot();
+     * Relaatio rel1 = new Relaatio(1); relaatiot.lisaa(rel1);
+     * Relaatio rel2 = new Relaatio(2); relaatiot.lisaa(rel2);
+     * Relaatio rel3 = new Relaatio(3); relaatiot.lisaa(rel3);
+     * 
+     * Iterator<Relaatio> i2=relaatiot.iterator();
+     * i2.next() === rel1;
+     * i2.next() === rel2;
+     * i2.next() === rel3;
+     * 
+     * int n = 0;
+     * int jnrot[] = {1,2,3};
+     * 
+     * for (Relaatio rel:relaatiot) {
+     *  rel.getTyontekijaTunnus() === jnrot[n]; n++;
+     * }
+     * 
+     * n === 3;
+     * 
+     * </pre>
      */
-    public Relaatio annaRelaatio(int i) throws IndexOutOfBoundsException {
-        if (i < 0 || lkm <= i)
-            throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
-        return alkiot[i];
+    @Override
+    public Iterator<Relaatio> iterator() {
+        return alkiot.iterator();
+    }
+    
+    
+    /**
+     * Haetaan kaikki työntekijän koulutukset
+     * @param tyontekijaTunnus työntekijän tunnusnumero, jolle koulutukset haetaan
+     * @return tietorakenne jossa viitteet löydettyihin koulutuksiin
+     * @example
+     * <pre name="test">
+     * #import java.util.*;
+     * 
+     * Relaatiot relaatiot = new Relaatiot();
+     * Relaatio rel1 = new Relaatio(1); relaatiot.lisaa(rel1);
+     * Relaatio rel2 = new Relaatio(2); relaatiot.lisaa(rel2);
+     * Relaatio rel3 = new Relaatio(3); relaatiot.lisaa(rel3);
+     * 
+     * List<Relaatio> loytyneet;
+     * loytyneet = relaatiot.annaRelaatiot(3);
+     * loytyneet.size() === 0;
+     * loytyneet = relaatiot.annaRelaatiot(1);
+     * loytyneet.size() === 2;
+     * loytyneet.get(0) == rel1 === true;
+     * loytyneet.get(1) == rel2 === true;
+     * loytyneet = relaatiot.annaRelaatiot(3);
+     * loytyneet.size() === 1;
+     * loytyneet.get(0) == rel3 === true;
+     * </pre>
+     */
+    public List<Relaatio> annaRelaatiot(int tyontekijaTunnus) {
+        List<Relaatio> loydetyt = new ArrayList<Relaatio>();
+        for (Relaatio rel : alkiot)
+            if (rel.getTyontekijaTunnus() == tyontekijaTunnus) loydetyt.add(rel);
+        return loydetyt;
     }
     
     
@@ -90,7 +134,7 @@ public class Relaatiot {
        * @throws SailoException jos lukeminen epäonnistuu
        */
       public void lueTiedostosta(String hakemisto) throws SailoException {
-          tiedostonNimi = hakemisto + "/nimet.dat";
+          tiedostonNimi = hakemisto + "/relaatiot.dat";
           throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
       }
     
@@ -108,31 +152,29 @@ public class Relaatiot {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Relaatiot relaatiot = new Relaatiot();
+        Relaatiot relaatiot     = new Relaatiot();
         
-        Relaatio aku          = new Relaatio();
-        Relaatio aku2         = new Relaatio();
-        aku.lisaaRelaatio();
-        aku.vastaaRelaatio();
-        aku2.lisaaRelaatio();
-        aku2.vastaaRelaatio();
+        Relaatio rel1           = new Relaatio();
+        rel1.vastaaRelaatio();
         
-        try {
-            relaatiot.lisaa(aku);
-            relaatiot.lisaa(aku2);
-            
-            System.out.println("========== Relaatiot testi ==========");
-            
-            for (int i = 0; i < relaatiot.getLkm(); i++) {
-                Relaatio tyontekija = relaatiot.annaRelaatio(i);
-                System.out.println("Relaatiotunnus: " + i);
-                tyontekija.tulosta(System.out);
-            }
-
-        } catch (SailoException e) {
-            System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.
+        Relaatio rel2           = new Relaatio();
+        rel2.vastaaRelaatio();
+        
+        Relaatio rel3           = new Relaatio();
+        rel3.vastaaRelaatio();
+        
+        relaatiot.lisaa(rel1);
+        relaatiot.lisaa(rel2);
+        relaatiot.lisaa(rel3);
+        
+        System.out.println("============= Relaatiot testi =================");
+        
+        List<Relaatio> relaatiot2 = relaatiot.annaRelaatiot(2);
+        
+        for (Relaatio rel : relaatiot2) {
+            System.out.println(rel.getTyontekijaTunnus() + " ");
+            rel.tulosta(System.out);
         }
-
+        
     }
-
 }

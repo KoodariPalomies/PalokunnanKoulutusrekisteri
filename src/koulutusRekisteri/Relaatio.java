@@ -39,8 +39,8 @@ public class Relaatio {
     // ota kaikki työntekijät ja koulutukset pois --> tilalle relaatio
     
     private int         relaatioTunnus;
-    //private int         tyontekijaTunnus;
-    //private int         koulutusTunnus;
+    private int         tyontekijaTunnus;
+    private int         koulutusTunnus;
     private LocalDate   suoritettu;
     private LocalDate   umpeutuu;
     
@@ -48,11 +48,51 @@ public class Relaatio {
 
     
     /**
+     * Alustetaan relaatio.
+     */
+    public Relaatio() {
+        // EI vielä mitään
+    }
+    
+    
+    /**
+     * Alustetaan tietyn työntekijän koulutus.
+     * @param tyontekijaTunnus työntekijän viitenumero
+     * @param koulutusTunnus koulutuksen viitenumero
+     */
+    public Relaatio(int tyontekijaTunnus, int koulutusTunnus) {
+        this.tyontekijaTunnus = tyontekijaTunnus;
+        this.koulutusTunnus = koulutusTunnus;
+    }
+    
+    
+    /**
+     * Apumetodi, jolla saadaan täytettyä testiarvot relaatiolle.
+     * TODO: poista kun kaikki toimii
+     */
+    public void vastaaRelaatio() {
+        suoritettu          = LocalDate.now();
+        umpeutuu            = LocalDate.now();
+    }
+     
+    
+    /**
      * Lisätään relaatiotunnus, joka lisääntyy aina yhdellä.
      * @return seuraavan relaation tunnus
+     * @example
+     * <pre name="test">
+     *   Relaatio pitsi1 = new Relaatio();
+     *   pitsi1.getRelaatioTunnus() === 0;
+     *   pitsi1.rekisteroi();
+     *   Relaatio pitsi2 = new Relaatio();
+     *   pitsi2.rekisteroi();
+     *   int n1 = pitsi1.getRelaatioTunnus();
+     *   int n2 = pitsi2.getRelaatioTunnus();
+     *   n1 === n2-1;
+     * </pre>
      */
-    public int lisaaRelaatio() {                        // lisaaRelaatio rel = new Relaatio // getRelaatioTunnus, vaihda testien teemat vastaamaan relaatiootaa
-        relaatioTunnus = seuraavaRelaatioTunnus;        // muokkaa vastaamaan relaatioid:tä
+    public int rekisteroi() {
+        relaatioTunnus = seuraavaRelaatioTunnus;
         seuraavaRelaatioTunnus++;
         return relaatioTunnus;
     }
@@ -64,6 +104,24 @@ public class Relaatio {
      */
     public int getRelaatioTunnus() {
         return relaatioTunnus;
+    }
+    
+    
+    /**
+     * Palautetaan mille työntekijälle koulutus kuuluu
+     * @return työntekijän tunnuksen
+     */
+    public int getTyontekijaTunnus() {
+        return tyontekijaTunnus;
+    }
+    
+    
+    /**
+     * Palautetaan mikä koulutus kuuluu työntekijälle
+     * @return koulutuksen tunnus
+     */
+    public int getKoulutusTunnus() {
+        return koulutusTunnus;
     }
     
     
@@ -84,26 +142,13 @@ public class Relaatio {
     
     
     /**
-     * Apumetodi, jolla saadaan täytettyä testiarvot relaatiolle.
-     * TODO: poista kun kaikki toimii
-     */
-    public void vastaaRelaatio() {                              
-        //relaatioTunnus      = 1;                      // joku luku suoraan
-        //tyontekijaTunnus    = 1;                      // joku luku suoraan
-        //koulutusTunnus      = 1;
-        suoritettu          = LocalDate.now();
-        umpeutuu            = LocalDate.now();
-    }
-    
-    
-    /**
      * Tulostetaan relaation tiedot
      * @param out tietovirta johon tulostetaan
      */
     public void tulosta(PrintStream out) {
         out.println(" Relaatiotunnus: "     + String.format("%03d", relaatioTunnus));
-        //out.println(" Työntekijätunnus: "   + String.format("%03d", tyontekijaTunnus));
-        //out.println(" Koulutuksen tunnus: " + String.format("%03d", koulutusTunnus));
+        out.println(" Työntekijätunnus: "   + String.format("%03d", tyontekijaTunnus));
+        out.println(" Koulutuksen tunnus: " + String.format("%03d", koulutusTunnus));
         out.println(" Suoritettu: "         + suoritettu);
         out.println(" Umpeutuu: "           + umpeutuu);
     }
@@ -123,7 +168,7 @@ public class Relaatio {
      */
     public static void main(String[] args) {
         Relaatio rel = new Relaatio();
-        rel.lisaaRelaatio();
+        rel.rekisteroi();
         rel.vastaaRelaatio();
         rel.tulosta(System.out);
     }

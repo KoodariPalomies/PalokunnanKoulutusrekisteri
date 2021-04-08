@@ -273,6 +273,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
             tulosta(os, tyontekijaKohdalla);
         }
+        naytaTyontekijanKoulutukset();
     }
     
     
@@ -287,6 +288,21 @@ public class KoulutusrekisteriGUIController implements Initializable {
         areaTyontekija.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
             tulosta(os, koulutusKohdalla);
+        }
+    }
+    
+    
+    /**
+     * Näyttää listasta valitun työntekijän koulutukset, tilapäisesti yhteen isoon edit-kenttään
+     */
+    private void naytaTyontekijanKoulutukset() {
+        tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
+        
+        if (tyontekijaKohdalla == null) return;
+        
+        areaTyontekija.setText("");
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
+            tulosta(os, tyontekijaKohdalla);
         }
     }
 
@@ -322,6 +338,17 @@ public class KoulutusrekisteriGUIController implements Initializable {
             chooserKoulutukset.add(koulutus.getKoulutus(), koulutus);
         }
         chooserKoulutukset.setSelectedIndex(index);
+    }
+    
+    
+    /**
+     * Hakee työntekijän koulutustiedot listaan
+     */
+    private void haeRelaatiot() {
+        for (Relaatio rel:koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla)) {
+            System.out.println(rel);                            // printtaa toStringillä keskellä olevaan tekstikenttään
+        }
+       
     }
     
     
@@ -363,16 +390,20 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Lisätään koulutusrekisteriin työntekijän koulutustiedot
      */
     public void lisaaTyontekijalleKoulutus() {
+        //tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
+        //koulutusKohdalla = chooserKoulutukset.getSelectedObject();
         if ( tyontekijaKohdalla == null ) return; 
-        Relaatio rel = new Relaatio();
-        rel.lisaaRelaatio();
+        if ( koulutusKohdalla == null ) return;
+        
+        Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
+        rel.rekisteroi();
         rel.vastaaRelaatio();
         try {
             koulutusrekisteri.lisaa(rel);
         } catch (SailoException e) {
             e.printStackTrace();
         }
-        //hae(rel.getRelaatioTunnus());
+        haeRelaatiot();
     }
     
     
@@ -384,6 +415,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         this.koulutusrekisteri = koulutusrekisteri;
         naytaTyontekija();
         naytaKoulutus();
+        naytaTyontekijanKoulutukset();
     }
     
     
@@ -419,6 +451,24 @@ public class KoulutusrekisteriGUIController implements Initializable {
                  Koulutus koulutus2 = koulutusrekisteri.annaKoulutus(i);
                  System.out.println("Koulutus paikassa: " + i);
                  koulutus2.tulosta(System.out);
+             }
+         }
+         
+         
+         /**
+          * Tulostaa työntekijän koulutustiedot
+          * @param os tietovirta johon tulostetaan
+          * @param relaatio tulostettavat koulutukset
+          */
+         private void tulosta(PrintStream os, final Relaatio relaatio) {
+             os.println("----------------------------------------------");
+             relaatio.tulosta(os);
+             os.println("----------------------------------------------");
+             
+             for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
+                 List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
+                 System.out.println("Koulutus paikassa: " + i);
+                 ((Koulutus) relaatio2).tulosta(System.out);
              }
          }
         

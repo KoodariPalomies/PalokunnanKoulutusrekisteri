@@ -140,12 +140,12 @@ public class Koulutusrekisteri {
          
         
     /**
-     * @param i monesko relaatio
-     * @return relaatio paikassa i
+     * @param tyontekija minkä työntekijän relaatio
+     * @return relaatio työntekijän tunnuksella
      * @throws IndexOutOfBoundsException jos i väärin
      */
-    public Relaatio annaRelaatio(int i) throws IndexOutOfBoundsException {
-         return relaatiot.annaRelaatio(i);
+    public List<Relaatio> annaRelaatiot(Tyontekija tyontekija) throws IndexOutOfBoundsException {
+         return relaatiot.annaRelaatiot(tyontekija.getTyontekijaTunnus());
      }
          
          
@@ -205,6 +205,10 @@ public class Koulutusrekisteri {
                  System.out.println("Koulutus paikassa: " + i);
                  koulutus.tulosta(System.out);
              }
+             
+             List<Relaatio> loytyneet = koulutusrekisteri.annaRelaatiot(aku2);
+             for (Relaatio rel : loytyneet)
+                 rel.tulosta(System.out);
  
          } catch (SailoException ex) {
              System.out.println(ex.getMessage());
