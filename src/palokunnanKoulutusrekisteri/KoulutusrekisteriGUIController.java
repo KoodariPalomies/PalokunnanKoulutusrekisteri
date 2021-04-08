@@ -346,7 +346,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     private void haeRelaatiot() {
         for (Relaatio rel:koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla)) {
-            System.out.println(rel);                            // printtaa toStringillä keskellä olevaan tekstikenttään
+            rel.tulosta(System.out);
         }
        
     }
@@ -429,11 +429,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
              tyontekija.tulosta(os);
              os.println("----------------------------------------------");
              
-             for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
-                 Tyontekija tyontekija2 = koulutusrekisteri.annaTyontekija(i);
-                 System.out.println("Työntekijätunnus: " + i);
-                 tyontekija2.tulosta(System.out);
+             for (Relaatio rel:koulutusrekisteri.annaRelaatiot(tyontekija)) {
+                 rel.tulosta(os);
              }
+
          }
          
          
@@ -465,11 +464,14 @@ public class KoulutusrekisteriGUIController implements Initializable {
              relaatio.tulosta(os);
              os.println("----------------------------------------------");
              
-             for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
-                 List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
-                 System.out.println("Koulutus paikassa: " + i);
-                 ((Koulutus) relaatio2).tulosta(System.out);
-             }
+            // for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
+              //   List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
+                // System.out.println("Koulutus paikassa: " + i);
+                 //((Koulutus) relaatio2).tulosta(System.out);
+             
+                 List<Relaatio> relaatiot = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
+                 for (Relaatio rel:relaatiot)
+                     rel.tulosta(os);
          }
         
         
@@ -490,8 +492,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
                      Koulutus koulutus = koulutusrekisteri.annaKoulutus(i);
                      tulosta(os, koulutus);
                      os.println("\n\n");
+                     
+                 // Laitetaanko tänne se relaationkin tulostus?
+                // for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
+                  //   List<Relaatio> relaatio = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
+                    // tulosta(os, relaatio);
+                    // os.println("\n\n");
+                 }
                  }
              }
          }
-    
-}
