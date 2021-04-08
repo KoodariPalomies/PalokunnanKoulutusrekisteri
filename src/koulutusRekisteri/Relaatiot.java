@@ -113,19 +113,19 @@ public class Relaatiot {
         Relaatio aku          = new Relaatio();
         Relaatio aku2         = new Relaatio();
         aku.lisaaRelaatio();
-        aku.vastaaVesisukeltaja();
+        aku.vastaaRelaatio();
         aku2.lisaaRelaatio();
-        aku2.vastaaVesisukeltaja();
+        aku2.vastaaRelaatio();
         
         try {
             relaatiot.lisaa(aku);
             relaatiot.lisaa(aku2);
             
-            System.out.println("========== Työntekijät testi ==========");
+            System.out.println("========== Relaatiot testi ==========");
             
             for (int i = 0; i < relaatiot.getLkm(); i++) {
                 Relaatio tyontekija = relaatiot.annaRelaatio(i);
-                System.out.println("Työntekijä indeksi: " + i);
+                System.out.println("Relaatiotunnus: " + i);
                 tyontekija.tulosta(System.out);
             }
 

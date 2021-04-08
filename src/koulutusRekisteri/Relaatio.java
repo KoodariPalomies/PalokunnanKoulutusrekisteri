@@ -39,8 +39,8 @@ public class Relaatio {
     // ota kaikki työntekijät ja koulutukset pois --> tilalle relaatio
     
     private int         relaatioTunnus;
-    private int         tyontekijaTunnus;
-    private int         koulutusTunnus;
+    //private int         tyontekijaTunnus;
+    //private int         koulutusTunnus;
     private LocalDate   suoritettu;
     private LocalDate   umpeutuu;
     
@@ -65,13 +65,6 @@ public class Relaatio {
     public int getRelaatioTunnus() {
         return relaatioTunnus;
     }
-    /**
-     * Palautetaan koulutuksen koulutustunnus.
-     * @return koulutuksen koulutustunnus
-     */
-    public int getKoulutusTunnus() {
-        return koulutusTunnus;
-    }
     
     
     /**
@@ -94,10 +87,10 @@ public class Relaatio {
      * Apumetodi, jolla saadaan täytettyä testiarvot relaatiolle.
      * TODO: poista kun kaikki toimii
      */
-    public void vastaaVesisukeltaja() {                              
-        relaatioTunnus      = 1;                      // joku luku suoraan
-        tyontekijaTunnus    = 1;                      // joku luku suoraan
-        koulutusTunnus      = 1;
+    public void vastaaRelaatio() {                              
+        //relaatioTunnus      = 1;                      // joku luku suoraan
+        //tyontekijaTunnus    = 1;                      // joku luku suoraan
+        //koulutusTunnus      = 1;
         suoritettu          = LocalDate.now();
         umpeutuu            = LocalDate.now();
     }
@@ -109,8 +102,8 @@ public class Relaatio {
      */
     public void tulosta(PrintStream out) {
         out.println(" Relaatiotunnus: "     + String.format("%03d", relaatioTunnus));
-        out.println(" Työntekijätunnus: "   + String.format("%03d", tyontekijaTunnus));
-        out.println(" Koulutuksen tunnus: " + String.format("%03d", koulutusTunnus));
+        //out.println(" Työntekijätunnus: "   + String.format("%03d", tyontekijaTunnus));
+        //out.println(" Koulutuksen tunnus: " + String.format("%03d", koulutusTunnus));
         out.println(" Suoritettu: "         + suoritettu);
         out.println(" Umpeutuu: "           + umpeutuu);
     }
@@ -131,7 +124,7 @@ public class Relaatio {
     public static void main(String[] args) {
         Relaatio rel = new Relaatio();
         rel.lisaaRelaatio();
-        rel.vastaaVesisukeltaja();
+        rel.vastaaRelaatio();
         rel.tulosta(System.out);
     }
 

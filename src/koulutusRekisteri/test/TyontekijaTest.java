@@ -20,9 +20,9 @@ public class TyontekijaTest {
   public void testLisaaTyontekija57() {    // Tyontekija: 57
     Tyontekija aku1 = new Tyontekija(); 
     assertEquals("From: Tyontekija line: 59", 0, aku1.getTyontekijaTunnus()); 
-    aku1.lisaaTyontekija(); 
+    aku1.rekisteroi(); 
     Tyontekija aku2 = new Tyontekija(); 
-    aku2.lisaaTyontekija(); 
+    aku2.rekisteroi(); 
     int n1 = aku1.getTyontekijaTunnus(); 
     int n2 = aku2.getTyontekijaTunnus(); 
     assertEquals("From: Tyontekija line: 65", n2-1, n1); 

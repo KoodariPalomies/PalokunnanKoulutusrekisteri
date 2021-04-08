@@ -43,23 +43,10 @@ public class Koulutus {
     
     
     /**
-     * Antaa uudelle koulutukselle seuraavan koulutustunnuksen.
-     * @return työntekijän uusi tunnusNro
-     * @example
-     * <pre name="test">
-     *      Tyontekija aku1 = new Tyontekija();
-     *      aku1.getTyontekijaTunnus() === 0;
-     *      aku1.lisaaTyontekija();
-     *      Tyontekija aku2 = new Tyontekija();
-     *      aku2.lisaaTyontekija();
-     *      int n1 = aku1.getTyontekijaTunnus();
-     *      int n2 = aku2.getTyontekijaTunnus();
-     *      n1 === n2-1;
-     * </pre>
+     * Palautetaan koulutuksen koulutustunnus.
+     * @return koulutuksen koulutustunnus
      */
-    public int lisaaKoulutus() {
-        koulutusTunnus = seuraavaKoulutustunnus;
-        seuraavaKoulutustunnus++;  
+    public int getKoulutusTunnus() {
         return koulutusTunnus;
     }
     
@@ -69,15 +56,6 @@ public class Koulutus {
      */
     public String getKoulutus() {
         return koulutus;
-    }
-    
-    
-    /**
-     * Palautetaan koulutuksen koulutustunnus.
-     * @return koulutuksen koulutustunnus
-     */
-    public int getKoulutusTunnus() {
-        return koulutusTunnus;
     }
     
     
@@ -110,13 +88,36 @@ public class Koulutus {
     
     
     /**
+     * Antaa uudelle koulutukselle seuraavan koulutustunnuksen.
+     * @return työntekijän uusi tunnusNro
+     * @example
+     * <pre name="test">
+     *      Tyontekija aku1 = new Tyontekija();
+     *      aku1.getTyontekijaTunnus() === 0;
+     *      aku1.lisaaTyontekija();
+     *      Tyontekija aku2 = new Tyontekija();
+     *      aku2.lisaaTyontekija();
+     *      int n1 = aku1.getTyontekijaTunnus();
+     *      int n2 = aku2.getTyontekijaTunnus();
+     *      n1 === n2-1;
+     * </pre>
+     */
+    public int rekisteroi() {
+        koulutusTunnus = seuraavaKoulutustunnus;
+        seuraavaKoulutustunnus++;  
+        return koulutusTunnus;
+    }
+    
+    
+    /**
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Koulutus koul = new Koulutus(), koul2 = new Koulutus();
+        Koulutus koul = new Koulutus();
+        Koulutus koul2 = new Koulutus();
         
-        koul.lisaaKoulutus();
-        koul2.lisaaKoulutus();
+        koul.rekisteroi();
+        koul2.rekisteroi();
         
         koul.vastaaVesisukeltaja();
         koul2.vastaaVesisukeltaja();

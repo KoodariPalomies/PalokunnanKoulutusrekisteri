@@ -225,14 +225,14 @@
          <right>
             <HBox spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-               <Button mnemonicParsing="true" text="Lisää koulutusrekisteriin koulutus" onAction="#handleLisaaKoulutusRekisteriin">
-                     <tooltip>
-                        <Tooltip text="Lisää koulutusrekisteriin uuden koulutuksen" />
-                     </tooltip>
-               </Button>
-                  <Button mnemonicParsing="true" text="Lisää työntekijälle koulutus" onAction="#handleLisaaKoulutus">
+               <Button mnemonicParsing="true" text="Lisää työntekijälle koulutus" onAction="#handleLisaaTyontekijalleKoulutus">
                      <tooltip>
                         <Tooltip text="Lisää työntekijälle uuden koulutuksen" />
+                     </tooltip>
+               </Button>
+                  <Button mnemonicParsing="true" text="Lisää koulutus" onAction="#handleLisaaKoulutus">
+                     <tooltip>
+                        <Tooltip text="Lisää koulutusrekisteriin uuden koulutuksen" />
                      </tooltip>
                   </Button>
                   <Button mnemonicParsing="false" text="Poista koulutus" onAction="#handlePoistaKoulutus">

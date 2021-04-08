@@ -30,6 +30,13 @@ public class Tyontekijat {
 
     
     /**
+     * Oletusmuodostaja
+     */
+    public Tyontekijat() {
+        // Attribuuttien oma alustus riittää
+    }
+    
+    /**
      * Lisää uuden työntekijän tietorakenteeseen. Ottaa työntekijän omistukseensa.
      * @param tyontekija lisättävän työntekijän viite. Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
@@ -55,17 +62,8 @@ public class Tyontekijat {
      */
     public void lisaa(Tyontekija tyontekija) throws SailoException {
         if ( lkm >= alkiot.length) throw new SailoException("Liikaa alkioita");
-        this.alkiot[this.lkm] = tyontekija;
+        alkiot[lkm] = tyontekija;
         lkm++;
-    }
-    
-    
-    /**
-     * Palauttaa koulutusrekisterin työntekijöiden lukumäärän
-     * @return työntekijöiden lukumäärä
-     */
-    public int getLkm() {
-        return lkm;
     }
     
     
@@ -103,6 +101,15 @@ public class Tyontekijat {
     
     
     /**
+     * Palauttaa koulutusrekisterin työntekijöiden lukumäärän
+     * @return työntekijöiden lukumäärä
+     */
+    public int getLkm() {
+        return lkm;
+    }
+    
+    
+    /**
      * @param args ei käytössä
      */
     public static void main(String[] args) {
@@ -111,8 +118,8 @@ public class Tyontekijat {
         Tyontekija aku  = new Tyontekija();
         Tyontekija aku2 = new Tyontekija();
         
-        aku.lisaaTyontekija();
-        aku2.lisaaTyontekija();
+        aku.rekisteroi();
+        aku2.rekisteroi();
         
         aku.vastaaAkuAnkka();
         aku2.vastaaAkuAnkka();
@@ -125,7 +132,7 @@ public class Tyontekijat {
             
             for (int i = 0; i < tyontekijat.getLkm(); i++) {
                 Tyontekija tyontekija = tyontekijat.annaTyontekija(i);
-                System.out.println("Työntekijä indeksi: " + i);
+                System.out.println("Työntekijätunnus: " + i);
                 tyontekija.tulosta(System.out);
             }
 

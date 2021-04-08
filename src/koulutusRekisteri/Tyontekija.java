@@ -106,7 +106,7 @@ public class Tyontekija {
      *      n1 === n2-1;
      * </pre>
      */
-    public int lisaaTyontekija() {
+    public int rekisteroi() {
         this.tyontekijaTunnus = seuraavaTyontekijatunnus;
         seuraavaTyontekijatunnus++;
         return this.tyontekijaTunnus;
@@ -126,10 +126,11 @@ public class Tyontekija {
      * @param args ei käytössä
      */
     public static void main(String[] args) {
-        Tyontekija aku = new Tyontekija(), aku2 = new Tyontekija();
+        Tyontekija aku = new Tyontekija();
+        Tyontekija aku2 = new Tyontekija();
         
-        aku.lisaaTyontekija();
-        aku2.lisaaTyontekija();
+        aku.rekisteroi();
+        aku2.rekisteroi();
         
         aku.tulosta(System.out);
         aku.vastaaAkuAnkka();
