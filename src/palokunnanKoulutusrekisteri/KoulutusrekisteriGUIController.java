@@ -4,8 +4,8 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
 import java.util.ResourceBundle;
-
 import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
@@ -42,9 +42,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ListChooser<Koulutus>     chooserKoulutukset;
     @FXML private ScrollPane                panelKoulutus;
     
-    private String kayttajatunnus   = "";
-    private String salasana         = "";
-    
     
     /**
      * @param url ei tietoa
@@ -57,12 +54,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     @FXML private void handleHakuehto() {
-         String hakukentta = cbKentat.getSelectedText();
-         String ehto = hakuehto.getText(); 
-         if ( ehto.isEmpty() )
-             naytaVirhe(null);
-         else
-             naytaVirhe("Ei osata vielä hakea " + hakukentta + ": " + ehto);
+         if ( tyontekijaKohdalla != null )
+             hae(tyontekijaKohdalla.getTyontekijaTunnus()); 
+
     }
 
     
@@ -101,8 +95,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
 
     /**
      * Käsitellään valittujen asioiden tulostaminen
+     * @throws SailoException jos menee perseelleen
      */
-    @FXML private void handleTulosta() {
+    @FXML private void handleTulosta() throws SailoException {
         TulostusController tulostusCtrl = TulostusController.tulosta(null); 
         tulostaValitut(tulostusCtrl.getTextArea()); 
     }
@@ -177,11 +172,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
 //==============================================================================================================================
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
-    
+    private String kayttajatunnus   = "";
+    //private String salasana         = "";
     private Koulutusrekisteri   koulutusrekisteri;
     private Tyontekija          tyontekijaKohdalla;
     private Koulutus            koulutusKohdalla;
     private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
+    //private static Tyontekija aputyontekija = new Tyontekija();
     
     
     /**
@@ -202,6 +199,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     }
     
     
+    @SuppressWarnings("unused")
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
             labelVirhe.setText("");
@@ -214,20 +212,28 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     private void setTitle(String title) {
-        ModalController.getStage(hakuehto).setTitle(title);
+        //ModalController.getStage(hakuehto).setTitle(title);
     }
     
     
     /**
      * Alustaa koulutusrekisterin lukemalla sen valitun nimisestä tiedostosta
      * @param nimi tiedosto josta työntekijän tiedot luetaan
+     * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected void lueTiedosto(String nimi) {
-        kayttajatunnus = nimi;
-        setTitle("Palomies - " + kayttajatunnus);
-        String virhe = "Ei osata lukea vielä";  // TODO: tähän oikea tiedoston lukeminen
-        // if (virhe != null) 
-           Dialogs.showMessageDialog(virhe);
+    protected String lueTiedosto(String nimi) {
+           kayttajatunnus = nimi;
+           setTitle("Palokunnankoulutusrekisteri - " + kayttajatunnus);
+           try {
+               koulutusrekisteri.lueTiedostosta(nimi);
+               hae(0);
+               return null;
+           } catch (SailoException e) {
+               hae(0);
+               String virhe = e.getMessage(); 
+               if ( virhe != null ) Dialogs.showMessageDialog(virhe);
+               return virhe;
+           }
     }
     
     
@@ -237,6 +243,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     public boolean avaa() {
         String uusinimi = AloitusIkkunaGUIController.kysyNimi(null, kayttajatunnus);
+        System.out.println(uusinimi + "Jee!");
         if (uusinimi == null) return false;
         lueTiedosto(uusinimi);
         return true;
@@ -245,9 +252,16 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     /**
      * Tietojen tallennus
+     * @return null jos onnistuu, muuten virhe tekstinä
      */
-    private void tallenna() {
-        Dialogs.showMessageDialog("Tallennetaan, sitten kun osataan!");
+    private String tallenna() {
+        try {
+            koulutusrekisteri.tallenna();
+            return null;
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
+            return ex.getMessage();
+        }
     }
     
     
@@ -267,13 +281,15 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private void naytaTyontekija() {
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
         
-        if (tyontekijaKohdalla == null) return;
+        if (tyontekijaKohdalla == null) {
+            areaTyontekija.clear();
+            return;
+        }
         
         areaTyontekija.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
             tulosta(os, tyontekijaKohdalla);
         }
-        naytaTyontekijanKoulutukset();
     }
     
     
@@ -283,7 +299,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private void naytaKoulutus() {
         koulutusKohdalla = chooserKoulutukset.getSelectedObject();
         
-        if (koulutusKohdalla == null) return;
+        if (koulutusKohdalla == null) {
+            areaTyontekija.clear();
+            return;
+        }
        
         areaTyontekija.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
@@ -298,7 +317,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private void naytaTyontekijanKoulutukset() {
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
         
-        if (tyontekijaKohdalla == null) return;
+        if (tyontekijaKohdalla == null) {
+            areaTyontekija.clear();
+            return;
+        }
         
         areaTyontekija.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
@@ -306,49 +328,31 @@ public class KoulutusrekisteriGUIController implements Initializable {
         }
     }
 
-
-    /**
-     * Hakee työntekijän tiedot listaan
-     * @param tnro työntekijätunnus, joka aktivoituu haun jälkeen
-     */
-    private void haeTyontekijat(int tnro) {
+    
+    private void hae(int tnro) {
+        int k = cbKentat.getSelectionModel().getSelectedIndex();
+        String ehto = hakuehto.getText();
+        if (k > 0 || ehto.length() > 0)
+            naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
+        else
+            naytaVirhe(null);
+        
         chooserTyontekijat.clear();
         
         int index = 0;
-        for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
-            Tyontekija tyontekija = koulutusrekisteri.annaTyontekija(i);
-            if (tyontekija.getTyontekijaTunnus() == tnro) index = i;
-            chooserTyontekijat.add(tyontekija.getNimi(), tyontekija);
+        Collection<Tyontekija> tyontekijat;
+        try {
+            tyontekijat = koulutusrekisteri.etsiTyontekija(ehto, k);
+            int i = 0;
+            for (Tyontekija tyontekija:tyontekijat) {
+                if (tyontekija.getTyontekijaTunnus() == tnro) index = i;
+                chooserTyontekijat.add(tyontekija);
+                i++;
+            }
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Työntekijän hakemisessa ongelmia! " + ex.getMessage());
         }
-        chooserTyontekijat.setSelectedIndex(index);     // tästä tulee muutosviesti, joka näyttää työntekijän
-    }
-    
-    
-    /**
-     * Hakee koulutuksen tiedot listaan
-     * @param knro koulutustunnus, joka aktivoituu haun jälkeen
-     */
-    private void haeKoulutukset(int knro) {
-        chooserKoulutukset.clear();
-        
-        int index = 0;
-        for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
-            Koulutus koulutus = koulutusrekisteri.annaKoulutus(i);
-            if (koulutus.getKoulutusTunnus() == knro) index = i;
-            chooserKoulutukset.add(koulutus.getKoulutus(), koulutus);
-        }
-        chooserKoulutukset.setSelectedIndex(index);
-    }
-    
-    
-    /**
-     * Hakee työntekijän koulutustiedot listaan
-     */
-    private void haeRelaatiot() {
-        for (Relaatio rel:koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla)) {
-            rel.tulosta(System.out);
-        }
-       
+        chooserTyontekijat.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää työntekijän
     }
     
     
@@ -356,16 +360,17 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Lisätään rekisteriin uusi työntekijä
      */
     public void uusiTyontekija() {
-        Tyontekija uusi = new Tyontekija();
-        uusi.rekisteroi();
-        uusi.vastaaAkuAnkka();        // TODO: korvaa dialogilla aikanaan
         try {
+            Tyontekija uusi = new Tyontekija();
+            uusi.rekisteroi();
+            uusi.vastaaAkuAnkka();        // TODO: korvaa dialogilla aikanaan
             koulutusrekisteri.lisaa(uusi);
+            hae(uusi.getTyontekijaTunnus());
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;
         }
-        haeTyontekijat(uusi.getTyontekijaTunnus());
+        
     }
     
     
@@ -373,16 +378,17 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Lisätään rekisteriin uusi koulutus
      */ 
     public void uusiKoulutus() { 
-        Koulutus koul = new Koulutus(); 
-        koul.rekisteroi(); 
-        koul.vastaaVesisukeltaja(); 
         try {
+            Koulutus koul = new Koulutus(); 
+            koul.rekisteroi(); 
+            koul.vastaaVesisukeltaja(); 
             koulutusrekisteri.lisaa(koul);
+            hae(koul.getKoulutusTunnus());
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;
         } 
-        haeKoulutukset(koul.getKoulutusTunnus());
+
     }
     
     
@@ -390,20 +396,19 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Lisätään koulutusrekisteriin työntekijän koulutustiedot
      */
     public void lisaaTyontekijalleKoulutus() {
-        //tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
-        //koulutusKohdalla = chooserKoulutukset.getSelectedObject();
         if ( tyontekijaKohdalla == null ) return; 
         if ( koulutusKohdalla == null ) return;
-        
-        Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
-        rel.rekisteroi();
-        rel.vastaaRelaatio();
         try {
+            Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
+            rel.rekisteroi();
+            rel.vastaaRelaatio();
             koulutusrekisteri.lisaa(rel);
+            hae(rel.getRelaatioTunnus());
+            //naytaTyontekijanKoulutukset();
         } catch (SailoException e) {
-            e.printStackTrace();
+            Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
         }
-        haeRelaatiot();
+
     }
     
     
@@ -429,8 +434,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
              tyontekija.tulosta(os);
              os.println("----------------------------------------------");
              
-             for (Relaatio rel:koulutusrekisteri.annaRelaatiot(tyontekija)) {
-                 rel.tulosta(os);
+             for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
+                 Tyontekija tyontekija2 = koulutusrekisteri.annaTyontekija(i);
+                 tulosta(os, tyontekija2);
              }
 
          }
@@ -458,47 +464,43 @@ public class KoulutusrekisteriGUIController implements Initializable {
           * Tulostaa työntekijän koulutustiedot
           * @param os tietovirta johon tulostetaan
           * @param relaatio tulostettavat koulutukset
+         * @throws SailoException jos menee pieleen
           */
-         private void tulosta(PrintStream os, final Relaatio relaatio) {
+         private void tulosta(PrintStream os, final Relaatio relaatio) throws SailoException {
              os.println("----------------------------------------------");
              relaatio.tulosta(os);
              os.println("----------------------------------------------");
              
-            // for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
-              //   List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
-                // System.out.println("Koulutus paikassa: " + i);
-                 //((Koulutus) relaatio2).tulosta(System.out);
-             
-                 List<Relaatio> relaatiot = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
-                 for (Relaatio rel:relaatiot)
-                     rel.tulosta(os);
+             //List<Relaatio> relaatiot = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
+             //for (Relaatio rel:relaatiot)
+               //  rel.tulosta(os);
+             for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
+                 Relaatio relaatio2 = koulutusrekisteri.annaRelaatiot(i);
+                 System.out.println("Relaatio paikassa; " + i);
+                 relaatio2.tulosta(System.out);
+             }
+
          }
         
         
          /**
           * Tulostaa listassa olevat työntekijät tekstialueeseen
           * @param text alue johon tulostetaan
+         * @throws SailoException jos menee perseelleen
           */
-         public void tulostaValitut(TextArea text) {
+         public void tulostaValitut(TextArea text) throws SailoException {
              try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
                  os.println("Tulostetaan kaikki työntekijät");
-                 for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
-                     Tyontekija tyontekija = koulutusrekisteri.annaTyontekija(i);
-                     tulosta(os, tyontekija);
-                     os.println("\n\n");
+                 //Collection<Relaatio> relaatiot = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
+                 Collection<Relaatio> relaatiot = koulutusrekisteri.etsiRelaatio("", -1);
+                 for (Relaatio relaatio:relaatiot) {
+                     try {
+                        tulosta(os, relaatio);
+                        os.println("\n\n");
+                    } catch (SailoException ex) {
+                        Dialogs.showMessageDialog("Työntekijän koulutusten tulostamisessa ongelmia! " + ex.getMessage());
+                    }
                  }
-                 
-                 for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
-                     Koulutus koulutus = koulutusrekisteri.annaKoulutus(i);
-                     tulosta(os, koulutus);
-                     os.println("\n\n");
-                     
-                 // Laitetaanko tänne se relaationkin tulostus?
-                // for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
-                  //   List<Relaatio> relaatio = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
-                    // tulosta(os, relaatio);
-                    // os.println("\n\n");
-                 }
-                 }
-             }
-         }
+              }
+          }
+}

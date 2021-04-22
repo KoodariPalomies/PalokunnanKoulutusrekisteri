@@ -1,5 +1,10 @@
 package koulutusRekisteri;
 
+//===================================================================================================================================
+import java.io.File;
+import java.util.Collection;
+//===================================================================================================================================
+
 import java.util.List;
 
 /**
@@ -19,19 +24,19 @@ import java.util.List;
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 3.3.2021
+ * @version 21.4.2021
  *
  */
 public class Koulutusrekisteri {
     
-    private final Tyontekijat tyontekijat = new Tyontekijat();
-    private final Koulutukset koulutukset = new Koulutukset();
-    private final Relaatiot   relaatiot   = new Relaatiot();
+    private Tyontekijat tyontekijat = new Tyontekijat();
+    private Koulutukset koulutukset = new Koulutukset();
+    private Relaatiot relaatiot = new Relaatiot();
     
     
     /**
-     * Palauttaa koulutusrekisterin työntekijämäärän
-     * @return työntekijöiden lkm
+     * Palauttaa koulutusrekisterin työntekijöiden määrän
+     * @return tyontekijoiden lkm
      */
     public int getTyontekijoita() {
         return this.tyontekijat.getLkm();
@@ -70,26 +75,7 @@ public class Koulutusrekisteri {
      * Lisää uuden työntekijän
      * @param tyontekija lisättävä työntekijä
      * @throws SailoException jos lisääminen ei onnistu
-     * @example
-       * <pre name="test">
-       * #THROWS SailoException
-       * Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
-       * Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
-       * aku1.rekisteroi(); aku2.rekisteroi();
-       * koulutusrekisteri.getTyontekijoita() === 0;
-       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getTyontekijoita() === 1;
-       * koulutusrekisteri.lisaa(aku2); koulutusrekisteri.getTyontekijoita() === 2;
-       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getTyontekijoita() === 3;
-       * koulutusrekisteri.getTyontekijoita() === 3;
-       * koulutusrekisteri.annaTyontekija(0) === aku1;
-       * koulutusrekisteri.annaTyontekija(1) === aku2;
-       * koulutusrekisteri.annaTyontekija(2) === aku1;
-       * koulutusrekisteri.annaTyontekija(3) === aku1; #THROWS IndexOutOfBoundsException
-       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getTyontekijoita() === 4;
-       * koulutusrekisteri.lisaa(aku1); koulutusrekisteri.getTyontekijoita() === 5;
-       * koulutusrekisteri.lisaa(aku1);            #THROWS SailoException
-       * </pre>
-       */
+     */
     public void lisaa(Tyontekija tyontekija) throws SailoException {
         tyontekijat.lisaa(tyontekija);
     }
@@ -117,17 +103,54 @@ public class Koulutusrekisteri {
     }
     
     
+    /** 
+     * Palauttaa "taulukossa" hakuehtoon vastaavien tyontekijöiden viitteet 
+     * @param hakuehto hakuehto  
+     * @param t etsittävän kentän indeksi  
+     * @return tietorakenteen löytyneistä työntekijöistä 
+     * @throws SailoException Jos jotakin menee väärin
+     */ 
+    public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) throws SailoException { 
+        return tyontekijat.etsiTyontekija(hakuehto, t); 
+    }
+
+    
+    
+    /**
+     * @param hakuehto hakuehto
+     * @param k etsittävän kentän indeksi
+     * @return tietorakenteen löytyneistä koulutuksista
+     * @throws SailoException jos jotain menee väärin
+     */
+    public Collection<Koulutus> etsiKoulutus(String hakuehto, int k) throws SailoException {
+        return koulutukset.etsiKoulutus(hakuehto, k);
+    }
+    
+
+//===========================================================================================================================
+    /**
+     * Palauttaa taulukosta hakuehtoon vastaavien työntekijöiden tiedot
+     * @param hakuehto hakuehto
+     * @param r etsittävän kentn indeksi
+     * @return tietorakenteen löytyneistä relaatioista
+     * @throws SailoException jos jotain menee pieleen
+     */
+    public Collection<Relaatio> etsiRelaatio(String hakuehto, int r) throws SailoException {
+        return relaatiot.etsi(hakuehto, r);
+    }
+//===========================================================================================================================
+
     /**
      * Antaa koulutusrekisterin i:n työntekijän
-     * @param i monesko työntekijä (alkaa 0:sta)
-     * @return työntekijä paikasta i
+     * @param i työntekijä jota haetaan
+     * @return työntekijä työntekijän tunnuksella
      * @throws IndexOutOfBoundsException jos i väärin
      */
     public Tyontekija annaTyontekija(int i) throws IndexOutOfBoundsException {
         return tyontekijat.annaTyontekija(i);
     }
-    
 
+    
      /**
       * Antaa koulutusrekisterin i:n koulutuksen
       * @param i työntekijä jolle koulutuksia haetaan
@@ -140,14 +163,31 @@ public class Koulutusrekisteri {
          
         
     /**
-     * @param tyontekija minkä työntekijän relaatio
+     * @param i minkä työntekijän relaatio
      * @return relaatio työntekijän tunnuksella
      * @throws IndexOutOfBoundsException jos i väärin
      */
-    public List<Relaatio> annaRelaatiot(Tyontekija tyontekija) throws IndexOutOfBoundsException {
-         return relaatiot.annaRelaatiot(tyontekija.getTyontekijaTunnus());
-     }
+    //public List<Relaatio> annaRelaatiot(Tyontekija tyontekija) throws IndexOutOfBoundsException {
+      //   return relaatiot.annaRelaatiot(tyontekija.getTyontekijaTunnus());
+    public Relaatio annaRelaatiot(int i) throws IndexOutOfBoundsException {
+        return relaatiot.annaRelaatio(i);
+    }
          
+    
+    /**
+     * Asettaa tiedostojen perusnimet
+     * @param nimi uusi nimi
+     */
+    public void setTiedosto(String nimi) {
+        File dir = new File(nimi);
+        dir.mkdirs();
+        String hakemistonNimi = "";
+        if ( !nimi.isEmpty() ) hakemistonNimi = nimi +"/";
+        tyontekijat.setTiedostonPerusNimi(hakemistonNimi + "tyontekijat");
+        koulutukset.setTiedostonPerusNimi(hakemistonNimi + "koulutukset");
+        relaatiot.setTiedostonPerusNimi(hakemistonNimi + "relaatiot");
+    }
+
          
       /**
        * Lukee koulutusrekisterin tiedot tiedostosta
@@ -155,9 +195,15 @@ public class Koulutusrekisteri {
        * @throws SailoException jos lukeminen epäonnistuu
        */
       public void lueTiedostosta(String nimi) throws SailoException {
-          tyontekijat.lueTiedostosta(nimi);
-          koulutukset.lueTiedostosta(nimi);
-          relaatiot.lueTiedostosta(nimi);
+          tyontekijat = new Tyontekijat();
+          koulutukset = new Koulutukset();
+          relaatiot = new Relaatiot();
+
+          setTiedosto(nimi);
+          tyontekijat.lueTiedostosta();
+          koulutukset.lueTiedostosta();
+          relaatiot.lueTiedostosta();
+
       }
   
   
@@ -165,11 +211,27 @@ public class Koulutusrekisteri {
         * Tallettaa koulutusrekisterin tiedot tiedostoon
         * @throws SailoException jos tallettamisessa ongelmia
         */
-       public void talleta() throws SailoException {
-           tyontekijat.talleta();
-           koulutukset.talleta();
-           relaatiot.talleta();
-           // TODO: yritä tallettaa toinen vaikka toinen epäonnistuisi
+       public void tallenna() throws SailoException {
+           String virhe = "";
+           try {
+               tyontekijat.tallenna();
+           } catch ( SailoException ex ) {
+               virhe = ex.getMessage();
+           }
+
+           try {
+               koulutukset.tallenna();
+           } catch ( SailoException ex ) {
+               virhe += ex.getMessage();
+           }
+           
+           try {
+               relaatiot.talleta();
+           } catch ( SailoException ex ) {
+               virhe = ex.getMessage();
+           }
+           
+           if ( !"".equals(virhe) ) throw new SailoException(virhe);
        }
     
        
@@ -180,39 +242,61 @@ public class Koulutusrekisteri {
         Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
         
         try {
-             // kerho.lueTiedostosta("kelmit");
- 
+            
              Tyontekija aku1 = new Tyontekija(); aku1.vastaaAkuAnkka(); aku1.rekisteroi(); koulutusrekisteri.lisaa(aku1);
              Tyontekija aku2 = new Tyontekija(); aku2.vastaaAkuAnkka(); aku2.rekisteroi(); koulutusrekisteri.lisaa(aku2);
              
              Koulutus vesi1 = new Koulutus(); vesi1.vastaaVesisukeltaja(); vesi1.rekisteroi(); koulutusrekisteri.lisaa(vesi1);
              Koulutus vesi2 = new Koulutus(); vesi2.vastaaVesisukeltaja(); vesi2.rekisteroi(); koulutusrekisteri.lisaa(vesi2);
-
-             Relaatio rel1 = new Relaatio(); rel1.vastaaRelaatio(); koulutusrekisteri.lisaa(rel1);
-             Relaatio rel2 = new Relaatio(); rel2.vastaaRelaatio(); koulutusrekisteri.lisaa(rel2);
+             
+             int id1 = aku1.getTyontekijaTunnus();
+             int id2 = aku2.getTyontekijaTunnus();
+             int id3 = vesi1.getKoulutusTunnus();
+             int id4 = vesi2.getKoulutusTunnus();
+             Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); koulutusrekisteri.lisaa(rel1);
+             Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); koulutusrekisteri.lisaa(rel2);
  
-             // lisää relaatio-oliot (työntekijäid + koulutusid) --> muut tulee täytettynä
-             System.out.println("============= Koulutusrekisterin testi =================");
-
-             for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
-                 Tyontekija tyontekija = koulutusrekisteri.annaTyontekija(i);
+             System.out.println("============= Koulutusrekisterin testi =================");         
+             
+//=======================================================================================================================================================                
+//             for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
+  //               Tyontekija tyontekija = koulutusrekisteri.annaTyontekija(i);
+    //             System.out.println("Työntekijä paikassa: " + i);
+      //           tyontekija.tulosta(System.out);
+             
+             
+        //     for (int n = 0; n < koulutusrekisteri.getKoulutuksia(); n++) {
+          //       Koulutus koulutus = koulutusrekisteri.annaKoulutus(n);
+            //     System.out.println("Koulutus paikassa: " + n);
+              //   koulutus.tulosta(System.out);
+             
+             
+//             List<Relaatio> loytyneet = koulutusrekisteri.annaRelaatiot(aku2);
+  //           for (Relaatio rel : loytyneet)
+    //             rel.tulosta(System.out);
+//=======================================================================================================================================================      
+             
+             Collection<Tyontekija> tyontekijat = koulutusrekisteri.etsiTyontekija("", -1);
+             int i = 0;
+             for (Tyontekija tyontekija: tyontekijat) {
                  System.out.println("Työntekijä paikassa: " + i);
                  tyontekija.tulosta(System.out);
+                 //List<Relaatio> lyotyneet = koulutusrekisteri.annaRelaatiot(tyontekija);
+                 //Relaatio lyotyneet = koulutusrekisteri.annaRelaatio();
+                 //for (Relaatio relaatio : lyotyneet)
+                   //  relaatio.tulosta(System.out);
+                 //i++;
+                 for (int n = 0; n < koulutusrekisteri.getKoulutuksia(); n++) {
+                     Koulutus loytyneet = koulutusrekisteri.annaKoulutus(n);
+                     loytyneet.tulosta(System.out);
+                 }
+                 i++;
+//=======================================================================================================================================================
              }
-             
-             for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
-                 Koulutus koulutus = koulutusrekisteri.annaKoulutus(i);
-                 System.out.println("Koulutus paikassa: " + i);
-                 koulutus.tulosta(System.out);
-             }
-             
-             List<Relaatio> loytyneet = koulutusrekisteri.annaRelaatiot(aku2);
-             for (Relaatio rel : loytyneet)
-                 rel.tulosta(System.out);
- 
+             //}
          } catch (SailoException ex) {
              System.out.println(ex.getMessage());
          }
+        }
     }
-    
-}
+

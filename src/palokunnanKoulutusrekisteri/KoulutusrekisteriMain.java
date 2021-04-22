@@ -13,14 +13,13 @@ import javafx.fxml.FXMLLoader;
 /**
  * Pääohjelma Palokunnan koulutusrekisteri -ohjelman käynnistämiseksi
  * @author mitulint
- * @version 18.2.2021
+ * @version 21.4.2021
  */
 public class KoulutusrekisteriMain extends Application {
-	@Override
+	
+    @Override
 	public void start(Stage primaryStage) {
 		try {
-			//BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("KoulutusrekisteriGUIView.fxml"));
-			//Scene scene = new Scene(root);
 			final FXMLLoader ldr = new FXMLLoader(getClass().getResource("KoulutusrekisteriGUIView.fxml"));
 			final Pane root = (Pane)ldr.load();
 			final KoulutusrekisteriGUIController koulutusrekisteriCtrl = (KoulutusrekisteriGUIController)ldr.getController();
@@ -29,7 +28,6 @@ public class KoulutusrekisteriMain extends Application {
 			scene.getStylesheets().add(getClass().getResource("Koulutusrekisteri.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Palokunnan koulutusrekisteri");
-			//primaryStage.show();
 			
             primaryStage.setOnCloseRequest((event) -> {
                 if ( !koulutusrekisteriCtrl.voikoSulkea() ) event.consume();
@@ -39,7 +37,9 @@ public class KoulutusrekisteriMain extends Application {
 			koulutusrekisteriCtrl.setKoulutusrekisteri(koulutusrekisteri);
 			
             primaryStage.show();
+            koulutusrekisteriCtrl.avaa();
             if ( !koulutusrekisteriCtrl.avaa() ) Platform.exit();
+            
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

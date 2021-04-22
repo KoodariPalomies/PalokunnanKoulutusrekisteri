@@ -8,6 +8,18 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.*;
+import java.util.NoSuchElementException;
+
+//======================================================================
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+//======================================================================
+
 
 /**
  * |------------------------------------------------------------------------|
@@ -20,17 +32,16 @@ import java.util.*;
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 22.3.2021
+ * @version 22.4.2021
  *
  */
 public class Relaatiot implements Iterable<Relaatio> {
-    
-    private String tiedostonNimi = "";
-    
-    /**
-     * Taulukko työntekijän koulutuksista
-     */
-    private final Collection<Relaatio> alkiot = new ArrayList<Relaatio>();
+    private static final int MAX_TYONTEKIJOITA = 10;
+    private boolean muutettu = false;           //======================================================================
+    private int lkm = 0;
+    private String kokoNimi = "";
+    private String tiedostonPerusNimi = "relaatiot";     //======================================================================
+    private Relaatio alkiot[] = new Relaatio[MAX_TYONTEKIJOITA];
     
     
     /**
@@ -39,14 +50,135 @@ public class Relaatiot implements Iterable<Relaatio> {
     public Relaatiot() {
         // EI vielä
     }
-
     
     /**
      * Lisää uuden relaation tietorakenteeseen. Ottaa relaation omistukseensa.
      * @param rel lisättävä relaatio. Huom tietorakenne muuttuu omistajaksi
+     * @throws SailoException jos tietorakenne on jo täynnä
      */
-    public void lisaa(Relaatio rel) {
-        alkiot.add(rel);
+    public void lisaa(Relaatio rel) throws SailoException {
+        if ( lkm >= alkiot.length ) throw new SailoException("Liikaa alkioita");
+        alkiot[lkm] = rel;
+        lkm++;
+        muutettu = true;
+    }
+    
+    
+    /**
+     * Palauttaa viitteen i:teen työntekijään
+     * @param i monennenko työntekijän viite halutaan
+     * @return viite työntekijään, jonka indeksi on i
+     * @throws IndexOutOfBoundsException jos ei ole sallitulla alueella
+     */
+    public Relaatio annaRelaatio(int i) throws IndexOutOfBoundsException {
+        if ( i < 0 || lkm <=i ) throw new IndexOutOfBoundsException("Laiton indeksi: " + 1);
+        return alkiot[i];
+    }
+    
+    
+    /**
+     * Lukee relaatiot tiedostosta.
+     * @param tied tiedoston nimen alkuosa
+     * @throws SailoException jos lukeminen epäonnistuu
+     * 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException 
+     * #import java.io.File;
+     *  Relaatiot relaatiot = new Relaatiot();
+     *  Relaatio pitsi21 = new Relaatio(); pitsi21.vastaaPitsinNyplays(2);
+     *  Relaatio pitsi11 = new Relaatio(); pitsi11.vastaaPitsinNyplays(1);
+     *  String tiedNimi = "testikelmit";
+     *  File ftied = new File(tiedNimi+".dat");
+     *  ftied.delete();
+     *  relaatiot.lueTiedostosta(tiedNimi); #THROWS SailoException
+     *  relaatiot.lisaa(pitsi21);
+     *  relaatiot.lisaa(pitsi11);
+     *  relaatiot.tallenna();
+     *  relaatiot = new Harrastukset();
+     *  relaatiot.lueTiedostosta(tiedNimi);
+     *  Iterator<Relaatio> i = relaatiot.iterator();
+     *  i.next().toString() === pitsi21.toString();
+     *  i.next().toString() === pitsi11.toString();
+     *  i.hasNext() === false;
+     *  relaatiot.lisaa(pitsi21);
+     *  relaatiot.tallenna();
+     *  ftied.delete() === true;
+     *  File fbak = new File(tiedNimi+".bak");
+     *  fbak.delete() === true;
+     * </pre>
+     */
+    public void lueTiedostosta(String tied) throws SailoException {
+        setTiedostonPerusNimi(tied);
+        try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
+            //tiedostonPerusNimi = fi.readLine();
+            kokoNimi = fi.readLine();
+            //if ( tiedostonPerusNimi == null ) throw new SailoException("Koulutusrekisterin nimi puuttuu");
+            if ( kokoNimi == null) throw new SailoException("Koulutusrekisterin nimi puuttuu");
+            String rivi = fi.readLine();
+            if ( rivi == null ) throw new SailoException("Maksimikoko puuttuu");
+                        
+            while ( (rivi = fi.readLine()) != null ) {
+                rivi = rivi.trim();
+                if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+                Relaatio rel = new Relaatio();
+                rel.parse(rivi);
+                lisaa(rel);
+            }
+            muutettu = false;
+
+        } catch ( FileNotFoundException e ) {
+            throw new SailoException("Tiedosto " + getTiedostonNimi() + " ei aukea");
+        } catch ( IOException e ) {
+            throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+        }
+    }
+    
+    
+    /**
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws SailoException jos tulee poikkeus
+     */
+    public void lueTiedostosta() throws SailoException {
+        lueTiedostosta(getTiedostonPerusNimi());
+    }
+    
+    
+    /**
+     * Tallentaa relaatiot tiedostoon.  Kesken.
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void talleta() throws SailoException {
+        if ( !muutettu ) return;
+
+        File fbak = new File(getBakNimi());
+        File ftied = new File(getTiedostonNimi());
+        fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
+        ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
+
+        try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
+            fo.println(getKokoNimi());
+            fo.println(alkiot.length);
+            for (Relaatio relaatio : this) {
+                fo.println(relaatio.toString());
+            }
+        } catch ( FileNotFoundException ex ) {
+            throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
+        } catch ( IOException ex ) {
+            throw new SailoException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
+        }
+
+        muutettu = false;
+    }
+//=================================================================================================================    
+    
+    
+    /**
+     * Palauttaa Koulutusrekisterin koko nimen
+     * @return Koulutusrekisterin koko nimi merkkijonona
+     */
+    public String getKokoNimi() {
+        return kokoNimi;
     }
     
     
@@ -55,9 +187,91 @@ public class Relaatiot implements Iterable<Relaatio> {
      * @return relaatioiden lukumäärä
      */
     public int getLkm() {
-        return alkiot.size();
+        return lkm;
+    }
+       
+    
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonPerusNimi() {
+        return tiedostonPerusNimi;
     }
     
+    
+  /**
+   * Asettaa tiedoston perusnimen ilman tarkenninta
+   * @param tied tallennustiedoston perusnimi
+   */
+  public void setTiedostonPerusNimi(String tied) {
+      tiedostonPerusNimi = tied;
+  }
+
+
+  /**
+   * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+   * @return tallennustiedoston nimi
+   */
+  public String getTiedostonNimi() {
+      return getTiedostonPerusNimi() + ".dat";
+  }
+
+
+  /**
+   * Palauttaa varakopiotiedoston nimen
+   * @return varakopiotiedoston nimi
+   */
+  public String getBakNimi() {
+      return tiedostonPerusNimi + ".bak";
+  }
+
+
+//===========================================================================================================================================================================================
+    
+    
+    /**
+     * @author Käyttäjä
+     * @version 22.4.2021
+     *
+     */
+    public class RelaatiotIterator implements Iterator<Relaatio> {
+        private int kohdalla = 0;
+    
+    /**
+     * Onko olemassa vielä seuraavaa työntekijää
+     * @see java.util.Iterator#hasNext()
+     * @return true jos on vielä työntekijöitä
+     */
+    @Override
+    public boolean hasNext() {
+        return kohdalla < getLkm();
+    }
+    
+    
+    /**
+     * Annetaan seuraava työntekijä
+     * @return seuraava työntekijä
+     * @throws NoSuchElementException jos seuraava alkiota ei enää ole
+     * @see java.util.Iterator#next()
+     */
+    @Override
+    public Relaatio next() throws NoSuchElementException {
+        if ( !hasNext() ) throw new NoSuchElementException("Ei oo");
+        return annaRelaatio(kohdalla++);
+    }
+    
+    
+    /**
+     * Tuhoamista ei ole toteutettu
+     * @throws UnsupportedOperationException aina
+     * @see java.util.Iterator#remove()
+     */
+    @Override
+    public void remove() throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("Me ei poisteta");
+    }
+    }
     
     /**
      * Iteraattori kaikkien relaatioiden läpikäymiseen
@@ -91,60 +305,22 @@ public class Relaatiot implements Iterable<Relaatio> {
      */
     @Override
     public Iterator<Relaatio> iterator() {
-        return alkiot.iterator();
+        return new RelaatiotIterator();
     }
     
     
     /**
-     * Haetaan kaikki työntekijän koulutukset
-     * @param tyontekijaTunnus työntekijän tunnusnumero, jolle koulutukset haetaan
-     * @return tietorakenne jossa viitteet löydettyihin koulutuksiin
-     * @example
-     * <pre name="test">
-     * #import java.util.*;
-     * 
-     * Relaatiot relaatiot = new Relaatiot();
-     * Relaatio rel1 = new Relaatio(1); relaatiot.lisaa(rel1);
-     * Relaatio rel2 = new Relaatio(2); relaatiot.lisaa(rel2);
-     * Relaatio rel3 = new Relaatio(3); relaatiot.lisaa(rel3);
-     * 
-     * List<Relaatio> loytyneet;
-     * loytyneet = relaatiot.annaRelaatiot(3);
-     * loytyneet.size() === 0;
-     * loytyneet = relaatiot.annaRelaatiot(1);
-     * loytyneet.size() === 2;
-     * loytyneet.get(0) == rel1 === true;
-     * loytyneet.get(1) == rel2 === true;
-     * loytyneet = relaatiot.annaRelaatiot(3);
-     * loytyneet.size() === 1;
-     * loytyneet.get(0) == rel3 === true;
-     * </pre>
+     * Palauttaa taulukosta hakuehtoon vastaavien  työntekijöiden viitteet
+     * @param hakuehto hakuehto
+     * @param k etsittävän kentän indeksi
+     * @return tietorakenteen löytyneistä työntekijöistä
      */
-    public List<Relaatio> annaRelaatiot(int tyontekijaTunnus) {
-        List<Relaatio> loydetyt = new ArrayList<Relaatio>();
-        for (Relaatio rel : alkiot)
-            if (rel.getTyontekijaTunnus() == tyontekijaTunnus) loydetyt.add(rel);
-        return loydetyt;
-    }
-    
-    
-      /**
-       * Lukee työntekijät tiedostosta.  Kesken.
-       * @param hakemisto tiedoston hakemisto
-       * @throws SailoException jos lukeminen epäonnistuu
-       */
-      public void lueTiedostosta(String hakemisto) throws SailoException {
-          tiedostonNimi = hakemisto + "/relaatiot.dat";
-          throw new SailoException("Ei osata vielä lukea tiedostoa " + tiedostonNimi);
-      }
-    
-    
-    /**
-     * Tallentaa työntekijät tiedostoon.  Kesken.
-     * @throws SailoException jos talletus epäonnistuu
-     */
-    public void talleta() throws SailoException {
-        throw new SailoException("Ei osata vielä tallettaa tiedostoa " + tiedostonNimi);
+    public Collection<Relaatio> etsi(String hakuehto, int k) {
+        Collection<Relaatio> loytyneet = new ArrayList<Relaatio>();
+        for (Relaatio relaatio : this) {
+            loytyneet.add(relaatio);
+        }
+        return loytyneet;
     }
     
     
@@ -155,26 +331,32 @@ public class Relaatiot implements Iterable<Relaatio> {
         Relaatiot relaatiot     = new Relaatiot();
         
         Relaatio rel1           = new Relaatio();
+        rel1.rekisteroi();
         rel1.vastaaRelaatio();
         
         Relaatio rel2           = new Relaatio();
+        rel2.rekisteroi();
         rel2.vastaaRelaatio();
         
         Relaatio rel3           = new Relaatio();
+        rel3.rekisteroi();
         rel3.vastaaRelaatio();
         
-        relaatiot.lisaa(rel1);
-        relaatiot.lisaa(rel2);
-        relaatiot.lisaa(rel3);
-        
-        System.out.println("============= Relaatiot testi =================");
-        
-        List<Relaatio> relaatiot2 = relaatiot.annaRelaatiot(2);
-        
-        for (Relaatio rel : relaatiot2) {
-            System.out.println(rel.getTyontekijaTunnus() + " ");
-            rel.tulosta(System.out);
+        try {
+            relaatiot.lisaa(rel1);
+            relaatiot.lisaa(rel2);
+            relaatiot.lisaa(rel3);
+            
+            System.out.println("============= Relaatiot testi =================");
+            
+            for (int i = 0; i < relaatiot.getLkm(); i++) {
+                Relaatio relaatio = relaatiot.annaRelaatio(i);
+                System.out.println("Työntekijäntunnus: " + i);
+                relaatio.tulosta(System.out);
+            }
+        } catch ( SailoException ex) {
+            System.out.println(ex.getMessage());
+        }
         }
         
     }
-}

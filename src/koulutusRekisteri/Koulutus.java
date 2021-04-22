@@ -4,6 +4,7 @@
 package koulutusRekisteri;
 
 import java.io.OutputStream;
+import fi.jyu.mit.ohj2.Mjonot;
 //import static kanta.HetuTarkistus.rand;         // jotta voi tulostaa lukuja randomilla
 import java.io.PrintStream;
 
@@ -108,6 +109,74 @@ public class Koulutus {
         return koulutusTunnus;
     }
     
+    
+    /**
+     * Testiohjelma Harrastukselle.
+     * @param args ei käytössä
+     * Asettaa tunnusnumeron ja samalla varmistaa että
+     * seuraava numero on aina suurempi kuin tähän mennessä suurin.
+     * @param nr asetettava tunnusnumero
+     */
+    private void setKoulutusTunnus(int nr) {
+        koulutusTunnus = nr;
+        if ( koulutusTunnus >= seuraavaKoulutustunnus ) seuraavaKoulutustunnus = koulutusTunnus + 1;
+    }
+
+
+    /**
+     * Palauttaa harrastuksen tiedot merkkijonona jonka voi tallentaa tiedostoon.
+     * @return harrastus tolppaeroteltuna merkkijonona 
+     * @example
+     * <pre name="test">
+     *   Harrastus harrastus = new Harrastus();
+     *   harrastus.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+     *   harrastus.toString()    === "2|10|Kalastus|1949|22";
+     * </pre>
+     */
+    @Override
+    public String toString() {
+        return "" + getKoulutusTunnus() + "|" + getKoulutus();
+    }
+
+
+    /**
+     * Selvitää harrastuksen tiedot | erotellusta merkkijonosta.
+     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusnro.
+     * @param rivi josta harrastuksen tiedot otetaan
+     * @example
+     * <pre name="test">
+     *   Harrastus harrastus = new Harrastus();
+     *   harrastus.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+     *   harrastus.getJasenNro() === 10;
+     *   harrastus.toString()    === "2|10|Kalastus|1949|22";
+     *   
+     *   harrastus.rekisteroi();
+     *   int n = harrastus.getTunnusNro();
+     *   harrastus.parse(""+(n+20));
+     *   harrastus.rekisteroi();
+     *   harrastus.getTunnusNro() === n+20+1;
+     *   harrastus.toString()     === "" + (n+20+1) + "|10|Kalastus|1949|22";
+     * </pre>
+     */
+    public void parse(String rivi) {
+        StringBuffer sb = new StringBuffer(rivi);
+        setKoulutusTunnus(Mjonot.erota(sb, '|', getKoulutusTunnus()));
+        koulutus = Mjonot.erota(sb, '|', getKoulutus());
+    }
+
+
+    @Override
+    public boolean equals(Object koulutus) {
+        if ( koulutus == null ) return false;
+        return this.toString().equals(koulutus.toString());
+    }
+    
+
+    @Override
+    public int hashCode() {
+        return koulutusTunnus;
+    }
+
     
     /**
      * @param args ei käytössä

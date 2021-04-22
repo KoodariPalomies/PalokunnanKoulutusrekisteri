@@ -5,7 +5,9 @@ package koulutusRekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.time.LocalDate; // import the LocalDate class
+import java.time.LocalDate;     // import the LocalDate class
+
+import fi.jyu.mit.ohj2.Mjonot;  //==============================================
 
 /**
  * |------------------------------------------------------------------------|
@@ -41,8 +43,8 @@ public class Relaatio {
     private int         relaatioTunnus;
     private int         tyontekijaTunnus;
     private int         koulutusTunnus;
-    private LocalDate   suoritettu;
-    private LocalDate   umpeutuu;
+    private String      suoritettu;
+    private String      umpeutuu;
     
     private static int  seuraavaRelaatioTunnus = 1;   // Tällä saadaan uutta relaatiota luotaessa seuraava tunnus!
 
@@ -71,8 +73,8 @@ public class Relaatio {
      * TODO: poista kun kaikki toimii
      */
     public void vastaaRelaatio() {
-        suoritettu          = LocalDate.now();
-        umpeutuu            = LocalDate.now();
+        suoritettu          = "2021";
+        umpeutuu            = "2031";
     }
      
     
@@ -128,7 +130,7 @@ public class Relaatio {
     /**
      * @return koulutuksen suorituspäivämäärä
      */
-    public LocalDate getSuoritettu() {
+    public String getSuoritettu() {
         return suoritettu;
     }
     
@@ -136,8 +138,8 @@ public class Relaatio {
     /**
      * @return koulutuksen suorituspäivämäärä
      */
-    public LocalDate getUmpeutuu() {
-        return suoritettu.plusYears(10);
+    public String getUmpeutuu() {
+        return umpeutuu;
     }
     
     
@@ -164,13 +166,89 @@ public class Relaatio {
     
     
     /**
+    * Asettaa relaatiotunnuksen ja samalla varmistaa että
+    * seuraava numero on aina suurempi kuin tähän mennessä suurin.
+    * @param nr asetettava relaatiotunnus
+    */
+   private void setTunnusNro(int nr) {
+       relaatioTunnus = nr;
+       if ( relaatioTunnus >= seuraavaRelaatioTunnus ) seuraavaRelaatioTunnus = relaatioTunnus + 1;
+   }
+
+
+   /**
+    * Palauttaa relaation tiedot merkkijonona jonka voi tallentaa tiedostoon.
+    * @return relaatio tolppaeroteltuna merkkijonona 
+    * @example
+    * <pre name="test">
+    *   Relaatio relaatio = new Relaatio();
+    *   relaatio.parse("   1   |  1  |   1  | 1.1.2021 | 1.1.2031 ");
+    *   relaatio.toString()    === "1|1|1|1.1.2021|1.1.2031";
+    * </pre>
+    */
+   @Override
+   public String toString() {
+       return "" + getRelaatioTunnus() + "|" + getTyontekijaTunnus() + "|" + getKoulutusTunnus() + "|" + getSuoritettu() + "|" + getUmpeutuu();
+   }
+
+
+   /**
+    * Selvitää harrastuksen tiedot | erotellusta merkkijonosta.
+    * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusnro.
+    * @param rivi josta harrastuksen tiedot otetaan
+    * @example
+    * <pre name="test">
+    *   Harrastus harrastus = new Harrastus();
+    *   harrastus.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
+    *   harrastus.getJasenNro() === 10;
+    *   harrastus.toString()    === "2|10|Kalastus|1949|22";
+    *   
+    *   harrastus.rekisteroi();
+    *   int n = harrastus.getTunnusNro();
+    *   harrastus.parse(""+(n+20));
+    *   harrastus.rekisteroi();
+    *   harrastus.getTunnusNro() === n+20+1;
+    *   harrastus.toString()     === "" + (n+20+1) + "|10|Kalastus|1949|22";
+    * </pre>
+    */
+   public void parse(String rivi) {
+       StringBuffer sb = new StringBuffer(rivi);
+       setTunnusNro(Mjonot.erota(sb, '|', getRelaatioTunnus()));
+       tyontekijaTunnus     = Mjonot.erota(sb, '|', tyontekijaTunnus);
+       koulutusTunnus       = Mjonot.erota(sb, '|', koulutusTunnus);
+       suoritettu           = Mjonot.erota(sb, '|', suoritettu);
+       umpeutuu             = Mjonot.erota(sb, '|', umpeutuu);
+   }
+
+
+   @Override
+   public boolean equals(Object relaatio) {
+       if ( relaatio == null ) return false;
+       return this.toString().equals(relaatio.toString());
+   }
+   
+
+   @Override
+   public int hashCode() {
+       return tyontekijaTunnus;
+   }
+    
+    
+    /**
      * @param args ei käytössä
      */
     public static void main(String[] args) {
         Relaatio rel = new Relaatio();
+        Relaatio rel2 = new Relaatio();
+        
         rel.rekisteroi();
+        rel2.rekisteroi();
+        
         rel.vastaaRelaatio();
+        rel.vastaaRelaatio();
+        
         rel.tulosta(System.out);
+        rel2.tulosta(System.out);
     }
 
 }
