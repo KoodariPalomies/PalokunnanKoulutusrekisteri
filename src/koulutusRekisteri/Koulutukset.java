@@ -236,13 +236,13 @@ public class Koulutukset implements Iterable<Koulutus> {
             koulutukset.lisaa(pitsi1);
             koulutukset.lisaa(pitsi2);
             
-          //  System.out.println("========== Työntekijät testi ==========");
+            System.out.println("========== Työntekijät testi ==========");
             
-          //  for (int i = 0; i < koulutukset.getLkm(); i++) {
-            //    List<Koulutus> koulutus = koulutukset.annaKoulutukset(i);
-              //  System.out.println("Koulutustunnus: " + i);
-                //((Koulutus) koulutus).tulosta(System.out);
-            //}
+            for (int i = 0; i < koulutukset.getLkm(); i++) {
+                List<Koulutus> koulutus = koulutukset.annaKoulutukset(i);
+                System.out.println("Koulutustunnus: " + i);
+                ((Koulutus) koulutus).tulosta(System.out);
+            }
     
         } catch (SailoException e) {
             System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.

@@ -178,7 +178,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Tyontekija          tyontekijaKohdalla;
     private Koulutus            koulutusKohdalla;
     private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
-    //private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
+    private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
     
     
     /**
@@ -191,9 +191,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
         areaTyontekija.setFont(new Font("Courier New", 12));
         panelTyontekija.setFitToHeight(true);
         
-        //panelKoulutus.setContent(areaKoulutus);
-        //areaKoulutus.setFont(new Font("Courier New", 12));
-        //panelKoulutus.setFitToHeight(true);
+        panelKoulutus.setContent(areaKoulutus);
+        areaKoulutus.setFont(new Font("Courier New", 12));
+        panelKoulutus.setFitToHeight(true);
         
         chooserTyontekijat.clear();
         chooserTyontekijat.addSelectionListener(e -> naytaTyontekija());
@@ -305,12 +305,12 @@ public class KoulutusrekisteriGUIController implements Initializable {
         koulutusKohdalla = chooserKoulutukset.getSelectedObject();
         
         if (koulutusKohdalla == null) {
-            areaTyontekija.clear();
+            areaKoulutus.clear();
             return;
         }
        
-        areaTyontekija.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
+        areaKoulutus.setText("");
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKoulutus)) {
             tulosta(os, koulutusKohdalla);
         }
     }
@@ -412,6 +412,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
             //naytaTyontekijanKoulutukset();
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
+            return;
         }
 
     }

@@ -208,10 +208,10 @@ public class Tyontekijat implements Iterable<Tyontekija>{
             // tähän voisi kovakoodata tiedostonPerusNimi = "tyontekijat";
             if ( !muutettu ) return;
 
-            File fbak = new File(getBakNimi());
+            //File fbak = new File(getBakNimi());
             File ftied = new File(getTiedostonNimi());
-            fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
-            ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
+            //fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
+            //ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
 
             try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
             // tähän voisi koodata for (Tyontekija tyon : this {

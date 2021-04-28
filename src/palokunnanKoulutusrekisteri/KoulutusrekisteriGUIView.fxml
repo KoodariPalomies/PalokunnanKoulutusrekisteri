@@ -181,7 +181,9 @@
                   <Label text="Koulutukset" BorderPane.alignment="CENTER" />
                </top>
                <center>
+               <ScrollPane fx:id="panelKoulutus" fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
                   <ListChooser fx:id="chooserKoulutukset" maxHeight="1.7976931348623157E308" prefHeight="200.0" maxWidth="200.0" rivit="Vesisukeltaja&#10;Nostolava&#10;Kemikaalivalvonta -peruskurssi&#10;" BorderPane.alignment="CENTER" />
+               </ScrollPane>
                </center>
                <bottom>
                <Button onAction="#handleMuokkaaKoulutusta" text="_Muokkaa koulutusta" BorderPane.alignment="CENTER" >
