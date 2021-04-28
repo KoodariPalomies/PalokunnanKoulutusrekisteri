@@ -163,7 +163,10 @@ public class Tyontekija {
     @Override
     public String toString() {
         return "" +
-                getTyontekijaTunnus() + "|" + nimi + "|" + tehtavaAlue + "|" + virkaAsema;
+                    getTyontekijaTunnus() + "|" + 
+                    nimi + "|" + 
+                    tehtavaAlue + "|" + 
+                    virkaAsema;
     }
 
 

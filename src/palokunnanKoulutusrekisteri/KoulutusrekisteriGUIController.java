@@ -36,7 +36,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     @FXML private TextField                 hakuehto;
     @FXML private ComboBoxChooser<String>   cbKentat;
-    @FXML private Label                     labelVirhe;
+    //@FXML private Label                     labelVirhe;
     @FXML private ListChooser<Tyontekija>   chooserTyontekijat;
     @FXML private ScrollPane                panelTyontekija;
     @FXML private ListChooser<Koulutus>     chooserKoulutukset;
@@ -178,7 +178,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Tyontekija          tyontekijaKohdalla;
     private Koulutus            koulutusKohdalla;
     private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
-    //private static Tyontekija aputyontekija = new Tyontekija();
     
     
     /**
@@ -198,7 +197,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         chooserKoulutukset.addSelectionListener(e -> naytaKoulutus());
     }
     
-    
+   /* 
     @SuppressWarnings("unused")
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
@@ -209,8 +208,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
     }
+    */
     
-    
+    @SuppressWarnings("unused")
     private void setTitle(String title) {
         //ModalController.getStage(hakuehto).setTitle(title);
     }
@@ -332,10 +332,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private void hae(int tnro) {
         int k = cbKentat.getSelectionModel().getSelectedIndex();
         String ehto = hakuehto.getText();
-        if (k > 0 || ehto.length() > 0)
-            naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
-        else
-            naytaVirhe(null);
+        //if (k > 0 || ehto.length() > 0)
+            //naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
+      //  else
+           // naytaVirhe(null);
         
         chooserTyontekijat.clear();
         
@@ -436,7 +436,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
              
              for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
                  Tyontekija tyontekija2 = koulutusrekisteri.annaTyontekija(i);
-                 tulosta(os, tyontekija2);
+                 tyontekija2.tulosta(os);
              }
 
          }
@@ -455,7 +455,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
              for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
                  Koulutus koulutus2 = koulutusrekisteri.annaKoulutus(i);
                  System.out.println("Koulutus paikassa: " + i);
-                 koulutus2.tulosta(System.out);
+                 koulutus2.tulosta(os);
              }
          }
          
@@ -471,13 +471,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
              relaatio.tulosta(os);
              os.println("----------------------------------------------");
              
-             //List<Relaatio> relaatiot = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
-             //for (Relaatio rel:relaatiot)
-               //  rel.tulosta(os);
              for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
                  Relaatio relaatio2 = koulutusrekisteri.annaRelaatiot(i);
                  System.out.println("Relaatio paikassa; " + i);
-                 relaatio2.tulosta(System.out);
+                 relaatio2.tulosta(os);
              }
 
          }
@@ -491,9 +488,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
          public void tulostaValitut(TextArea text) throws SailoException {
              try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
                  os.println("Tulostetaan kaikki työntekijät");
-                 //Collection<Relaatio> relaatiot = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla);
-                 Collection<Relaatio> relaatiot = koulutusrekisteri.etsiRelaatio("", -1);
-                 for (Relaatio relaatio:relaatiot) {
+                 for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
+                     Relaatio relaatio = koulutusrekisteri.annaRelaatiot(i);
                      try {
                         tulosta(os, relaatio);
                         os.println("\n\n");

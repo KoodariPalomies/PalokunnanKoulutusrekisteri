@@ -111,8 +111,8 @@
                   <VBox BorderPane.alignment="CENTER">
                      <children>
                         <Label alignment="CENTER" maxWidth="200.0" prefWidth="200.0" text="Haku" />
-                        <TextField />
-                        <ComboBoxChooser maxWidth="200.0" rivit="Nimi&#10;Työntekijätunnus&#10;Tehtäväalue&#10;Virka-asema&#10;Koulutukset&#10;" />
+                        <TextField fx:id="hakuehto" />
+                        <ComboBoxChooser fx:id="cbKentat" maxWidth="200.0" rivit="Nimi&#10;Työntekijätunnus&#10;Tehtäväalue&#10;Virka-asema&#10;Koulutukset&#10;" />
                         <Label alignment="CENTER" maxWidth="200.0" prefWidth="200.0" text="Työntekijät" />
                      </children>
                   </VBox>

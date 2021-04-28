@@ -31,7 +31,7 @@ public class Koulutusrekisteri {
     
     private Tyontekijat tyontekijat = new Tyontekijat();
     private Koulutukset koulutukset = new Koulutukset();
-    private Relaatiot relaatiot = new Relaatiot();
+    private Relaatiot   relaatiot   = new Relaatiot();
     
     
     /**
@@ -113,32 +113,7 @@ public class Koulutusrekisteri {
     public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) throws SailoException { 
         return tyontekijat.etsiTyontekija(hakuehto, t); 
     }
-
     
-    
-    /**
-     * @param hakuehto hakuehto
-     * @param k etsittävän kentän indeksi
-     * @return tietorakenteen löytyneistä koulutuksista
-     * @throws SailoException jos jotain menee väärin
-     */
-    public Collection<Koulutus> etsiKoulutus(String hakuehto, int k) throws SailoException {
-        return koulutukset.etsiKoulutus(hakuehto, k);
-    }
-    
-
-//===========================================================================================================================
-    /**
-     * Palauttaa taulukosta hakuehtoon vastaavien työntekijöiden tiedot
-     * @param hakuehto hakuehto
-     * @param r etsittävän kentn indeksi
-     * @return tietorakenteen löytyneistä relaatioista
-     * @throws SailoException jos jotain menee pieleen
-     */
-    public Collection<Relaatio> etsiRelaatio(String hakuehto, int r) throws SailoException {
-        return relaatiot.etsi(hakuehto, r);
-    }
-//===========================================================================================================================
 
     /**
      * Antaa koulutusrekisterin i:n työntekijän
@@ -163,14 +138,15 @@ public class Koulutusrekisteri {
          
         
     /**
+     * Haetaan tietyn tyntekijän relaatio
      * @param i minkä työntekijän relaatio
      * @return relaatio työntekijän tunnuksella
      * @throws IndexOutOfBoundsException jos i väärin
      */
-    //public List<Relaatio> annaRelaatiot(Tyontekija tyontekija) throws IndexOutOfBoundsException {
-      //   return relaatiot.annaRelaatiot(tyontekija.getTyontekijaTunnus());
+    //public List<Relaatio> annaRelaatiot(int i) throws IndexOutOfBoundsException {   //Tyontekija tyontekija
+         //return relaatiot.annaRelaatiot(tyontekija.getTyontekijaTunnus());
     public Relaatio annaRelaatiot(int i) throws IndexOutOfBoundsException {
-        return relaatiot.annaRelaatio(i);
+        return relaatiot.annaRelaatiot(i);
     }
          
     
@@ -253,50 +229,35 @@ public class Koulutusrekisteri {
              int id2 = aku2.getTyontekijaTunnus();
              int id3 = vesi1.getKoulutusTunnus();
              int id4 = vesi2.getKoulutusTunnus();
-             Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); koulutusrekisteri.lisaa(rel1);
-             Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); koulutusrekisteri.lisaa(rel2);
+             
+             Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); koulutusrekisteri.lisaa(rel1);
+             Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi(); koulutusrekisteri.lisaa(rel2);
  
              System.out.println("============= Koulutusrekisterin testi =================");         
              
-//=======================================================================================================================================================                
-//             for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
-  //               Tyontekija tyontekija = koulutusrekisteri.annaTyontekija(i);
-    //             System.out.println("Työntekijä paikassa: " + i);
-      //           tyontekija.tulosta(System.out);
-             
-             
-        //     for (int n = 0; n < koulutusrekisteri.getKoulutuksia(); n++) {
-          //       Koulutus koulutus = koulutusrekisteri.annaKoulutus(n);
-            //     System.out.println("Koulutus paikassa: " + n);
-              //   koulutus.tulosta(System.out);
-             
-             
-//             List<Relaatio> loytyneet = koulutusrekisteri.annaRelaatiot(aku2);
-  //           for (Relaatio rel : loytyneet)
-    //             rel.tulosta(System.out);
-//=======================================================================================================================================================      
-             
-             Collection<Tyontekija> tyontekijat = koulutusrekisteri.etsiTyontekija("", -1);
-             int i = 0;
-             for (Tyontekija tyontekija: tyontekijat) {
+             for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
+                 Tyontekija tyontekija = koulutusrekisteri.annaTyontekija(i);
                  System.out.println("Työntekijä paikassa: " + i);
                  tyontekija.tulosta(System.out);
-                 //List<Relaatio> lyotyneet = koulutusrekisteri.annaRelaatiot(tyontekija);
-                 //Relaatio lyotyneet = koulutusrekisteri.annaRelaatio();
-                 //for (Relaatio relaatio : lyotyneet)
-                   //  relaatio.tulosta(System.out);
-                 //i++;
+                 
                  for (int n = 0; n < koulutusrekisteri.getKoulutuksia(); n++) {
-                     Koulutus loytyneet = koulutusrekisteri.annaKoulutus(n);
-                     loytyneet.tulosta(System.out);
+                     Koulutus koulutus = koulutusrekisteri.annaKoulutus(n);
+                     System.out.println("Koulutus paikassa: " + n);
+                     koulutus.tulosta(System.out);                 
+                     
+                     for (int r = 0; r < koulutusrekisteri.getRelaatiot(); r++) {
+                         Relaatio relaatio = koulutusrekisteri.annaRelaatiot(r);
+                         System.out.println("Relaatio paikassa: " + r);
+                         relaatio.tulosta(System.out);
+                     }
+                     //List<Relaatio> tyontekijanKoulutukset = koulutusrekisteri.annaRelaatiot(tyontekija);
+                     //for (Relaatio t : tyontekijanKoulutukset)
+                       //      t.tulosta(System.out);
                  }
-                 i++;
-//=======================================================================================================================================================
              }
-             //}
          } catch (SailoException ex) {
              System.out.println(ex.getMessage());
-         }
+             }
         }
     }
 

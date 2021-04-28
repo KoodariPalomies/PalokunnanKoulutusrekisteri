@@ -44,6 +44,13 @@ public class Koulutus {
     
     
     /**
+     * Alustetaan koulutus
+     */
+    public Koulutus() {
+        //
+    }
+    
+    /**
      * Palautetaan koulutuksen koulutustunnus.
      * @return koulutuksen koulutustunnus
      */
@@ -135,7 +142,8 @@ public class Koulutus {
      */
     @Override
     public String toString() {
-        return "" + getKoulutusTunnus() + "|" + getKoulutus();
+        return "" + getKoulutusTunnus() + "|" + 
+                    getKoulutus();
     }
 
 

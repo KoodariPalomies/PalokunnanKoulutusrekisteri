@@ -41,7 +41,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         private int lkm = 0;
         private String kokoNimi = "";
         private String tiedostonPerusNimi = "tyontekijat";
-        private Tyontekija alkiot[] = new Tyontekija[MAX_TYONTEKIJOITA];
+        private Tyontekija tyontekijat[] = new Tyontekija[MAX_TYONTEKIJOITA];
 
     
     /**
@@ -75,11 +75,34 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * tyontekijat.lisaa(aku1);  #THROWS SailoException
      * </pre>
      */
-    public void lisaa(Tyontekija tyontekija) throws SailoException {
-        if ( lkm >= alkiot.length ) throw new SailoException("Liikaa alkioita");
-        alkiot[lkm] = tyontekija;   // laita watchiin debuggausta varten
-        lkm++;
-        muutettu = true;
+    public void lisaa(Tyontekija tyontekija) throws SailoException {        // Tässä lienee jotain vikaa...
+        //if ( lkm >= tyontekijat.length ) throw new SailoException("Liikaa alkioita");
+        //tyontekijat[lkm] = tyontekija;   // laita watchiin debuggausta varten
+        //lkm++;
+        //muutettu = true;
+        if ( lkm >= tyontekijat.length ) {
+            kasvataTaulukkoa(tyontekija);
+            muutettu = true;
+        }
+        else {
+            tyontekijat[lkm++] = tyontekija;
+            muutettu = true;
+        }
+    }
+    
+    
+    /**
+     * Kasvatetaan taulukkoa dynaamisesti, kun se täyttyy.
+     * @param tyontekija taulukko
+     */
+    public void kasvataTaulukkoa(Tyontekija tyontekija) {
+        Tyontekija[] t2 = new Tyontekija[tyontekijat.length*2];
+        
+        for (int i = 0; i < lkm; i++) {
+            t2[i] = tyontekijat[i];
+            }
+        t2[lkm++] = tyontekija;
+        tyontekijat = t2;
     }
     
     
@@ -91,7 +114,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      */
     public Tyontekija annaTyontekija(int i) throws IndexOutOfBoundsException {
         if ( i < 0 || lkm <= i ) throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
-        return alkiot[i];
+        return tyontekijat[i];
     }
     
     
@@ -134,8 +157,10 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * </pre>
      */
     public void lueTiedostosta(String tied) throws SailoException {
+        // tähän voisi kovakoodata setTiedostonPerusNimi(tied); --> tiedostonPerusNimi = "tyontekijat"
         setTiedostonPerusNimi(tied);
         try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
+        // tähän voisi tehdä tilalle String rivi = ""; ja poistaa kaikki ennen while -lausetta
             kokoNimi = fi.readLine();
             if ( kokoNimi == null ) throw new SailoException("Työntekijän nimi puuttuu");
             String rivi = fi.readLine();
@@ -180,6 +205,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
          * @throws SailoException jos talletus epäonnistuu
          */
         public void tallenna() throws SailoException {
+            // tähän voisi kovakoodata tiedostonPerusNimi = "tyontekijat";
             if ( !muutettu ) return;
 
             File fbak = new File(getBakNimi());
@@ -188,8 +214,12 @@ public class Tyontekijat implements Iterable<Tyontekija>{
             ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
 
             try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
+            // tähän voisi koodata for (Tyontekija tyon : this {
+                //                      String rivi = tyon.toString();
+                //                      fo.println(rivi);
+                //                  }
                 fo.println(getKokoNimi());
-                fo.println(alkiot.length);
+                fo.println(tyontekijat.length);
                 for (Tyontekija tyon : this) {
                     fo.println(tyon.toString());
                 }
@@ -357,7 +387,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
          * </pre> 
          */ 
         @SuppressWarnings("unused")
-        public Collection<Tyontekija> etsi(String hakuehto, int t) { 
+        public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) { 
             Collection<Tyontekija> loytyneet = new ArrayList<Tyontekija>(); 
             for (Tyontekija tyontekija : this) { 
                 loytyneet.add(tyontekija);  
@@ -407,11 +437,6 @@ public class Tyontekijat implements Iterable<Tyontekija>{
             System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.
         }
 
-    }
-
-    public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) {
-        // TODO Auto-generated method stub
-        return null;
     }
     
 }
