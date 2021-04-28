@@ -37,7 +37,8 @@ public class Koulutukset implements Iterable<Koulutus> {
     //private String              tiedostonNimi       = "";
     //private Koulutus[]          alkiot              = new Koulutus[MAX_KOULUTUKSIA];
     private boolean muutettu = false;
-    private String tiedostonPerusNimi = "";      // tai "koulutukset"
+    private String kokoNimi = "";
+    private String tiedostonPerusNimi = "koulutukset";      // tai "koulutukset"
     private final ArrayList<Koulutus> alkiot = new ArrayList<Koulutus>();  // Collection
     
     /**
@@ -86,40 +87,43 @@ public class Koulutukset implements Iterable<Koulutus> {
     
       /**
        * Lukee koulutukset tiedostosta.  Kesken.
+     * @param tied tiedoston nimi
        * @throws SailoException jos lukeminen epäonnistuu
        */
-    public void lueTiedostosta() throws SailoException { // String tied
-        tiedostonPerusNimi = "koulutukset.dat";
-        //setTiedostonPerusNimi(tied);
-        try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonPerusNimi())) ) {
-            String rivi;
-            
-            while ( (rivi = fi.readLine()) != null ) {
-                rivi = rivi.trim();
-                //if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
-                if ( "".equals(rivi)) continue;
-                
-                Koulutus koul = new Koulutus();
-                koul.parse(rivi); // voisi olla virhekäsittely
-                lisaa(koul);
-            }
-            //muutettu = false;
+    public void lueTiedostosta(String tied) throws SailoException {
+    setTiedostonPerusNimi(tied);
+    
+    try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
+        kokoNimi = fi.readLine();
+        if ( kokoNimi == null ) throw new SailoException("Työntekijän nimi puuttuu");
+        String rivi = fi.readLine();
+        if ( rivi == null ) throw new SailoException("Maksimikoko puuttuu");
 
-        } catch ( FileNotFoundException e ) {
-            throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
-        } catch ( IOException e ) {
-            throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+        while ( (rivi = fi.readLine()) != null ) {
+            rivi = rivi.trim();
+            if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+            Koulutus koul = new Koulutus();
+            koul.parse(rivi);
+            lisaa(koul);
         }
+        muutettu = false;
+        
+    } catch ( FileNotFoundException e ) {
+        throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
+    } catch ( IOException e ) {
+        throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
     }
+    System.out.println(tied);
+}
 
     
-//    /**
-  //   * Luetaan aikaisemmin annetun nimisestä tiedostosta
-    // * @throws SailoException jos tulee poikkeus
-//     */
-  //  public void lueTiedostosta() throws SailoException {
-    //    lueTiedostosta(getTiedostonPerusNimi());
-//    }
+    /**
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws SailoException jos tulee poikkeus
+     */
+    public void lueTiedostosta() throws SailoException {
+        lueTiedostosta(getTiedostonPerusNimi());
+    }
 
     
     
@@ -170,13 +174,13 @@ public class Koulutukset implements Iterable<Koulutus> {
     }
 
 
-//    /**
-  //   * Palauttaa tiedoston nimen, jota käytetään tallennukseen
-    // * @return tallennustiedoston nimi
-//     */
-  //  public String getTiedostonNimi() {
-    //    return tiedostonPerusNimi + ".dat";
-//    }
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonNimi() {
+        return getTiedostonPerusNimi() + ".dat";
+    }
 
 
 //    /**

@@ -157,10 +157,9 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * </pre>
      */
     public void lueTiedostosta(String tied) throws SailoException {
-        // tähän voisi kovakoodata setTiedostonPerusNimi(tied); --> tiedostonPerusNimi = "tyontekijat"
         setTiedostonPerusNimi(tied);
+        
         try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
-        // tähän voisi tehdä tilalle String rivi = ""; ja poistaa kaikki ennen while -lausetta
             kokoNimi = fi.readLine();
             if ( kokoNimi == null ) throw new SailoException("Työntekijän nimi puuttuu");
             String rivi = fi.readLine();
@@ -174,6 +173,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
                 lisaa(tyon);
             }
             muutettu = false;
+            
         } catch ( FileNotFoundException e ) {
             throw new SailoException("Tiedosto " + getTiedostonNimi() + " ei aukea");
         } catch ( IOException e ) {

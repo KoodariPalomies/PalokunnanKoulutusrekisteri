@@ -41,7 +41,7 @@ public class Relaatiot implements Iterable<Relaatio> {
     private boolean muutettu = false;           //======================================================================
     private int lkm = 0;
     private String kokoNimi = "";
-    private String tiedostonPerusNimi = "";     //"relaatiot"
+    private String tiedostonPerusNimi = "relaatiot";     //"relaatiot"
     private Relaatio alkiot[] = new Relaatio[MAX_TYONTEKIJOITA];
     
     
@@ -98,30 +98,53 @@ public class Relaatiot implements Iterable<Relaatio> {
     
     /**
      * Lukee relaatiot tiedostosta.
+     * @param tied tiedosto
      * @throws SailoException jos lukeminen epäonnistuu
      */
-    public void lueTiedostosta() throws SailoException {     // String tied
+    public void lueTiedostosta(String tied) throws SailoException {     // String tied
+        //tiedostonPerusNimi = "relaatiot.dat"; 
+        //try ( BufferedReader fi = new BufferedReader(new FileReader(tiedostonPerusNimi)) ) {
+          //  String rivi;
+           // while ((rivi = fi.readLine()) != null ) {
+             //   rivi = rivi.trim();
+               // if ("".equals(rivi)) continue;
+               // Relaatio rel = new Relaatio();
+               // rel.parse(rivi);
+               // lisaa(rel);
+           // }
+            //muutettu = false;
+        setTiedostonPerusNimi(tied);
         
-        tiedostonPerusNimi = "relaatiot.dat";
-        
-        try ( BufferedReader fi = new BufferedReader(new FileReader(tiedostonPerusNimi)) ) {
-            String rivi = "";
-            
+        try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
+            kokoNimi = fi.readLine();
+            if ( kokoNimi == null ) throw new SailoException("Työntekijän nimi puuttuu");
+            String rivi = fi.readLine();
+            if ( rivi == null ) throw new SailoException("Maksimikoko puuttuu");
+
             while ( (rivi = fi.readLine()) != null ) {
                 rivi = rivi.trim();
-                if ( "".equals(rivi)) continue;
-                
+                if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
                 Relaatio rel = new Relaatio();
                 rel.parse(rivi);
                 lisaa(rel);
             }
             muutettu = false;
-
+            
         } catch ( FileNotFoundException e ) {
             throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
         } catch ( IOException e ) {
             throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
         }
+        System.out.println(tied);
+    }
+    
+    
+    /**
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws SailoException jos tulee poikkeus
+     */
+    public void lueTiedostosta() throws SailoException {
+        lueTiedostosta(getTiedostonPerusNimi());
     }
     
     
@@ -130,7 +153,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * @throws SailoException jos talletus epäonnistuu
      */
     public void talleta() throws SailoException {
-        tiedostonPerusNimi = "relaatiot.dat";
+        //tiedostonPerusNimi = "relaatiot.dat";
         if ( !muutettu ) return;
 
         File ftied = new File(getTiedostonPerusNimi());
@@ -175,6 +198,15 @@ public class Relaatiot implements Iterable<Relaatio> {
      */
     public String getTiedostonPerusNimi() {
         return tiedostonPerusNimi;
+    }
+    
+    
+    /**
+     * Palauttaa tiedoston nimen, jota käytetään tallennukseen
+     * @return tallennustiedoston nimi
+     */
+    public String getTiedostonNimi() {
+        return getTiedostonPerusNimi() + ".dat";
     }
     
     
@@ -291,11 +323,11 @@ public class Relaatiot implements Iterable<Relaatio> {
             
             System.out.println("============= Relaatiot testi =================");
             
-            for (int i = 0; i < relaatiot.getLkm(); i++) {
-                Relaatio relaatio = relaatiot.annaRelaatiot(i);
-                System.out.println("Työntekijäntunnus: " + i);
-                relaatio.tulosta(System.out);
-            }
+            //for (int i = 0; i < relaatiot.getLkm(); i++) {
+              //  Relaatio relaatio = relaatiot.annaRelaatiot(i);
+                //System.out.println("Työntekijäntunnus: " + i);
+                //relaatio.tulosta(System.out);
+            //}
         } catch ( SailoException ex) {
             System.out.println(ex.getMessage());
         }

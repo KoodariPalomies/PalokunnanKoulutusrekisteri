@@ -178,6 +178,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Tyontekija          tyontekijaKohdalla;
     private Koulutus            koulutusKohdalla;
     private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
+    //private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
     
     
     /**
@@ -189,6 +190,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
         panelTyontekija.setContent(areaTyontekija);
         areaTyontekija.setFont(new Font("Courier New", 12));
         panelTyontekija.setFitToHeight(true);
+        
+        //panelKoulutus.setContent(areaKoulutus);
+        //areaKoulutus.setFont(new Font("Courier New", 12));
+        //panelKoulutus.setFitToHeight(true);
         
         chooserTyontekijat.clear();
         chooserTyontekijat.addSelectionListener(e -> naytaTyontekija());
@@ -454,7 +459,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
              
              for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
                  Koulutus koulutus2 = koulutusrekisteri.annaKoulutus(i);
-                 System.out.println("Koulutus paikassa: " + i);
                  koulutus2.tulosta(os);
              }
          }
@@ -473,7 +477,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
              
              for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
                  Relaatio relaatio2 = koulutusrekisteri.annaRelaatiot(i);
-                 System.out.println("Relaatio paikassa; " + i);
                  relaatio2.tulosta(os);
              }
 
