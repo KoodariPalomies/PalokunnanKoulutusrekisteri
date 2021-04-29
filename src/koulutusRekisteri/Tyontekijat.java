@@ -75,11 +75,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * tyontekijat.lisaa(aku1);  #THROWS SailoException
      * </pre>
      */
-    public void lisaa(Tyontekija tyontekija) throws SailoException {        // Tässä lienee jotain vikaa...
-        //if ( lkm >= tyontekijat.length ) throw new SailoException("Liikaa alkioita");
-        //tyontekijat[lkm] = tyontekija;   // laita watchiin debuggausta varten
-        //lkm++;
-        //muutettu = true;
+    public void lisaa(Tyontekija tyontekija) throws SailoException {
         if ( lkm >= tyontekijat.length ) {
             kasvataTaulukkoa(tyontekija);
             muutettu = true;
@@ -122,39 +118,6 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * Lukee työntekijät tiedostosta. 
      * @param tied tiedoston perusnimi
      * @throws SailoException jos lukeminen epäonnistuu
-     * 
-     * @example
-     * <pre name="test">
-     * #THROWS SailoException 
-     * #import java.io.File;
-     * 
-     *  Jasenet jasenet = new Jasenet();
-     *  Jasen aku1 = new Jasen(), aku2 = new Jasen();
-     *  aku1.vastaaAkuAnkka();
-     *  aku2.vastaaAkuAnkka();
-     *  String hakemisto = "testikelmit";
-     *  String tiedNimi = hakemisto+"/nimet";
-     *  File ftied = new File(tiedNimi+".dat");
-     *  File dir = new File(hakemisto);
-     *  dir.mkdir();
-     *  ftied.delete();
-     *  jasenet.lueTiedostosta(tiedNimi); #THROWS SailoException
-     *  jasenet.lisaa(aku1);
-     *  jasenet.lisaa(aku2);
-     *  jasenet.tallenna();
-     *  jasenet = new Jasenet();            // Poistetaan vanhat luomalla uusi
-     *  jasenet.lueTiedostosta(tiedNimi);  // johon ladataan tiedot tiedostosta.
-     *  Iterator<Jasen> i = jasenet.iterator();
-     *  i.next() === aku1;
-     *  i.next() === aku2;
-     *  i.hasNext() === false;
-     *  jasenet.lisaa(aku2);
-     *  jasenet.tallenna();
-     *  ftied.delete() === true;
-     *  File fbak = new File(tiedNimi+".bak");
-     *  fbak.delete() === true;
-     *  dir.delete() === true;
-     * </pre>
      */
     public void lueTiedostosta(String tied) throws SailoException {
         setTiedostonPerusNimi(tied);
@@ -205,24 +168,16 @@ public class Tyontekijat implements Iterable<Tyontekija>{
          * @throws SailoException jos talletus epäonnistuu
          */
         public void tallenna() throws SailoException {
-            // tähän voisi kovakoodata tiedostonPerusNimi = "tyontekijat";
             if ( !muutettu ) return;
-
-            //File fbak = new File(getBakNimi());
             File ftied = new File(getTiedostonNimi());
-            //fbak.delete(); //  if ... System.err.println("Ei voi tuhota");
-            //ftied.renameTo(fbak); //  if ... System.err.println("Ei voi nimetä");
 
             try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-            // tähän voisi koodata for (Tyontekija tyon : this {
-                //                      String rivi = tyon.toString();
-                //                      fo.println(rivi);
-                //                  }
                 fo.println(getKokoNimi());
                 fo.println(tyontekijat.length);
                 for (Tyontekija tyon : this) {
                     fo.println(tyon.toString());
                 }
+                
             } catch ( FileNotFoundException ex ) {
                 throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
             } catch ( IOException ex ) {
@@ -267,57 +222,10 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         public String getTiedostonNimi() {
             return getTiedostonPerusNimi() + ".dat";
         }
-
-
-        /**
-         * Palauttaa varakopiotiedoston nimen
-         * @return varakopiotiedoston nimi
-         */
-        public String getBakNimi() {
-            return tiedostonPerusNimi + ".bak";
-        }
         
         
         /**
          * Luokka työntekijöiden iteroimiseksi.
-         * @example
-         * <pre name="test">
-         * #THROWS SailoException 
-         * #PACKAGEIMPORT
-         * #import java.util.*;
-         * 
-         * Jasenet jasenet = new Jasenet();
-         * Jasen aku1 = new Jasen(), aku2 = new Jasen();
-         * aku1.rekisteroi(); aku2.rekisteroi();
-         *
-         * jasenet.lisaa(aku1); 
-         * jasenet.lisaa(aku2); 
-         * jasenet.lisaa(aku1); 
-         * 
-         * StringBuffer ids = new StringBuffer(30);
-         * for (Jasen jasen:jasenet)   // Kokeillaan for-silmukan toimintaa
-         *   ids.append(" "+jasen.getTunnusNro());           
-         * 
-         * String tulos = " " + aku1.getTunnusNro() + " " + aku2.getTunnusNro() + " " + aku1.getTunnusNro();
-         * 
-         * ids.toString() === tulos; 
-         * 
-         * ids = new StringBuffer(30);
-         * for (Iterator<Jasen>  i=jasenet.iterator(); i.hasNext(); ) { // ja iteraattorin toimintaa
-         *   Jasen jasen = i.next();
-         *   ids.append(" "+jasen.getTunnusNro());           
-         * }
-         * 
-         * ids.toString() === tulos;
-         * 
-         * Iterator<Jasen>  i=jasenet.iterator();
-         * i.next() == aku1  === true;
-         * i.next() == aku2  === true;
-         * i.next() == aku1  === true;
-         * 
-         * i.next();  #THROWS NoSuchElementException
-         *  
-         * </pre>
          */
         public class TyontekijatIterator implements Iterator<Tyontekija> {
             private int kohdalla = 0;

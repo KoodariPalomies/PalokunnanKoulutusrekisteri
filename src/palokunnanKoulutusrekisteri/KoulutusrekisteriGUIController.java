@@ -191,15 +191,16 @@ public class KoulutusrekisteriGUIController implements Initializable {
         areaTyontekija.setFont(new Font("Courier New", 12));
         panelTyontekija.setFitToHeight(true);
         
-        panelKoulutus.setContent(areaKoulutus);
+        panelKoulutus.setContent(areaKoulutus);             // tekee TextArean koulutuksille
         areaKoulutus.setFont(new Font("Courier New", 12));
         panelKoulutus.setFitToHeight(true);
         
         chooserTyontekijat.clear();
         chooserTyontekijat.addSelectionListener(e -> naytaTyontekija());
         
-        chooserKoulutukset.clear();
-        chooserKoulutukset.addSelectionListener(e -> naytaKoulutus());
+        //naytaKoulutus();
+        chooserKoulutukset.clear();             //tyhjentää chooserin
+        chooserKoulutukset.addSelectionListener(e -> naytaKoulutustieto());
     }
     
    /* 
@@ -251,6 +252,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
         System.out.println(uusinimi + "Jee!");
         if (uusinimi == null) return false;
         lueTiedosto(uusinimi);
+        naytaTyontekija();
+        naytaKoulutus();
+        naytaTyontekijanKoulutukset();
         return true;
     }
     
@@ -297,23 +301,40 @@ public class KoulutusrekisteriGUIController implements Initializable {
         }
     }
     
-    
     /**
-     * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
+     * Jee
      */
-    private void naytaKoulutus() {
+    private void naytaKoulutustieto() {
         koulutusKohdalla = chooserKoulutukset.getSelectedObject();
         
         if (koulutusKohdalla == null) {
             areaKoulutus.clear();
             return;
         }
-       
+        
         areaKoulutus.setText("");
         try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKoulutus)) {
             tulosta(os, koulutusKohdalla);
         }
     }
+    
+    
+    /**
+     * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
+     */
+    private void naytaKoulutus() {
+        chooserKoulutukset.clear();
+
+        for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
+            Koulutus koulutus = koulutusrekisteri.annaKoulutus(i);
+            chooserKoulutukset.add(koulutus.getKoulutus(), koulutus);
+            //try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
+            //try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKoulutus)) {
+                //tulosta(os, koulutusrekisteri.annaKoulutus(i));     // tulostaa koulutukset
+                //tulosta(os, koulutusKohdalla);
+            }
+        } 
+    //}
     
     
     /**
@@ -403,6 +424,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     public void lisaaTyontekijalleKoulutus() {
         if ( tyontekijaKohdalla == null ) return; 
         if ( koulutusKohdalla == null ) return;
+        
         try {
             Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
             rel.rekisteroi();
@@ -424,9 +446,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     public void setKoulutusrekisteri(Koulutusrekisteri koulutusrekisteri) {
         this.koulutusrekisteri = koulutusrekisteri;
-        naytaTyontekija();
-        naytaKoulutus();
-        naytaTyontekijanKoulutukset();
+        //naytaTyontekija();
+        //naytaKoulutus();
+        //naytaTyontekijanKoulutukset();
     }
     
     

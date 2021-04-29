@@ -50,6 +50,16 @@ public class Koulutus {
         //
     }
     
+    
+    /**
+     * Alustetaan tietyn koulutuksen tiedot.
+     * @param koulutusTunnus koulutuksen viitenumero
+     */
+    public Koulutus(int koulutusTunnus) {
+        this.koulutusTunnus = koulutusTunnus;
+    }
+    
+    
     /**
      * Palautetaan koulutuksen koulutustunnus.
      * @return koulutuksen koulutustunnus
@@ -143,8 +153,8 @@ public class Koulutus {
     @Override
     public String toString() {
         return "" + getKoulutusTunnus() + "|" + 
-                    getKoulutus();
-    }
+                    koulutus;
+    }               // tahi getKoulutus()
 
 
     /**
@@ -169,7 +179,8 @@ public class Koulutus {
     public void parse(String rivi) {
         StringBuffer sb = new StringBuffer(rivi);
         setKoulutusTunnus(Mjonot.erota(sb, '|', getKoulutusTunnus()));
-        koulutus = Mjonot.erota(sb, '|', getKoulutus());
+        //koulutus = Mjonot.erota(sb, '|', getKoulutus());
+        koulutus = Mjonot.erota(sb, '|', koulutus); // ei välttämättä tarvitse |
     }
 
 

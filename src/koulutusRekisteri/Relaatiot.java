@@ -323,11 +323,11 @@ public class Relaatiot implements Iterable<Relaatio> {
             
             System.out.println("============= Relaatiot testi =================");
             
-            //for (int i = 0; i < relaatiot.getLkm(); i++) {
-              //  Relaatio relaatio = relaatiot.annaRelaatiot(i);
-                //System.out.println("Työntekijäntunnus: " + i);
-                //relaatio.tulosta(System.out);
-            //}
+            for (int i = 0; i < relaatiot.getLkm(); i++) {
+                Relaatio relaatio = relaatiot.annaRelaatiot(i);
+                System.out.println("Työntekijäntunnus: " + i);
+                relaatio.tulosta(System.out);
+            }
         } catch ( SailoException ex) {
             System.out.println(ex.getMessage());
         }

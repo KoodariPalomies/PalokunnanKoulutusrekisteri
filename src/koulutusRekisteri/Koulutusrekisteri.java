@@ -159,9 +159,10 @@ public class Koulutusrekisteri {
         dir.mkdirs();
         String hakemistonNimi = "";
         if ( !nimi.isEmpty() ) hakemistonNimi = nimi +"/";
+        
         tyontekijat.setTiedostonPerusNimi(hakemistonNimi + "tyontekijat");
         koulutukset.setTiedostonPerusNimi(hakemistonNimi + "koulutukset");
-        relaatiot.setTiedostonPerusNimi(hakemistonNimi + "relaatiot");
+        relaatiot.setTiedostonPerusNimi(hakemistonNimi   + "relaatiot");
     }
 
          
@@ -250,9 +251,6 @@ public class Koulutusrekisteri {
                          System.out.println("Relaatio paikassa: " + r);
                          relaatio.tulosta(System.out);
                      }
-                     //List<Relaatio> tyontekijanKoulutukset = koulutusrekisteri.annaRelaatiot(tyontekija);
-                     //for (Relaatio t : tyontekijanKoulutukset)
-                       //      t.tulosta(System.out);
                  }
              }
          } catch (SailoException ex) {

@@ -20,10 +20,15 @@ public class KoulutusrekisteriMain extends Application {
     @Override
 	public void start(Stage primaryStage) {
 		try {
+		    
+		    
 			final FXMLLoader ldr = new FXMLLoader(getClass().getResource("KoulutusrekisteriGUIView.fxml"));
 			final Pane root = (Pane)ldr.load();
 			final KoulutusrekisteriGUIController koulutusrekisteriCtrl = (KoulutusrekisteriGUIController)ldr.getController();
 
+	         Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
+	            koulutusrekisteriCtrl.setKoulutusrekisteri(koulutusrekisteri);
+	            
 			final Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("Koulutusrekisteri.css").toExternalForm());
 			primaryStage.setScene(scene);
@@ -33,8 +38,7 @@ public class KoulutusrekisteriMain extends Application {
                 if ( !koulutusrekisteriCtrl.voikoSulkea() ) event.consume();
             });
 			
-			Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
-			koulutusrekisteriCtrl.setKoulutusrekisteri(koulutusrekisteri);
+            //=================================aiemmin täällä 
 			
             primaryStage.show();
             koulutusrekisteriCtrl.avaa();
