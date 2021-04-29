@@ -24,7 +24,9 @@ import java.util.List;
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 21.4.2021
+ * @version 1.0, ennen 29.4.2021 / pidin huonosti kirjaa mitä tein ja ehkäpä siksi vaikea pysyä muutoksissa kärryillä
+ * @version 1.1, 29.4.2021 / HT6 tulostukset tekstikenttiin ja valinta (työntekijä ja koulutus) toimimaan
+ * @version 1.2, 29.4.2021 / HT6 testejä
  *
  */
 public class Koulutusrekisteri {
@@ -91,7 +93,6 @@ public class Koulutusrekisteri {
     }
     
     
-
     /**
      * Lisätään uusi relaatio
      * @param relaatio lisättävä relaatio
@@ -112,6 +113,18 @@ public class Koulutusrekisteri {
      */ 
     public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) throws SailoException { 
         return tyontekijat.etsiTyontekija(hakuehto, t); 
+    }
+    
+    
+    /**
+     * Palauttaa "taulukosta" hakuehtoon vastaavien koulutusten viitteet
+     * @param hakuehto hakuehto
+     * @param t etsittävän kentän indeksi
+     * @return tietorakenteen löytyneistä koulutuksista
+     * @throws SailoException jos jotain menee mönkään
+     */
+    public Collection<Koulutus> etsiKoulutus(String hakuehto, int t) throws SailoException {
+        return koulutukset.etsiKoulutus(hakuehto, t);
     }
     
 
@@ -170,6 +183,82 @@ public class Koulutusrekisteri {
        * Lukee koulutusrekisterin tiedot tiedostosta
        * @param nimi jota käyteään lukemisessa
        * @throws SailoException jos lukeminen epäonnistuu
+       * 
+       * @example
+       * <pre name="test">
+       * #THROWS SailoException
+       * #import java.io.*;
+       * #import java.util.*;
+       * 
+       * Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
+       *
+       * Tyontekija aku1 = new Tyontekija(); aku1.vastaaAkuAnkka(); aku1.rekisteroi(); 
+       * Tyontekija aku2 = new Tyontekija(); aku2.vastaaAkuAnkka(); aku2.rekisteroi(); 
+       *     
+       * Koulutus vesi1 = new Koulutus(); vesi1.vastaaVesisukeltaja(); vesi1.rekisteroi(); 
+       * Koulutus vesi2 = new Koulutus(); vesi2.vastaaVesisukeltaja(); vesi2.rekisteroi(); 
+       * 
+       * int id1 = aku1.getTyontekijaTunnus();
+       * int id2 = aku2.getTyontekijaTunnus();
+       * int id3 = vesi1.getKoulutusTunnus();
+       * int id4 = vesi2.getKoulutusTunnus();
+       *      
+       * Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
+       * Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi(); 
+       * 
+       * String hakemisto = "testit";
+       * File dir = new File(hakemisto);
+       * File ftied = new File(hakemisto+"/tyontekijat.dat");
+       * File fktied = new File(hakemisto+"/koulutukset.dat");
+       * File frtied = new File(hakemisto+"/relaatiot.dat");
+       * dir.mkdir();
+       * ftied.delete();
+       * fktied.delete();
+       * frtied.delete();
+       * koulutusrekisteri.lueTiedostosta(hakemisto); #THROWS SailoException
+       * 
+       * koulutusrekisteri.lisaa(aku1);
+       * koulutusrekisteri.lisaa(aku2);
+       * koulutusrekisteri.lisaa(vesi1);
+       * koulutusrekisteri.lisaa(vesi2);
+       * koulutusrekisteri.lisaa(rel1);
+       * koulutusrekisteri.lisaa(rel2);
+       * koulutusrekisteri.tallenna();
+       * 
+       * koulutusrekisteri = new Koulutusrekisteri();
+       * koulutusrekisteri.lueTiedostosta(hakemisto);
+       * 
+       * Collection<Tyontekija> kaikki = koulutusrekisteri.etsiTyontekija("", -1);
+       * Iterator<Tyontekija> it = kaikki.iterator();
+       * it.next() === aku1;
+       * it.next() === aku2;
+       * it.hasNext() === false;
+       * 
+       * Collection<Koulutus> koulutus = koulutusrekisteri.etsiKoulutus("", -1);
+       * Iterator<Koulutus> ik = koulutus.iterator();
+       * ik.next() === vesi1;
+       * ik.next() === vesi2;
+       * ik.hasNext() === false;
+       * 
+       * List<Relaatio> loytyneet = koulutusrekisteri.annaRelaatiot(aku1);
+       * Iterator<Relaatio> ir = loytyneet.iterator();
+       * ir.next() === rel1;
+       * ir.next() === rel2;
+       * ir.hasNext() === false;
+       * loytyneet = koulutusrekisteri.annaRelaatiot(aku2);
+       * ir = loytyneet.iterator();
+       * ir.next() === rel1;
+       * ir.next() === rel2;
+       * ir.hasNext() === false;
+       * koulutusrekisteri.lisaa(aku1);
+       * koulutusrekisteri.lisaa(vesi1);
+       * koulutusrekisteri.lisaa(rel1);
+       * koulutusrekisteri.tallenna();
+       * ftied.delete() === true;
+       * fktied.delete() === true;
+       * frtied.delete() === true;
+       * dir.delete() === true;
+       * </pre>
        */
       public void lueTiedostosta(String nimi) throws SailoException {
           tyontekijat = new Tyontekijat();
@@ -185,7 +274,7 @@ public class Koulutusrekisteri {
   
   
        /**
-        * Tallettaa koulutusrekisterin tiedot tiedostoon
+        * Tallentaa koulutusrekisterin tiedot tiedostoon.
         * @throws SailoException jos tallettamisessa ongelmia
         */
        public void tallenna() throws SailoException {
@@ -213,6 +302,7 @@ public class Koulutusrekisteri {
     
        
     /**
+     * Testiohjelma koulutusrekisteristä
      * @param args ei käytössä
      */
     public static void main(String[] args) {
