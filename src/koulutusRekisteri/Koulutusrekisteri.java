@@ -145,7 +145,7 @@ public class Koulutusrekisteri {
      */
     //public List<Relaatio> annaRelaatiot(int i) throws IndexOutOfBoundsException {   //Tyontekija tyontekija
          //return relaatiot.annaRelaatiot(tyontekija.getTyontekijaTunnus());
-    public Relaatio annaRelaatiot(int i) throws IndexOutOfBoundsException {
+    public List<Relaatio> annaRelaatiot(int i) throws IndexOutOfBoundsException {
         return relaatiot.annaRelaatiot(i);
     }
          
@@ -246,11 +246,11 @@ public class Koulutusrekisteri {
                      System.out.println("Koulutus paikassa: " + n);
                      koulutus.tulosta(System.out);                 
                      
-                     for (int r = 0; r < koulutusrekisteri.getRelaatiot(); r++) {
-                         Relaatio relaatio = koulutusrekisteri.annaRelaatiot(r);
-                         System.out.println("Relaatio paikassa: " + r);
-                         relaatio.tulosta(System.out);
-                     }
+//                     for (int r = 0; r < koulutusrekisteri.getRelaatiot(); r++) {
+  //                       Relaatio relaatio = koulutusrekisteri.annaRelaatiot(r);
+    //                     System.out.println("Relaatio paikassa: " + r);
+      //                   relaatio.tulosta(System.out);
+        //             }
                  }
              }
          } catch (SailoException ex) {

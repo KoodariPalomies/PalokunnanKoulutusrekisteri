@@ -98,8 +98,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * @throws SailoException jos menee perseelleen
      */
     @FXML private void handleTulosta() throws SailoException {
-        TulostusController tulostusCtrl = TulostusController.tulosta(null); 
-        tulostaValitut(tulostusCtrl.getTextArea()); 
+        //TulostusController tulostusCtrl = TulostusController.tulosta(null); 
+        //tulostaValitut(tulostusCtrl.getTextArea()); 
     }
 
     
@@ -285,7 +285,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         
     
     /**
-     * Näyttää listasta valitun työntekijän tiedot, tilapäisesti yhteen isoon edit-kenttään
+     * Näyttää listasta valitun työntekijän tiedot listChooseriin ja tilapäisesti yhteen isoon edit-kenttään
      */
     private void naytaTyontekija() {
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
@@ -302,7 +302,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     }
     
     /**
-     * Jee
+     * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
      */
     private void naytaKoulutustieto() {
         koulutusKohdalla = chooserKoulutukset.getSelectedObject();
@@ -320,7 +320,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
-     * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
+     * Näyttää listasta valitun koulutuksen tiedot listChooseriin
      */
     private void naytaKoulutus() {
         chooserKoulutukset.clear();
@@ -328,13 +328,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
         for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
             Koulutus koulutus = koulutusrekisteri.annaKoulutus(i);
             chooserKoulutukset.add(koulutus.getKoulutus(), koulutus);
-            //try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
-            //try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKoulutus)) {
-                //tulosta(os, koulutusrekisteri.annaKoulutus(i));     // tulostaa koulutukset
-                //tulosta(os, koulutusKohdalla);
             }
-        } 
-    //}
+    } 
     
     
     /**
@@ -342,6 +337,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     private void naytaTyontekijanKoulutukset() {
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
+        //koulutusKohdalla = chooserKoulutukset.getSelectedObject();
         
         if (tyontekijaKohdalla == null) {
             areaTyontekija.clear();
@@ -462,9 +458,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
              tyontekija.tulosta(os);
              os.println("----------------------------------------------");
              
-             for (int i = 0; i < koulutusrekisteri.getTyontekijoita(); i++) {
-                 Tyontekija tyontekija2 = koulutusrekisteri.annaTyontekija(i);
-                 tyontekija2.tulosta(os);
+             List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekija.getTyontekijaTunnus());
+             for (Relaatio relaatio : relaatio2) {
+                 
+                 relaatio.tulosta(os);
              }
 
          }
@@ -485,32 +482,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
                  koulutus2.tulosta(os);
              }
          }
-         
-         
-         /**
-          * Tulostaa työntekijän koulutustiedot
-          * @param os tietovirta johon tulostetaan
-          * @param relaatio tulostettavat koulutukset
-         * @throws SailoException jos menee pieleen
-          */
-         private void tulosta(PrintStream os, final Relaatio relaatio) throws SailoException {
-             os.println("----------------------------------------------");
-             relaatio.tulosta(os);
-             os.println("----------------------------------------------");
-             
-             for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
-                 Relaatio relaatio2 = koulutusrekisteri.annaRelaatiot(i);
-                 relaatio2.tulosta(os);
-             }
-
-         }
         
         
          /**
           * Tulostaa listassa olevat työntekijät tekstialueeseen
           * @param text alue johon tulostetaan
-         * @throws SailoException jos menee perseelleen
-          */
+          * @throws SailoException jos menee perseelleen
+         
          public void tulostaValitut(TextArea text) throws SailoException {
              try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
                  os.println("Tulostetaan kaikki työntekijät");
@@ -524,5 +502,5 @@ public class KoulutusrekisteriGUIController implements Initializable {
                     }
                  }
               }
-          }
+          }  */
 }

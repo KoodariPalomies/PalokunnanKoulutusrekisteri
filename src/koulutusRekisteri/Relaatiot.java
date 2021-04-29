@@ -86,13 +86,20 @@ public class Relaatiot implements Iterable<Relaatio> {
     
     /**
      * Palauttaa viitteen i:teen työntekijään
-     * @param i monennenko työntekijän viite halutaan
+     * @param n monennenko työntekijän viite halutaan
      * @return viite työntekijään, jonka indeksi on i
      * @throws IndexOutOfBoundsException jos ei ole sallitulla alueella
      */
-    public Relaatio annaRelaatiot(int i) throws IndexOutOfBoundsException {
-        if ( i < 0 || lkm <=i ) throw new IndexOutOfBoundsException("Laiton indeksi: " + 1);
-        return alkiot[i];
+    public List<Relaatio> annaRelaatiot(int n) throws IndexOutOfBoundsException {
+        //if ( i < 0 || lkm <=i ) throw new IndexOutOfBoundsException("Laiton indeksi: " + 1); työntekijäTunnus > relaatiotTunnus voi olla suurempi!
+        List<Relaatio> relaatiot = new ArrayList<Relaatio>();
+        
+        for (int i = 0; i < lkm; i++) {
+            if (alkiot[i].getTyontekijaTunnus() == n) {
+                relaatiot.add(alkiot[i]);
+            }
+        }
+        return relaatiot;
     }
     
     
@@ -156,11 +163,12 @@ public class Relaatiot implements Iterable<Relaatio> {
         //tiedostonPerusNimi = "relaatiot.dat";
         if ( !muutettu ) return;
 
-        File ftied = new File(getTiedostonPerusNimi());
+        File ftied = new File(getTiedostonNimi());
 
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-            for (Relaatio relaatio : this) {
-                String rivi = relaatio.toString();
+            for (int i = 0; i <lkm; i++) {
+                if (alkiot[i] == null) return;
+                String rivi = alkiot[i].toString();
                 fo.println(rivi);
             }
         } catch ( FileNotFoundException ex ) {
@@ -252,6 +260,16 @@ public class Relaatiot implements Iterable<Relaatio> {
     
     
     /**
+     * @param i hh
+     * @return yksittäisen relaation paikassa i
+     */
+    public Relaatio annaRelaatiot(int i) {
+        if (i < 0 || i < lkm) return null;
+        return alkiot[i];
+    }
+    
+    
+    /**
      * Tuhoamista ei ole toteutettu
      * @throws UnsupportedOperationException aina
      * @see java.util.Iterator#remove()
@@ -323,11 +341,11 @@ public class Relaatiot implements Iterable<Relaatio> {
             
             System.out.println("============= Relaatiot testi =================");
             
-            for (int i = 0; i < relaatiot.getLkm(); i++) {
-                Relaatio relaatio = relaatiot.annaRelaatiot(i);
-                System.out.println("Työntekijäntunnus: " + i);
-                relaatio.tulosta(System.out);
-            }
+//            for (int i = 0; i < relaatiot.getLkm(); i++) {
+  //              Relaatio relaatio = relaatiot.annaRelaatiot(i);
+    //            System.out.println("Työntekijäntunnus: " + i);
+      //          relaatio.tulosta(System.out);
+        //    }
         } catch ( SailoException ex) {
             System.out.println(ex.getMessage());
         }
