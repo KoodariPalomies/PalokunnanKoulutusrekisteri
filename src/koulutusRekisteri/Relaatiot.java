@@ -37,12 +37,12 @@ import java.io.PrintWriter;
  */
 public class Relaatiot implements Iterable<Relaatio> {
     
-    private static final int MAX_TYONTEKIJOITA = 10;
+    private static final int MAX_RELAATIOITA = 5;
     private boolean muutettu = false;           //======================================================================
     private int lkm = 0;
     private String kokoNimi = "";
     private String tiedostonPerusNimi = "relaatiot";     //"relaatiot"
-    private Relaatio alkiot[] = new Relaatio[MAX_TYONTEKIJOITA];
+    private Relaatio alkiot[] = new Relaatio[MAX_RELAATIOITA];
     
     
     /**
@@ -59,7 +59,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      */
     public void lisaa(Relaatio rel) throws SailoException {
         if ( lkm >= alkiot.length ) {
-            kasvataTaulukkoa(rel);
+            //kasvataTaulukkoa(rel);
             muutettu = true;
         }
         else {
@@ -72,7 +72,7 @@ public class Relaatiot implements Iterable<Relaatio> {
     /**
      * Kasvattaa taulukkoa dynaamisesti, kun se täyttyy.
      * @param rel olio, joka halutaan lisätä taulukkoon
-     */
+     
     public void kasvataTaulukkoa(Relaatio rel) {
         Relaatio[] r2 = new Relaatio[alkiot.length*2];
         
@@ -82,7 +82,7 @@ public class Relaatiot implements Iterable<Relaatio> {
         r2[lkm++] = rel;
         alkiot = r2;
     }
-    
+    */
     
     /**
      * Palauttaa viitteen i:teen työntekijään

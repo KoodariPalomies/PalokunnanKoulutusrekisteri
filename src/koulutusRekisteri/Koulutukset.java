@@ -71,7 +71,7 @@ public class Koulutukset implements Iterable<Koulutus> {
     //}
     public void lisaa(Koulutus koulutus) throws SailoException {
         if ( lkm >= koulutukset.length ) {
-            kasvataTaulukkoa(koulutus);
+            //kasvataTaulukkoa(koulutus);
             muutettu = true;
         }
         else {
@@ -84,7 +84,7 @@ public class Koulutukset implements Iterable<Koulutus> {
     /**
      * Kasvatetaan taulukkoa dynaamisesti, kun se täyttyy.
      * @param koulutus taulukko
-     */
+     
     public void kasvataTaulukkoa(Koulutus koulutus) {
         Koulutus[] k2 = new Koulutus[koulutukset.length*2];
         
@@ -94,7 +94,7 @@ public class Koulutukset implements Iterable<Koulutus> {
         k2[lkm++] = koulutus;
         koulutukset = k2;
     }
-    
+    */
     
     /**
      * Palauttaa viitteen i:teen koulutukseen.

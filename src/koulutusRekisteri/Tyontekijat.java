@@ -76,8 +76,8 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * </pre>
      */
     public void lisaa(Tyontekija tyontekija) throws SailoException {
-        if ( lkm >= tyontekijat.length ) {
-            kasvataTaulukkoa(tyontekija);
+        if ( lkm >= tyontekijat.length) {
+            //kasvataTaulukkoa(tyontekija);
             muutettu = true;
         }
         else {
@@ -90,7 +90,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
     /**
      * Kasvatetaan taulukkoa dynaamisesti, kun se täyttyy.
      * @param tyontekija taulukko
-     */
+     
     public void kasvataTaulukkoa(Tyontekija tyontekija) {
         Tyontekija[] t2 = new Tyontekija[tyontekijat.length*2];
         
@@ -100,7 +100,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         t2[lkm++] = tyontekija;
         tyontekijat = t2;
     }
-    
+    */
     
     /**
      * Palauttaa viitteen i:teen työntekijään.
