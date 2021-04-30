@@ -83,13 +83,13 @@ public class Relaatio {
      * @return seuraavan relaation tunnus
      * @example
      * <pre name="test">
-     *   Relaatio pitsi1 = new Relaatio();
-     *   pitsi1.getRelaatioTunnus() === 0;
-     *   pitsi1.rekisteroi();
-     *   Relaatio pitsi2 = new Relaatio();
-     *   pitsi2.rekisteroi();
-     *   int n1 = pitsi1.getRelaatioTunnus();
-     *   int n2 = pitsi2.getRelaatioTunnus();
+     *   Relaatio rel1 = new Relaatio();
+     *   rel1.getRelaatioTunnus() === 0;
+     *   rel1.rekisteroi();
+     *   Relaatio rel2 = new Relaatio();
+     *   rel2.rekisteroi();
+     *   int n1 = rel1.getRelaatioTunnus();
+     *   int n2 = rel2.getRelaatioTunnus();
      *   n1 === n2-1;
      * </pre>
      */
@@ -193,22 +193,21 @@ public class Relaatio {
 
 
    /**
-    * Selvitää harrastuksen tiedot | erotellusta merkkijonosta.
-    * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusnro.
-    * @param rivi josta harrastuksen tiedot otetaan
+    * Selvittää relaation tiedot | erotellusta merkkijonosta.
+    * Pitää huolen että seuraavaRelaatioTunnus on suurempi kuin tuleva relaatioTunnus.
+    * @param rivi josta relaation tiedot otetaan
     * @example
     * <pre name="test">
-    *   Harrastus harrastus = new Harrastus();
-    *   harrastus.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-    *   harrastus.getJasenNro() === 10;
-    *   harrastus.toString()    === "2|10|Kalastus|1949|22";
+    *   Relaatio relaatio = new Relaatio();
+    *   relaatio.parse("   1   |  1  |   1  | 1.1.2021 | 1.1.2031 ");
+    *   relaatio.getRelaatioTunnus() === 1;
+    *   relaatio.toString()    === "1|1|1|1.1.2021|1.1.2031";
     *   
-    *   harrastus.rekisteroi();
-    *   int n = harrastus.getTunnusNro();
-    *   harrastus.parse(""+(n+20));
-    *   harrastus.rekisteroi();
-    *   harrastus.getTunnusNro() === n+20+1;
-    *   harrastus.toString()     === "" + (n+20+1) + "|10|Kalastus|1949|22";
+    *   relaatio.rekisteroi();
+    *   int n = relaatio.getRelaatioTunnus();
+    *   relaatio.parse(""+(n+20));
+    *   relaatio.rekisteroi();
+    *   relaatio.getRelaatioTunnus() === n+20+1;
     * </pre>
     */
    public void parse(String rivi) {

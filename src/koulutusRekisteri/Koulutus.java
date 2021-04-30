@@ -32,7 +32,8 @@ import java.io.PrintStream;
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 22.3.2021
+ * @version 1.0, 22.3.2021 / Tajusin vasta kurssin loppupuolella kuinka näitä versiotietoja tulee käyttää...
+ * @version 1.1, 30.4.2021 / Testejä
  *
  */
 public class Koulutus {
