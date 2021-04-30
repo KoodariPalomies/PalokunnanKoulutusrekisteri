@@ -34,7 +34,9 @@ import fi.jyu.mit.ohj2.Mjonot;  //==============================================
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 24.3.2021
+ * @version 1.0, 24.3.2021 / Huonosti ylläpidetty versiopäiväkirja....
+ * @version 1.1, 30.4.2021 / HT6 testejä...
+ * 
  * https://tim.jyu.fi/view/kurssit/tie/ohj2/harjoitustyo/vaiheet/harrastukset-relaatioilla 
  */
 public class Relaatio {

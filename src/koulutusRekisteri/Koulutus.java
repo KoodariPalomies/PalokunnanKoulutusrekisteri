@@ -154,7 +154,7 @@ public class Koulutus {
      * @example
      * <pre name="test">
      *   Koulutus koulutus = new Koulutus();
-     *   koulutus.parse("1|Vesisukeltaja");
+     *   koulutus.parse(" 1  | Vesisukeltaja  ");
      *   koulutus.toString() === "1|Vesisukeltaja";
      * </pre>
      */

@@ -26,7 +26,7 @@ import java.util.List;
  * @author mitulint
  * @version 1.0, ennen 29.4.2021 / pidin huonosti kirjaa mitä tein ja ehkäpä siksi vaikea pysyä muutoksissa kärryillä
  * @version 1.1, 29.4.2021 / HT6 tulostukset tekstikenttiin ja valinta (työntekijä ja koulutus) toimimaan
- * @version 1.2, 29.4.2021 / HT6 testejä
+ * @version 1.2, 30.4.2021 / HT6 testejä
  *
  */
 public class Koulutusrekisteri {

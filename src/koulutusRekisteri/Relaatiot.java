@@ -53,6 +53,7 @@ public class Relaatiot implements Iterable<Relaatio> {
         // EI vielä
     }
     
+    
     /**
      * Lisää uuden relaation tietorakenteeseen. Ottaa relaation omistukseensa.
      * @param rel lisättävä relaatio. Huom tietorakenne muuttuu omistajaksi
@@ -288,7 +289,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * 
      * ids.toString() === tulos;
      * 
-     * Iterator<Relaatio> i=relaatiot.iteratori();
+     * Iterator<Relaatio> i=relaatiot.iterator();
      * i.next() == rel1 === true;
      * i.next() == rel2 === true;
      * i.next() == rel1 === true;
@@ -324,8 +325,9 @@ public class Relaatiot implements Iterable<Relaatio> {
     
     
     /**
-     * @param i hh
-     * @return yksittäisen relaation paikassa i
+     * Palauttaa viitteen i:teen relaatioon.
+     * @param i monennenko relaation viite halutaan
+     * @return viite relaatioon, jonka indeksi on i
      */
     public Relaatio annaRelaatiot(int i) {
         if (i < 0 || i < lkm) return null;

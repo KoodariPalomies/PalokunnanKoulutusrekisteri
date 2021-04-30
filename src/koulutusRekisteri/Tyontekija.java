@@ -32,7 +32,8 @@ import static kanta.HetuTarkistus.*; // HetuTarkistus --> kanta packet --> voi k
  * |                                                    |                   |  
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 3.3.2021
+ * @version 1.0, 3.3.2021 / Huonosti seurannut näitä versiokehityksiä
+ * @version 1.1, 30.4.2021 / HT6 testejä
 */
 public class Tyontekija {
     
