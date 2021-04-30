@@ -101,9 +101,9 @@ public class Tyontekija {
      * <pre name="test">
      *      Tyontekija aku1 = new Tyontekija();
      *      aku1.getTyontekijaTunnus() === 0;
-     *      aku1.lisaaTyontekija();
+     *      aku1.rekisteroi();
      *      Tyontekija aku2 = new Tyontekija();
-     *      aku2.lisaaTyontekija();
+     *      aku2.rekisteroi();
      *      int n1 = aku1.getTyontekijaTunnus();
      *      int n2 = aku2.getTyontekijaTunnus();
      *      n1 === n2-1;
@@ -156,8 +156,8 @@ public class Tyontekija {
      * @example
      * <pre name="test">
      *   Tyontekija tyontekija = new Tyontekija();
-     *   tyontekija.parse("   3  |  Ankka Aku   | 030201-111C");
-     *   tyontekija.toString().startsWith("3|Ankka Aku|030201-111C|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *   tyontekija.parse("   1  |  Ankka Aku   | Pelastustoiminta | Palomies ");
+     *   tyontekija.toString() === "1|Ankka Aku|Pelastustoiminta|Palomies";
      * </pre>  
      */
     @Override
@@ -171,23 +171,22 @@ public class Tyontekija {
 
 
     /**
-     * Selvitää työntekijän tiedot | erotellusta merkkijonosta
-     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusNro.
+     * Selvittää työntekijän tiedot | erotellusta merkkijonosta
+     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tyontekijaTunnus.
      * @param rivi josta työntekijän tiedot otetaan
-     * 
      * @example
      * <pre name="test">
      *   Tyontekija tyontekija = new Tyontekija();
-     *   tyontekija.parse("   3  |  Ankka Aku   | 030201-111C");
-     *   tyontekija.getTyontekijaTunnus() === 3;
-     *   tyontekija.toString().startsWith("3|Ankka Aku|030201-111C|") === true; // on enemmäkin kuin 3 kenttää, siksi loppu |
+     *   tyontekija.parse("   1  |  Ankka Aku   | Pelastustoiminta | Palomies ");
+     *   tyontekija.getTyontekijaTunnus() === 1;
+     *   tyontekija.toString() === "1|Ankka Aku|Pelastustoiminta|Palomies";
      *
      *   tyontekija.rekisteroi();
      *   int n = tyontekija.getTyontekijaTunnus();
      *   tyontekija.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
      *   tyontekija.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
      *   tyontekija.getTyontekijaTunnus() === n+20+1;
-     *     
+     *   tyontekija.toString() === "" + (n+20+1) + "|Ankka Aku|Pelastustoiminta|Palomies";
      * </pre>
      */
     public void parse(String rivi) {

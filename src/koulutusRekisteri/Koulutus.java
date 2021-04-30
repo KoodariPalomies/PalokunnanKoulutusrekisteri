@@ -70,7 +70,14 @@ public class Koulutus {
     
     
     /**
+     * Palautetaan koulutuksen nimi
      * @return koulutuksen nimi
+     * @example
+     * <pre name="test">
+     *      Koulutus vesi = new Koulutus();
+     *      vesi.vastaaVesisukeltaja();
+     *      vesi.getKoulutus() =R= "Vesisukeltaja .*";
+     * </pre>
      */
     public String getKoulutus() {
         return koulutus;
@@ -107,16 +114,16 @@ public class Koulutus {
     
     /**
      * Antaa uudelle koulutukselle seuraavan koulutustunnuksen.
-     * @return työntekijän uusi tunnusNro
+     * @return koulutuksen uusi koulutusTunnus
      * @example
      * <pre name="test">
-     *      Tyontekija aku1 = new Tyontekija();
-     *      aku1.getTyontekijaTunnus() === 0;
-     *      aku1.lisaaTyontekija();
-     *      Tyontekija aku2 = new Tyontekija();
-     *      aku2.lisaaTyontekija();
-     *      int n1 = aku1.getTyontekijaTunnus();
-     *      int n2 = aku2.getTyontekijaTunnus();
+     *      Koulutus vesi1 = new Koulutus();
+     *      vesi1.getTyontekijaTunnus() === 0;
+     *      vesi.rekisteroi();
+     *      Koulutus vesi2 = new Koulutus();
+     *      vesi2.rekisteroi();
+     *      int n1 = vesi1.getTyontekijaTunnus();
+     *      int n2 = vesi2.getTyontekijaTunnus();
      *      n1 === n2-1;
      * </pre>
      */
@@ -141,13 +148,13 @@ public class Koulutus {
 
 
     /**
-     * Palauttaa harrastuksen tiedot merkkijonona jonka voi tallentaa tiedostoon.
-     * @return harrastus tolppaeroteltuna merkkijonona 
+     * Palauttaa koulutuksen tiedot merkkijonona jonka voi tallentaa tiedostoon.
+     * @return koulutuksen tiedot tolppaeroteltuna merkkijonona 
      * @example
      * <pre name="test">
-     *   Harrastus harrastus = new Harrastus();
-     *   harrastus.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-     *   harrastus.toString()    === "2|10|Kalastus|1949|22";
+     *   Koulutus koulutus = new Koulutus();
+     *   koulutus.parse("1|Vesisukeltaja");
+     *   koulutus.toString() === "1|Vesisukeltaja";
      * </pre>
      */
     @Override
@@ -158,22 +165,21 @@ public class Koulutus {
 
 
     /**
-     * Selvitää harrastuksen tiedot | erotellusta merkkijonosta.
-     * Pitää huolen että seuraavaNro on suurempi kuin tuleva tunnusnro.
-     * @param rivi josta harrastuksen tiedot otetaan
+     * Selvittää koulutuksen tiedot | erotellusta merkkijonosta.
+     * Pitää huolen että seuraavaKoulutustunnus on suurempi kuin tuleva koulutusTunnus.
+     * @param rivi josta koulutuksen tiedot otetaan
      * @example
      * <pre name="test">
-     *   Harrastus harrastus = new Harrastus();
-     *   harrastus.parse("   2   |  10  |   Kalastus  | 1949 | 22 t ");
-     *   harrastus.getJasenNro() === 10;
-     *   harrastus.toString()    === "2|10|Kalastus|1949|22";
+     *   Koulutus koulutus = new Koulutus();
+     *   koulutus.parse("1|Vesisukeltaja");
+     *   koulutus.getKoulutusTunnus() === 1;
+     *   koulutus.toString() === "1|Vesisukeltaja";
      *   
-     *   harrastus.rekisteroi();
-     *   int n = harrastus.getTunnusNro();
-     *   harrastus.parse(""+(n+20));
-     *   harrastus.rekisteroi();
-     *   harrastus.getTunnusNro() === n+20+1;
-     *   harrastus.toString()     === "" + (n+20+1) + "|10|Kalastus|1949|22";
+     *   koulutus.rekisteroi();
+     *   int n = koulutus.getKoulutusTunnus();
+     *   koulutus.parse(""+(n+20));
+     *   koulutus.rekisteroi();
+     *   koulutus.getKoulutusTunnus() === n+20+1;
      * </pre>
      */
     public void parse(String rivi) {

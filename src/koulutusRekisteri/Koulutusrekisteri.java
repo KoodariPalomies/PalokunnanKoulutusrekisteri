@@ -77,6 +77,20 @@ public class Koulutusrekisteri {
      * Lisää uuden työntekijän
      * @param tyontekija lisättävä työntekijä
      * @throws SailoException jos lisääminen ei onnistu
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
+     * Tyontekija aku1 = new Tyontekija(); aku2 = new Tyontekija();
+     * koulutusrekisteri.lisaa(aku1);
+     * koulutusrekisteri.lisaa(aku2);
+     * koulutusrekisteri.lisaa(aku1);
+     * Collection<Tyontekija> loytyneet = koulutusrekisteri.etsiTyontekija("", -1);
+     * Iterator<Tyontekija> it = loytyneet.iterator();
+     * it.next() === aku1;
+     * it.next() === aku2;
+     * it.next() === aku1;
+     * </pre>
      */
     public void lisaa(Tyontekija tyontekija) throws SailoException {
         tyontekijat.lisaa(tyontekija);
@@ -155,9 +169,47 @@ public class Koulutusrekisteri {
      * @param i minkä työntekijän relaatio
      * @return relaatio työntekijän tunnuksella
      * @throws IndexOutOfBoundsException jos i väärin
+     * @example
+     * <pre name="test">
+     * #THROWS IndexOutOfBoundsException
+     * #import java.util.*;
+     * 
+     * Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
+     * 
+     * Tyontekija aku1 = new Tyontekija(); aku1.vastaaAkuAnkka(); aku1.rekisteroi(); 
+     * Tyontekija aku2 = new Tyontekija(); aku2.vastaaAkuAnkka(); aku2.rekisteroi();
+     * Tyontekija aku3 = new Tyontekija(); aku3.vastaaAkuAnkka(); aku3.rekisteroi(); 
+     * 
+     * Koulutus vesi1 = new Koulutus(); vesi1.vastaaVesisukeltaja(); vesi1.rekisteroi(); 
+     * Koulutus vesi2 = new Koulutus(); vesi2.vastaaVesisukeltaja(); vesi2.rekisteroi();
+     * 
+     * int id1 = aku1.getTyontekijaTunnus();
+     * int id2 = aku2.getTyontekijaTunnus();
+     * int id3 = vesi1.getKoulutusTunnus();
+     * int id4 = vesi2.getKoulutusTunnus();
+     *      
+     * Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
+     * Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi();
+     * 
+     * koulutusrekisteri.lisaa(aku1);
+     * koulutusrekisteri.lisaa(aku2);
+     * koulutusrekisteri.lisaa(vesi1);
+     * koulutusrekisteri.lisaa(vesi2);
+     * koulutusrekisteri.lisaa(rel1);
+     * koulutusrekisteri.lisaa(rel2);
+     * 
+     * List<Relaatio> loytyneet;
+     * loytyneet = koulutusrekisteri.annaRelaatiot(aku3);
+     * loytyneet.size() === 0;
+     * loytyneet = koulutusrekisteri.annaRelaatiot(aku1);
+     * loytyneet.size() === 2;
+     * loytyneet.get(0) == vesi1 === true;
+     * loytyneet.get(1) == vesi2 === true;
+     * loytyneet = koulutusrekisteri.annaRelaatiot(aku2);
+     * loytyneet.size() === 3;
+     * loytyneet.get(0) == pitsi21 === true;
+     * </pre>
      */
-    //public List<Relaatio> annaRelaatiot(int i) throws IndexOutOfBoundsException {   //Tyontekija tyontekija
-         //return relaatiot.annaRelaatiot(tyontekija.getTyontekijaTunnus());
     public List<Relaatio> annaRelaatiot(int i) throws IndexOutOfBoundsException {
         return relaatiot.annaRelaatiot(i);
     }
