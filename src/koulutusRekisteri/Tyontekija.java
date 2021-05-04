@@ -184,8 +184,8 @@ public class Tyontekija {
      *
      *   tyontekija.rekisteroi();
      *   int n = tyontekija.getTyontekijaTunnus();
-     *   tyontekija.parse(""+(n+20));       // Otetaan merkkijonosta vain tunnusnumero
-     *   tyontekija.rekisteroi();           // ja tarkistetaan että seuraavalla kertaa tulee yhtä isompi
+     *   tyontekija.parse(""+(n+20));
+     *   tyontekija.rekisteroi();
      *   tyontekija.getTyontekijaTunnus() === n+20+1;
      *   tyontekija.toString() === "" + (n+20+1) + "|Ankka Aku|Pelastustoiminta|Palomies";
      * </pre>

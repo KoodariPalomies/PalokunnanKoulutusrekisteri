@@ -31,7 +31,8 @@ import java.util.NoSuchElementException;
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
  * @author mitulit
- * @version 20.4.2021
+ * @version 1.0, 20.4.2021 / Väärin pidetty versiokirjanpito
+ * @version 1.1, 4.5.2021 / HT6 testejä
  *
  */
 public class Tyontekijat implements Iterable<Tyontekija>{
@@ -77,7 +78,6 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      */
     public void lisaa(Tyontekija tyontekija) throws SailoException {
         if ( lkm >= tyontekijat.length) {
-            //kasvataTaulukkoa(tyontekija);
             muutettu = true;
         }
         else {
@@ -86,21 +86,6 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         }
     }
     
-    
-    /**
-     * Kasvatetaan taulukkoa dynaamisesti, kun se täyttyy.
-     * @param tyontekija taulukko
-     
-    public void kasvataTaulukkoa(Tyontekija tyontekija) {
-        Tyontekija[] t2 = new Tyontekija[tyontekijat.length*2];
-        
-        for (int i = 0; i < lkm; i++) {
-            t2[i] = tyontekijat[i];
-            }
-        t2[lkm++] = tyontekija;
-        tyontekijat = t2;
-    }
-    */
     
     /**
      * Palauttaa viitteen i:teen työntekijään.
@@ -118,6 +103,34 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * Lukee työntekijät tiedostosta. 
      * @param tied tiedoston perusnimi
      * @throws SailoException jos lukeminen epäonnistuu
+     * 
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * #import java.io.File;
+     * Tyontekijat tyontekijat = new Tyontekijat();
+     * Tyontekija aku1 = new Tyontekija(); aku1.vastaaAkuAnkka(1);
+     * Tyontekija aku2 = new Tyontekija(); aku1.vastaaAkuAnkka(2);
+     * Tyontekija aku3 = new Tyontekija(); aku1.vastaaAkuAnkka(3);
+     * String tiedNimi = "testityontekijat";
+     * File ftied = new File (tiedNimi+".dat");
+     * ftied.delete();
+     * tyontekijat.lueTiedostosta(tiedNimi); #THROWS SailoException
+     * tyontekijat.lisaa(aku1);
+     * tyontekijat.lisaa(aku2);
+     * tyontekijat.lisaa(aku3);
+     * tyontekijat.tallenna();
+     * tyontekijat = new Tyontekijat();
+     * tyontekijat.lueTiedostosta(tiedNimi);
+     * Iterator<Tyontekija> i = tyontekijat.iterator();
+     * i.next().toString() === aku1.toString();
+     * i.next().toString() === aku2.toString();
+     * i.next().toString() === aku3.toString();
+     * i.hasNext() === false;
+     * tyontekijat.lisaa(aku3);
+     * tyontekijat.tallenna();
+     * ftied.delete() === true;
+     * </pre>
      */
     public void lueTiedostosta(String tied) throws SailoException {
         setTiedostonPerusNimi(tied);
@@ -132,7 +145,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
                 rivi = rivi.trim();
                 if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
                 Tyontekija tyon = new Tyontekija();
-                tyon.parse(rivi); // voisi olla virhekäsittely
+                tyon.parse(rivi);
                 lisaa(tyon);
             }
             muutettu = false;
@@ -156,14 +169,12 @@ public class Tyontekijat implements Iterable<Tyontekija>{
 
         
         /**
-         * Tallentaa jäsenistön tiedostoon.  
+         * Tallentaa työntekijat tiedostoon.  
          * Tiedoston muoto:
          * <pre>
-         * Kelmien kerho
-         * 20
-         * ; kommenttirivi
-         * 2|Ankka Aku|121103-706Y|Paratiisitie 13|12345|ANKKALINNA|12-1234|||1996|50.0|30.0|Velkaa Roopelle
-         * 3|Ankka Tupu|121153-706Y|Paratiisitie 13|12345|ANKKALINNA|12-1234|||1996|50.0|30.0|Velkaa Roopelle
+         * 2
+         * 1|Ankka Aku|Pelastustoiminta|Palomies
+         * 2|Ankka Tupu|Pelastustoiminta|Palomies
          * </pre>
          * @throws SailoException jos talletus epäonnistuu
          */
@@ -226,6 +237,43 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         
         /**
          * Luokka työntekijöiden iteroimiseksi.
+         * @example
+         * <pre name="test">
+         * #PACKAGEIMPORT
+         * #import java.util.*;
+         * 
+         * Tyontekijat tyontekijat = new Tyontekijat();
+         * Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
+         * aku1.rekisteroi(); aku2.rekisteroi();
+         * 
+         * tyontekijat.lisaa(aku1);
+         * tyontekijat.lisaa(aku2);
+         * tyontekijat.lisaa(aku1);
+         * 
+         * StringBuffer ids = new StringBuffer(30);
+         * for ( Tyontekija tyon:tyontekijat )
+         *  ids.append(" "+tyon.getTyontekijaTunnus());
+         * 
+         * String tulos = " " + aku1.getTyontekijaTunnus() + " " + aku2.getTyontekijaTunnus() + " " + aku1.getTyontekijaTunnus();
+         * 
+         * ids.toString() === tulos;
+         * 
+         * ids = new StringBuffer(30);
+         * for (Iterator<Tyontekija> i=tyontekijat.iterator(); i.hasNext(); ) {
+         *  Tyontekija tyon = i.next();
+         *  ids.append(" "+tyon.getTyontekijaTunus());
+         * }
+         * 
+         * ids.toString() === tulos;
+         * 
+         * Iterator<Tyontekija> i=tyontekijat.iterator();
+         * i.next() == aku1 === true;
+         * i.next() == aku2 === true;
+         * i.next() == aku1 === true;
+         * 
+         * i.next(); #THROWS NoSuchElementException
+         * 
+         * </pre>
          */
         public class TyontekijatIterator implements Iterator<Tyontekija> {
             private int kohdalla = 0;
@@ -268,7 +316,8 @@ public class Tyontekijat implements Iterable<Tyontekija>{
 
 
         /**
-         * 
+         * Iteraattori kaikkien tyontekijöiden läpikäymiseen
+         * @return tyontekijaiteraattori
          */
         @Override
         public Iterator<Tyontekija> iterator() {
@@ -280,18 +329,15 @@ public class Tyontekijat implements Iterable<Tyontekija>{
          * Palauttaa "taulukossa" hakuehtoon vastaavien työntekijöiden viitteet 
          * @param hakuehto hakuehto 
          * @param t etsittävän kentän indeksi
-         * @return tietorakenteen löytyneistä työntekijöistä 
+         * @return tietorakenteen löytyneistä työntekijöistä
          * @example 
          * <pre name="test"> 
-         * #THROWS SailoException  
-         *   Jasenet jasenet = new Jasenet(); 
-         *   Jasen jasen1 = new Jasen(); jasen1.parse("1|Ankka Aku|030201-115H|Paratiisitie 13|"); 
-         *   Jasen jasen2 = new Jasen(); jasen2.parse("2|Ankka Tupu||030552-123B|"); 
-         *   Jasen jasen3 = new Jasen(); jasen3.parse("3|Susi Sepe|121237-121V||131313|Perämetsä"); 
-         *   Jasen jasen4 = new Jasen(); jasen4.parse("4|Ankka Iines|030245-115V|Ankkakuja 9"); 
-         *   Jasen jasen5 = new Jasen(); jasen5.parse("5|Ankka Roope|091007-408U|Ankkakuja 12"); 
-         *   jasenet.lisaa(jasen1); jasenet.lisaa(jasen2); jasenet.lisaa(jasen3); jasenet.lisaa(jasen4); jasenet.lisaa(jasen5);
-         *   // TODO: toistaiseksi palauttaa kaikki jäsenet 
+         * #THROWS SailoException
+         * Tyontekijat tyontekijat = new Tyontekijat();
+         * Tyontekija aku1 = new Tyontekija(); aku1.parse("1|Ankka Aku|Pelastustoiminta|Palomies");
+         * Tyontekija aku2 = new Tyontekija(); aku2.parse("2|Ankka Tupu|Pelastustoiminta|Palomies");
+         * Tyontekija aku3 = new Tyontekija(); aku3.parse("3|Ankka Hupu|Pelastustoiminta|Palomies");
+         * tyontekijat.lisaa(aku1); tyontekijat.lisaa(aku2); tyontekijat.lisaa(aku3);
          * </pre> 
          */ 
         @SuppressWarnings("unused")

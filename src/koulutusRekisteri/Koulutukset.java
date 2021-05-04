@@ -29,7 +29,8 @@ import koulutusRekisteri.Tyontekijat.TyontekijatIterator;
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 24.3.3021
+ * @version 1.0, 24.3.2021 / Väärin pidetty versiokirjanpito
+ * @version 1.1, 4.5.2021 / HT6 testejä
  *
  */
 public class Koulutukset implements Iterable<Koulutus> {
@@ -40,7 +41,7 @@ public class Koulutukset implements Iterable<Koulutus> {
     private String kokoNimi = "";
     private String tiedostonPerusNimi = "koulutukset";
     private Koulutus koulutukset[] = new Koulutus[MAX_KOULUTUKSIA];
-    //private final ArrayList<Koulutus> alkiot = new ArrayList<Koulutus>();  // Collection
+    
     
     /**
      * Oletusmuodostaja
@@ -50,28 +51,13 @@ public class Koulutukset implements Iterable<Koulutus> {
     }
     
     
-   // /**
-   //  * Haetaan listana kaikki tietokannassa olevat koulutukset.
-   //  * @return lista kaikista koulutuksista
-   //  */
-    //public ArrayList<Koulutus> annaKaikkiKoulutukset() {
-      //  return alkiot;
-    //}
-    
-    
     /**
      * Lisää uuden koulutuksen tietorakenteeseen. Ottaa koulutuksen omistukseensa.
      * @param koulutus lisättävän koulutuksen viite. Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
      */
-    //public void lisaa(Koulutus koulutus) throws SailoException {
-      //  alkiot.add(koulutus);
-        //muutettu = true;
-
-    //}
     public void lisaa(Koulutus koulutus) throws SailoException {
         if ( lkm >= koulutukset.length ) {
-            //kasvataTaulukkoa(koulutus);
             muutettu = true;
         }
         else {
@@ -80,21 +66,6 @@ public class Koulutukset implements Iterable<Koulutus> {
         }
     }
     
-    
-    /**
-     * Kasvatetaan taulukkoa dynaamisesti, kun se täyttyy.
-     * @param koulutus taulukko
-     
-    public void kasvataTaulukkoa(Koulutus koulutus) {
-        Koulutus[] k2 = new Koulutus[koulutukset.length*2];
-        
-        for (int i = 0; i < lkm; i++) {
-            k2[i] = koulutukset[i];
-            }
-        k2[lkm++] = koulutus;
-        koulutukset = k2;
-    }
-    */
     
     /**
      * Palauttaa viitteen i:teen koulutukseen.
@@ -108,23 +79,8 @@ public class Koulutukset implements Iterable<Koulutus> {
     }
     
     
-  //  /**
-  //   * Palauttaa viitteen i:teen työntekijään.
-  //   * @param tunnusnro viite työntekijään
-  //   * @return viite työntekijään, jonka indeksi on i
-  //   * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
-  //   */
-  //  public List<Koulutus> annaKoulutukset(int tunnusnro) {
-  //      List<Koulutus> tyontekijanKoulutukset = new ArrayList<Koulutus>();
-  //      for (Koulutus koul : alkiot)
-  //          if (koul.getKoulutusTunnus() == tunnusnro) tyontekijanKoulutukset.add(koul);
-  //      return tyontekijanKoulutukset;
-  //  }
-
-    
-    
   /**
-   * Lukee koulutukset tiedostosta.  Kesken.
+   * Lukee koulutukset tiedostosta.
    * @param tied tiedoston nimi
    * @throws SailoException jos lukeminen epäonnistuu
    */
@@ -145,12 +101,12 @@ public class Koulutukset implements Iterable<Koulutus> {
             lisaa(koul);
         }
         muutettu = false;
-        
-    } catch ( FileNotFoundException e ) {
-        throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
-    } catch ( IOException e ) {
-        throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
-    }
+                
+            } catch ( FileNotFoundException e ) {
+                throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
+            } catch ( IOException e ) {
+                throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+            }
     System.out.println(tied);
 }
 
@@ -172,11 +128,6 @@ public class Koulutukset implements Iterable<Koulutus> {
         if ( !muutettu ) return;
         File ftied = new File(getTiedostonNimi());
 
-//        try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-  //          for (Koulutus koul : this) {
-    //            String rivi = koul.toString();
-      //          fo.println(rivi);    // fo.println(koul.toString());
-        //    }
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
             fo.println(getKokoNimi());
             fo.println(koulutukset.length);
@@ -184,11 +135,11 @@ public class Koulutukset implements Iterable<Koulutus> {
                 fo.println(koul.toString());
             }
             
-        } catch ( FileNotFoundException ex ) {
-            throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
-        } catch ( IOException ex ) {
-            throw new SailoException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
-        }
+            } catch ( FileNotFoundException ex ) {
+                throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
+            } catch ( IOException ex ) {
+                throw new SailoException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
+            }
         muutettu = false;
     }
     
@@ -304,29 +255,6 @@ public class Koulutukset implements Iterable<Koulutus> {
         return lkm;
     }
     
-//    /**
-  //   * Palauttaa koulutusrekisterin koulutusten lukumäärän
-    // * @return koulutusten lukumäärä
-//     */
-  //  public int getLkm() {
-    //    return alkiot.size();
-    //}
-    
-    
-//    /**
-  //   * @param i koulutus, jonka -..
-    // * @return koulutuksen ...
-//     */
-  //  public Koulutus annaKoulutus(int i) {
-    //    return alkiot.get(i);
-//    }
-    
-    
-//    @Override
-  //  public Iterator<Koulutus> iterator() {
-    //    return alkiot.iterator();
-   // }
-    
     
     /**
      * @param args ei käytössä
@@ -350,11 +278,6 @@ public class Koulutukset implements Iterable<Koulutus> {
             
             System.out.println("========== Työntekijät testi ==========");
             
-//            for (int i = 0; i < koulutukset.getLkm(); i++) {
-  //              List<Koulutus> koulutus = koulutukset.annaKoulutukset(i);
-    //            System.out.println("Koulutustunnus: " + i);
-      //          ((Koulutus) koulutus).tulosta(System.out);
-        //    }
             for (int i = 0; i < koulutukset.getLkm(); i++) {
                 Koulutus koulutus = koulutukset.annaKoulutus(i);
                 System.out.println("Työntekijätunnus: " + i);
