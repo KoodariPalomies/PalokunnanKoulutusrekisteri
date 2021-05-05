@@ -81,7 +81,7 @@ public class Koulutusrekisteri {
      * <pre name="test">
      * #THROWS SailoException
      * Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
-     * Tyontekija aku1 = new Tyontekija(); aku2 = new Tyontekija();
+     * Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
      * koulutusrekisteri.lisaa(aku1);
      * koulutusrekisteri.lisaa(aku2);
      * koulutusrekisteri.lisaa(aku1);
@@ -172,6 +172,7 @@ public class Koulutusrekisteri {
      * @example
      * <pre name="test">
      * #THROWS IndexOutOfBoundsException
+     * #THROWS SailoException
      * #import java.util.*;
      * 
      * Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
@@ -191,23 +192,18 @@ public class Koulutusrekisteri {
      * Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
      * Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi();
      * 
-     * koulutusrekisteri.lisaa(aku1);
-     * koulutusrekisteri.lisaa(aku2);
-     * koulutusrekisteri.lisaa(vesi1);
-     * koulutusrekisteri.lisaa(vesi2);
-     * koulutusrekisteri.lisaa(rel1);
-     * koulutusrekisteri.lisaa(rel2);
+     * koulutusrekisteri.lisaa(aku1); #THROWS SailoException
+     * koulutusrekisteri.lisaa(aku2); #THROWS SailoException
+     * koulutusrekisteri.lisaa(vesi1); #THROWS SailoException
+     * koulutusrekisteri.lisaa(vesi2); #THROWS SailoException
+     * koulutusrekisteri.lisaa(rel1); #THROWS SailoException
+     * koulutusrekisteri.lisaa(rel2); #THROWS SailoException
      * 
      * List<Relaatio> loytyneet;
-     * loytyneet = koulutusrekisteri.annaRelaatiot(aku3);
-     * loytyneet.size() === 0;
-     * loytyneet = koulutusrekisteri.annaRelaatiot(aku1);
+     * loytyneet = koulutusrekisteri.annaRelaatiot(1);
+     * loytyneet.size() === 1;
+     * loytyneet = koulutusrekisteri.annaRelaatiot(2);
      * loytyneet.size() === 2;
-     * loytyneet.get(0) == vesi1 === true;
-     * loytyneet.get(1) == vesi2 === true;
-     * loytyneet = koulutusrekisteri.annaRelaatiot(aku2);
-     * loytyneet.size() === 3;
-     * loytyneet.get(0) == pitsi21 === true;
      * </pre>
      */
     public List<Relaatio> annaRelaatiot(int i) throws IndexOutOfBoundsException {
@@ -292,12 +288,12 @@ public class Koulutusrekisteri {
        * ik.next() === vesi2;
        * ik.hasNext() === false;
        * 
-       * List<Relaatio> loytyneet = koulutusrekisteri.annaRelaatiot(aku1);
+       * List<Relaatio> loytyneet = koulutusrekisteri.annaRelaatiot(0);
        * Iterator<Relaatio> ir = loytyneet.iterator();
        * ir.next() === rel1;
        * ir.next() === rel2;
        * ir.hasNext() === false;
-       * loytyneet = koulutusrekisteri.annaRelaatiot(aku2);
+       * loytyneet = koulutusrekisteri.annaRelaatiot(1);
        * ir = loytyneet.iterator();
        * ir.next() === rel1;
        * ir.next() === rel2;
@@ -388,11 +384,6 @@ public class Koulutusrekisteri {
                      System.out.println("Koulutus paikassa: " + n);
                      koulutus.tulosta(System.out);                 
                      
-//                     for (int r = 0; r < koulutusrekisteri.getRelaatiot(); r++) {
-  //                       Relaatio relaatio = koulutusrekisteri.annaRelaatiot(r);
-    //                     System.out.println("Relaatio paikassa: " + r);
-      //                   relaatio.tulosta(System.out);
-        //             }
                  }
              }
          } catch (SailoException ex) {

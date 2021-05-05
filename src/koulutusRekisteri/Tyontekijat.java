@@ -109,9 +109,9 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * #THROWS SailoException
      * #import java.io.File;
      * Tyontekijat tyontekijat = new Tyontekijat();
-     * Tyontekija aku1 = new Tyontekija(); aku1.vastaaAkuAnkka(1);
-     * Tyontekija aku2 = new Tyontekija(); aku1.vastaaAkuAnkka(2);
-     * Tyontekija aku3 = new Tyontekija(); aku1.vastaaAkuAnkka(3);
+     * Tyontekija aku1 = new Tyontekija(); aku1.vastaaAkuAnkka();
+     * Tyontekija aku2 = new Tyontekija(); aku2.vastaaAkuAnkka();
+     * Tyontekija aku3 = new Tyontekija(); aku3.vastaaAkuAnkka();
      * String tiedNimi = "testityontekijat";
      * File ftied = new File (tiedNimi+".dat");
      * ftied.delete();
@@ -240,15 +240,16 @@ public class Tyontekijat implements Iterable<Tyontekija>{
          * @example
          * <pre name="test">
          * #PACKAGEIMPORT
+         * #THROWS SailoException
          * #import java.util.*;
          * 
          * Tyontekijat tyontekijat = new Tyontekijat();
          * Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
          * aku1.rekisteroi(); aku2.rekisteroi();
          * 
-         * tyontekijat.lisaa(aku1);
-         * tyontekijat.lisaa(aku2);
-         * tyontekijat.lisaa(aku1);
+         * tyontekijat.lisaa(aku1); #THROWS SailoException
+         * tyontekijat.lisaa(aku2); #THROWS SailoException
+         * tyontekijat.lisaa(aku1); #THROWS SailoException
          * 
          * StringBuffer ids = new StringBuffer(30);
          * for ( Tyontekija tyon:tyontekijat )
@@ -261,7 +262,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
          * ids = new StringBuffer(30);
          * for (Iterator<Tyontekija> i=tyontekijat.iterator(); i.hasNext(); ) {
          *  Tyontekija tyon = i.next();
-         *  ids.append(" "+tyon.getTyontekijaTunus());
+         *  ids.append(" "+tyon.getTyontekijaTunnus());
          * }
          * 
          * ids.toString() === tulos;
