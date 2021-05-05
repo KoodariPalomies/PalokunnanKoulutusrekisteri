@@ -317,7 +317,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
 
 
         /**
-         * Iteraattori kaikkien tyontekijöiden läpikäymiseen
+         * Palautetaan iteraattori työntekijöistä.
          * @return tyontekijaiteraattori
          */
         @Override

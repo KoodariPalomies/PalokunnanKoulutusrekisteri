@@ -68,12 +68,12 @@ public class Relaatiot implements Iterable<Relaatio> {
      * relaatiot.lisaa(rel1); relaatiot.getLkm() === 1;
      * relaatiot.lisaa(rel2); relaatiot.getLkm() === 2;
      * relaatiot.lisaa(rel1); relaatiot.getLkm() === 3;
-     * relaatiot.anna(0) === rel1;
-     * relaatiot.anna(1) === rel2;
-     * relaatiot.anna(2) === rel1;
-     * relaatiot.anna(1) == rel1 === false;
-     * relaatiot.anna(1) == rel2 === true;
-     * relaatiot.anna(3) === rel1; #THROWS IndexOutOfBoundsException
+     * relaatiot.annaRelaatiot(0) === rel1;
+     * relaatiot.annaRelaatiot(1) === rel2;
+     * relaatiot.annaRelaatiot(2) === rel1;
+     * relaatiot.annaRelaatiot(1) == rel1 === false;
+     * relaatiot.annaRelaatiot(1) == rel2 === true;
+     * relaatiot.annaRelaatiot(3) === rel1; #THROWS IndexOutOfBoundsException
      * relaatiot.lisaa(rel1); relaatiot.getLkm() === 4;
      * relaatiot.lisaa(rel1); relaatiot.getLkm() === 5;
      * relaatiot.lisaa(rel1); #THROWS SailoException
@@ -282,7 +282,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * ids.toString() === tulos;
      * 
      * ids = new StringBuffer(30);
-     * for (Iterator<Relaatio> i=relaatiot.iterator(); i.hasNext(); {
+     * for (Iterator<Relaatio> i=relaatiot.iterator(); i.hasNext();) {
      *      Relaatio relaatio = i.next();
      *      ids.append(" "+relaatio.getRelaatioTunnus());
      * }
@@ -353,17 +353,13 @@ public class Relaatiot implements Iterable<Relaatio> {
      * @example
      * <pre name="test">
      * #PACKAGEIMPORT
+     * #THROWS SailoException
      * #import java.util.*;
      * 
      * Relaatiot relaatiot = new Relaatiot();
-     * Relaatio rel1 = new Relaatio(1); relaatiot.lisaa(rel1);
-     * Relaatio rel2 = new Relaatio(2); relaatiot.lisaa(rel2);
-     * Relaatio rel3 = new Relaatio(3); relaatiot.lisaa(rel3);
-     * 
-     * Iterator<Relaatio> i2=relaatiot.iterator();
-     * i2.next() === rel1;
-     * i2.next() === rel2;
-     * i2.next() === rel3;
+     * Relaatio rel1 = new Relaatio(); rel1.rekisteroi(); relaatiot.lisaa(rel1); #THROWS SailoException
+     * Relaatio rel2 = new Relaatio(); rel2.rekisteroi(); relaatiot.lisaa(rel2); #THROWS SailoException
+     * Relaatio rel3 = new Relaatio(); rel3.rekisteroi(); relaatiot.lisaa(rel3); #THROWS SailoException
      * 
      * int n = 0;
      * int jnrot[] = {1,2,3};
@@ -373,6 +369,12 @@ public class Relaatiot implements Iterable<Relaatio> {
      * }
      * 
      * n === 3;
+     * 
+     * Iterator<Relaatio> i2=relaatiot.iterator();
+     * i2.next() == rel1 === true;
+     * i2.next() == rel2 === true;
+     * i2.next() == rel3 === true;
+     * i2.next(); #THROWS NoSuchElementException
      * 
      * </pre>
      */

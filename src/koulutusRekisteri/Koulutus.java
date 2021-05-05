@@ -119,12 +119,12 @@ public class Koulutus {
      * @example
      * <pre name="test">
      *      Koulutus vesi1 = new Koulutus();
-     *      vesi1.getTyontekijaTunnus() === 0;
-     *      vesi.rekisteroi();
+     *      vesi1.getKoulutusTunnus() === 0;
+     *      vesi1.rekisteroi();
      *      Koulutus vesi2 = new Koulutus();
      *      vesi2.rekisteroi();
-     *      int n1 = vesi1.getTyontekijaTunnus();
-     *      int n2 = vesi2.getTyontekijaTunnus();
+     *      int n1 = vesi1.getKoulutusTunnus();
+     *      int n2 = vesi2.getKoulutusTunnus();
      *      n1 === n2-1;
      * </pre>
      */

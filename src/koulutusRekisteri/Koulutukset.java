@@ -55,6 +55,25 @@ public class Koulutukset implements Iterable<Koulutus> {
      * Lisää uuden koulutuksen tietorakenteeseen. Ottaa koulutuksen omistukseensa.
      * @param koulutus lisättävän koulutuksen viite. Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Koulutukset koulutukset = new Koulutukset();
+     * Koulutus vesi1 = new Koulutus(), vesi2 = new Koulutus();
+     * koulutukset.getLkm() === 0;
+     * koulutukset.lisaa(vesi1); koulutukset.getLkm() === 1;
+     * koulutukset.lisaa(vesi2); koulutukset.getLkm() === 2;
+     * koulutukset.lisaa(vesi1); koulutukset.getLkm() === 3;
+     * koulutukset.annaKoulutus(0) === vesi1;
+     * koulutukset.annaKoulutus(1) === vesi2;
+     * koulutukset.annaKoulutus(2) === vesi1;
+     * koulutukset.annaKoulutus(1) == vesi1 === false;
+     * koulutukset.annaKoulutus(1) == vesi2 === true;
+     * koulutukset.annaKoulutus(3) === vesi1; #THROWS IndexOutOfBoundsException
+     * koulutukset.lisaa(vesi1); koulutukset.getLkm() === 4;
+     * koulutukset.lisaa(vesi1); koulutukset.getLkm() === 5;
+     * koulutukset.lisaa(vesi1); #THROWS SailoException
+     * </pre>
      */
     public void lisaa(Koulutus koulutus) throws SailoException {
         if ( lkm >= koulutukset.length ) {
@@ -83,6 +102,33 @@ public class Koulutukset implements Iterable<Koulutus> {
    * Lukee koulutukset tiedostosta.
    * @param tied tiedoston nimi
    * @throws SailoException jos lukeminen epäonnistuu
+   * 
+   * @example
+   * <pre name="test">
+   * #THROWS SailoException
+   * #import java.io.File;
+   * Koulutukset koulutukset = new Koulutukset();
+   * Koulutus vesi1 = new Koulutus(); vesi1.vastaaVesisukeltaja();
+   * Koulutus vesi2 = new Koulutus(); vesi2.vastaaVesisukeltaja();
+   * Koulutus vesi3 = new Koulutus(); vesi3.vastaaVesisukeltaja();
+   * String tiedNimi = "testikoulutukset";
+   * File ftied = new File (tiedNimi+".dat");
+   * ftied.delete();
+   * koulutukset.lueTiedostosta(tiedNimi); #THROWS SailoException
+   * koulutukset.lisaa(vesi1);
+   * koulutukset.lisaa(vesi2);
+   * koulutukset.lisaa(vesi3);
+   * koulutukset.tallenna();
+   * koulutukset = new Koulutukset();
+   * koulutukset.lueTiedostosta(tiedNimi);
+   * Iterator<Koulutus> i = koulutukset.iterator();
+   * i.next().toString() === vesi1.toString();
+   * i.next().toString() === vesi2.toString();
+   * i.next().toString() === vesi3.toString();
+   * i.hasNext() === false;
+   * koulutukset.lisaa(vesi3);
+   * koulutukset.tallenna();
+   * ftied.delete() === true;
    */
     public void lueTiedostosta(String tied) throws SailoException {
     setTiedostonPerusNimi(tied);
@@ -121,7 +167,14 @@ public class Koulutukset implements Iterable<Koulutus> {
     
     
     /**
-     * Tallentaa työntekijät tiedostoon.  Kesken.
+     * Tallentaa koulutukset tiedostoon.
+     * Tiedoston muoto:
+     * <pre>
+     * 
+     * 5
+     * 1|Vesisukeltaja
+     * 2|Vesisukeltaja
+     * </pre>
      * @throws SailoException jos talletus epäonnistuu
      */
     public void tallenna() throws SailoException {
@@ -182,6 +235,44 @@ public class Koulutukset implements Iterable<Koulutus> {
     
     /**
      * Luokka koulutusten iteroimiseksi.
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * #PACKAGEIMPORT
+     * #import java.util.*;
+     * 
+     * Koulutukset koulutukset = new Koulutukset();
+     * Koulutus vesi1 = new Koulutus(), vesi2 = new Koulutus();
+     * vesi1.rekisteroi(); vesi2.rekisteroi();
+     * 
+     * koulutukset.lisaa(vesi1);
+     * koulutukset.lisaa(vesi2);
+     * koulutukset.lisaa(vesi1);
+     * 
+     * StringBuffer ids = new StringBuffer(30);
+     * for (Koulutus koulutus:koulutukset)
+     *      ids.append(" "+koulutus.getKoulutusTunnus());
+     *      
+     * String tulos = " " + vesi1.getKoulutusTunnus() + " " + vesi2.getKoulutusTunnus() + " " + vesi1.getKoulutusTunnus();
+     * 
+     * ids.toString() === tulos;
+     * 
+     * ids = new StringBuffer(30);
+     * for (Iterator<Koulutus> i=koulutukset.iterator(); i.hasNext(); ) {
+     *      Koulutus koulutus = i.next();
+     *      ids.append(" "+koulutus.getKoulutusTunnus());
+     * }
+     * 
+     * ids.toString() === tulos;
+     * 
+     * Iterator<Koulutus> i=koulutukset.iterator();
+     * i.next() == vesi1 === true;
+     * i.next() == vesi2 === true;
+     * i.next() == vesi1 === true;
+     * 
+     * i.next(); #THROWS NoSuchElementException
+     * 
+     * </pre>
      */
     public class KoulutuksetIterator implements Iterator<Koulutus> {
         private int kohdalla = 0;
@@ -224,7 +315,7 @@ public class Koulutukset implements Iterable<Koulutus> {
     
     
     /**
-     * 
+     * Palautetaan iteraattori koulutuksista.
      */
     @Override
     public Iterator<Koulutus> iterator() {
@@ -233,9 +324,18 @@ public class Koulutukset implements Iterable<Koulutus> {
     
     
     /**
-     * @param hakuehto hh
-     * @param t hh
-     * @return hh
+     * Palauttaa "taulukosta" hakuehtoon vastaavien koulutusten viitteet
+     * @param hakuehto hakuehto
+     * @param t etsittävän kentän indeksi
+     * @return tietorakenteen löytyneistä koulutuksista
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Koulutukset koulutukset = new Koulutukset();
+     * Koulutus vesi1 = new Koulutus(); vesi1.parse("1|Vesisukeltaja");
+     * Koulutus vesi2 = new Koulutus(); vesi2.parse("1|Vesisukeltaja");
+     * Koulutus vesi3 = new Koulutus(); vesi3.parse("1|Vesisukeltaja");
+     * koulutukset.lisaa(vesi1); koulutukset.lisaa(vesi2); koulutukset.lisaa(vesi3);
      */
     @SuppressWarnings("unused")
     public Collection<Koulutus> etsiKoulutus(String hakuehto, int t) { 
