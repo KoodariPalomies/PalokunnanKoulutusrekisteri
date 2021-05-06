@@ -370,12 +370,6 @@ public class Relaatiot implements Iterable<Relaatio> {
      * 
      * n === 3;
      * 
-     * Iterator<Relaatio> i2=relaatiot.iterator();
-     * i2.next() == rel1 === true;
-     * i2.next() == rel2 === true;
-     * i2.next() == rel3 === true;
-     * i2.next(); #THROWS NoSuchElementException
-     * 
      * </pre>
      */
     @Override
