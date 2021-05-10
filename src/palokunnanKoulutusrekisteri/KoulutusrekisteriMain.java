@@ -13,15 +13,14 @@ import javafx.fxml.FXMLLoader;
 /**
  * Pääohjelma Palokunnan koulutusrekisteri -ohjelman käynnistämiseksi
  * @author mitulint
- * @version 21.4.2021
+ * @version 1.0, 21.4.2021 / Koska huonosti pidetty versionhallinta...
+ * @version 1.1, 
  */
 public class KoulutusrekisteriMain extends Application {
 	
     @Override
 	public void start(Stage primaryStage) {
 		try {
-		    
-		    
 			final FXMLLoader ldr = new FXMLLoader(getClass().getResource("KoulutusrekisteriGUIView.fxml"));
 			final Pane root = (Pane)ldr.load();
 			final KoulutusrekisteriGUIController koulutusrekisteriCtrl = (KoulutusrekisteriGUIController)ldr.getController();

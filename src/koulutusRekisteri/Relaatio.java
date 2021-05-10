@@ -231,7 +231,8 @@ public class Relaatio {
 
    @Override
    public int hashCode() {
-       return tyontekijaTunnus;
+       //return tyontekijaTunnus;
+       return relaatioTunnus;
    }
     
     

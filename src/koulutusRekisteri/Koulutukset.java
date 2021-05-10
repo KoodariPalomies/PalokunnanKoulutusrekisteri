@@ -170,8 +170,7 @@ public class Koulutukset implements Iterable<Koulutus> {
      * Tallentaa koulutukset tiedostoon.
      * Tiedoston muoto:
      * <pre>
-     * 
-     * 5
+     * 2
      * 1|Vesisukeltaja
      * 2|Vesisukeltaja
      * </pre>

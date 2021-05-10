@@ -179,7 +179,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Koulutus            koulutusKohdalla;
     private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
     private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
-    
+    //=================== Alla olevat tullee TextAre juttujen tilalle! ====================
+    // private TextField edits[];
+    // private TextField editsPaa[];
+    //=====================================================================================
     
     /**
      * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
@@ -201,6 +204,12 @@ public class KoulutusrekisteriGUIController implements Initializable {
         //naytaKoulutus();
         chooserKoulutukset.clear();             //tyhjentää chooserin
         chooserKoulutukset.addSelectionListener(e -> naytaKoulutustieto());
+        //================= Alla olevat tullee tilalle! =======================================
+        // resultTeos.clear();
+        // resultTeos.addSelectionListener(e -> naytaTeos());
+        // edits = new TextField[] {snimi, enimi, tnimi, alknimi, kieli, pvuosi, alkvuosi};
+        // editsPaa = new TextField[] {nimi, tnimi, alknimi, kieli, pvuosi, alkvuosi, status};
+        //=====================================================================================
     }
     
    /* 
@@ -221,7 +230,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         //ModalController.getStage(hakuehto).setTitle(title);
     }
     
-    
+    //====================== Tässä alemmassa saattaa olla jotain pielessä! ========================
     /**
      * Alustaa koulutusrekisterin lukemalla sen valitun nimisestä tiedostosta
      * @param nimi tiedosto josta työntekijän tiedot luetaan
@@ -260,7 +269,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
-     * Tietojen tallennus
+     * Tietojen tallennus tiedostoon.
      * @return null jos onnistuu, muuten virhe tekstinä
      */
     private String tallenna() {
@@ -300,7 +309,51 @@ public class KoulutusrekisteriGUIController implements Initializable {
             tulosta(os, tyontekijaKohdalla);
         }
     }
+//======================= Välissä oleva tulisi korvata nykyiset rävellykset ==============================
+    /**
+     * Näyttää valitun teoksen tiedot tekstikentissä.
+     
+    protected void naytaTeos(){
+        teosKohdalla = resultTeos.getSelectedObject();
+        if(teosKohdalla == null) return;
+        naytaTeos(editsPaa, teosKohdalla);
+    }
+    */
     
+    /**
+     * Näyttää teoksen tiedot pääikkunan tekstikentissä.
+     * @param edit taulukko tekstikentissä
+     * @param teos näytettävä teos
+     
+    public void naytaTeos(TextField[] edit, Teos teos) { 
+        if (teos == null) return;
+        
+        edit[0].setText(kirjahylly.getTekijanNimi(teos.getTekijaID()));
+        edit[1].setText(teos.getTeoksenNimi());
+        edit[2].setText(teos.getalknimiString());
+        edit[3].setText(teos.getKieli());
+        edit[4].setText(teos.getpvuosiString());
+        edit[5].setText(teos.getalkvuosiString());
+        edit[6].setText(kirjahylly.getStatusNimi(teos.getStatusID()));
+        
+    }
+    */
+    
+    /**
+     * Poistaa valitun teoksen, ellei valinta ole null.
+     
+    protected void poistateos(){ 
+        //teos = resultTeos.getSelectedObject();
+        if (teosKohdalla == null) return;
+        int id = kirjahylly.poistaTeos(teosKohdalla); // tï¿½mï¿½ palauttaa 0 tai tekijï¿½n id:n
+        
+        if (id !=0){
+            kirjahylly.poistaTekija(id); 
+        }
+        hae(0);
+    }
+    */
+//=========================================================================================================
     /**
      * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
      */
@@ -351,6 +404,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
     }
 
     
+    /**
+     * 
+     * @param tnro 
+     */
     private void hae(int tnro) {
         int k = cbKentat.getSelectionModel().getSelectedIndex();
         String ehto = hakuehto.getText();
@@ -445,6 +502,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         //naytaTyontekija();
         //naytaKoulutus();
         //naytaTyontekijanKoulutukset();
+        //============== naytaTeos(editsPaa, teosKohdalla);
     }
     
     

@@ -27,6 +27,7 @@ import java.util.List;
  * @version 1.0, ennen 29.4.2021 / pidin huonosti kirjaa mitä tein ja ehkäpä siksi vaikea pysyä muutoksissa kärryillä
  * @version 1.1, 29.4.2021 / HT6 tulostukset tekstikenttiin ja valinta (työntekijä ja koulutus) toimimaan
  * @version 1.2, 30.4.2021 / HT6 testejä
+ * @version 1.3, 10.5.2021 / Lisätty poista-aliohjelma
  *
  */
 public class Koulutusrekisteri {
@@ -34,6 +35,23 @@ public class Koulutusrekisteri {
     private Tyontekijat tyontekijat = new Tyontekijat();
     private Koulutukset koulutukset = new Koulutukset();
     private Relaatiot   relaatiot   = new Relaatiot();
+    
+    
+    /** 
+     * Poistaa valitun relaation eli koulutuksen.
+     * @param relaatio työntekijältä poistettava koulutus 
+     * @example
+     * <pre name="test">
+     * #THROWS Exception
+     *   alustaKerho();
+     *   koulutusrekisteri.annaRelaatiot(aku1).size() === 2;
+     *   koulutusrekisteri.poista(pitsi11);
+     *   koulutusrekisteri.annaRelaatiot(aku1).size() === 1;
+     */
+    public void poista(Relaatio relaatio) { 
+        relaatiot.poista(relaatio.getRelaatioTunnus()); 
+    } 
+
     
     
     /**
@@ -340,7 +358,7 @@ public class Koulutusrekisteri {
            }
            
            try {
-               relaatiot.talleta();
+               relaatiot.tallenna();
            } catch ( SailoException ex ) {
                virhe = ex.getMessage();
            }

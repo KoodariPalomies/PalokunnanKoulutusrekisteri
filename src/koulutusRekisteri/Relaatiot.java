@@ -34,6 +34,7 @@ import java.io.PrintWriter;
  * @author mitulint
  * @version 1.0, 22.4.2021 / Tätä ennen en pitänyt järkevää versioseurantaa...
  * @version 1.1, 30.4.2021 / HT6 testien lisäämistä
+ * @version 1.2, 10.5.2021 / Lisätty poista + etsiId
  *
  */
 public class Relaatiot implements Iterable<Relaatio> {
@@ -52,6 +53,59 @@ public class Relaatiot implements Iterable<Relaatio> {
     public Relaatiot() {
         // EI vielä
     }
+    
+
+    /** 
+     * Poistaa relaation jolla on valittu tunnusnumero  
+     * @param id poistettavan relaation relaatiotunnus 
+     * @return 1 jos poistettiin, 0 jos ei löydy 
+     * @example 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Relaatiot relaatiot = new Relaatiot(); 
+     * Relaatio rel1 = new Relaatio(), rel2 = new Relaatio(), rel3 = new Relaatio(); 
+     * rel1.rekisteroi(); rel2.rekisteroi(); rel3.rekisteroi(); 
+     * int id1 = rel1.getRelaatioTunnus(); 
+     * relaatiot.lisaa(rel1); relaatiot.lisaa(rel2); relaatiot.lisaa(rel3); 
+     * relaatiot.poista(id1+1) === 1; 
+     * relaatiot.annaId(id1+1) === null; relaatiot.getLkm() === 2; 
+     * relaatiot.poista(id1) === 1; relaatiot.getLkm() === 1; 
+     * relaatiot.poista(id1+3) === 0; relaatiot.getLkm() === 1; 
+     * </pre> 
+     */ 
+    public int poista(int id) { 
+        int ind = etsiId(id); 
+        if (ind < 0) return 0; 
+        lkm--; 
+        for (int i = ind; i < lkm; i++) 
+            alkiot[i] = alkiot[i + 1]; 
+        alkiot[lkm] = null; 
+        muutettu = true; 
+        return 1; 
+    }
+
+    
+    /** 
+     * Etsii relaation id:n perusteella 
+     * @param id tunnusnumero, jonka mukaan etsitään 
+     * @return löytyneen relaation indeksi tai -1 jos ei löydy 
+     * <pre name="test"> 
+     * #THROWS SailoException  
+     * Relaatiot relaatiot = new Relaatiot(); 
+     * Relaatio rel1 = new Relaatio(), rel2 = new Relaatio(), rel3 = new Relaatio(); 
+     * rel1.rekisteroi(); rel2.rekisteroi(); rel3.rekisteroi(); 
+     * int id1 = rel1.getRelaatioTunnus(); 
+     * relaatiot.lisaa(rel1); relaatiot.lisaa(rel2); relaatiot.lisaa(rel3); 
+     * relaatiot.etsiId(id1+1) === 1; 
+     * relaatiot.etsiId(id1+2) === 2; 
+     * </pre> 
+     */ 
+    public int etsiId(int id) { 
+        for (int i = 0; i < lkm; i++) 
+            if (id == alkiot[i].getRelaatioTunnus()) return i; 
+        return -1; 
+    } 
+
     
     
     /**
@@ -157,7 +211,8 @@ public class Relaatiot implements Iterable<Relaatio> {
 
             while ( (rivi = fi.readLine()) != null ) {
                 rivi = rivi.trim();
-                if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+                //if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+                if ( "".equals(rivi)) continue;
                 Relaatio rel = new Relaatio();
                 rel.parse(rivi);
                 lisaa(rel);
@@ -165,7 +220,7 @@ public class Relaatiot implements Iterable<Relaatio> {
             muutettu = false;
             
         } catch ( FileNotFoundException e ) {
-            throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
+            throw new SailoException("Tiedosto " + getTiedostonNimi() + " ei aukea");
         } catch ( IOException e ) {
             throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
         }
@@ -191,15 +246,20 @@ public class Relaatiot implements Iterable<Relaatio> {
      * </pre>
      * @throws SailoException jos talletus epäonnistuu
      */
-    public void talleta() throws SailoException {
+    public void tallenna() throws SailoException {
         if ( !muutettu ) return;
-
         File ftied = new File(getTiedostonNimi());
 
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-            for (int i = 0; i <lkm; i++) {
-                if (alkiot[i] == null) return;
-                String rivi = alkiot[i].toString();
+//            for (int i = 0; i <lkm; i++) {
+  //              if (alkiot[i] == null) return;
+    //            String rivi = alkiot[i].toString();
+      //          fo.println(rivi);
+//===================            fo.println(getKokoNimi());
+//===================            fo.println(alkiot.length);
+            for (Relaatio rel : this) {
+                //fo.println(rel.toString());
+                String rivi = rel.toString();
                 fo.println(rivi);
             }
         } catch ( FileNotFoundException ex ) {
