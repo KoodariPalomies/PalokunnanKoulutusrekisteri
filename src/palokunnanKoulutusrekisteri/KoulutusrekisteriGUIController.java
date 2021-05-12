@@ -41,7 +41,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ScrollPane                panelTyontekija;
     @FXML private ListChooser<Koulutus>     chooserKoulutukset;
     @FXML private ScrollPane                panelKoulutus;
-    
+    //@FXML private StringGrid<Harrastus> tableHarrastukset;
+    //@FXML private GridPane gridJasen;
     
     /**
      * @param url ei tietoa

@@ -205,14 +205,14 @@ public class Relaatiot implements Iterable<Relaatio> {
         
         try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
             kokoNimi = fi.readLine();
-            if ( kokoNimi == null ) throw new SailoException("Työntekijän nimi puuttuu");
+            if ( kokoNimi == null ) throw new SailoException("Relaatio puuttuu");
             String rivi = fi.readLine();
             if ( rivi == null ) throw new SailoException("Maksimikoko puuttuu");
 
             while ( (rivi = fi.readLine()) != null ) {
                 rivi = rivi.trim();
-                //if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
-                if ( "".equals(rivi)) continue;
+                if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+                //if ( "".equals(rivi)) continue;
                 Relaatio rel = new Relaatio();
                 rel.parse(rivi);
                 lisaa(rel);
@@ -251,16 +251,10 @@ public class Relaatiot implements Iterable<Relaatio> {
         File ftied = new File(getTiedostonNimi());
 
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-//            for (int i = 0; i <lkm; i++) {
-  //              if (alkiot[i] == null) return;
-    //            String rivi = alkiot[i].toString();
-      //          fo.println(rivi);
-//===================            fo.println(getKokoNimi());
-//===================            fo.println(alkiot.length);
+            fo.println(getKokoNimi());
+            fo.println(alkiot.length);
             for (Relaatio rel : this) {
-                //fo.println(rel.toString());
-                String rivi = rel.toString();
-                fo.println(rivi);
+                fo.println(rel.toString());
             }
         } catch ( FileNotFoundException ex ) {
             throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
@@ -388,10 +382,15 @@ public class Relaatiot implements Iterable<Relaatio> {
      * Palauttaa viitteen i:teen relaatioon.
      * @param i monennenko relaation viite halutaan
      * @return viite relaatioon, jonka indeksi on i
+     * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella 
      */
-    public Relaatio annaRelaatiot(int i) {
-        if (i < 0 || i < lkm) return null;
-        return alkiot[i];
+    public Relaatio annaRelaatiot(int i) throws IndexOutOfBoundsException {
+            if ( i < 0 || lkm <= i ) 
+                throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
+            return alkiot[i];
+
+        //if (i < 0 || i < lkm) return null;
+        //return alkiot[i];
     }
     
     
