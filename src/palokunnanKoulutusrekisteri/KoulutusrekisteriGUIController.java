@@ -39,8 +39,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ComboBoxChooser<String>   cbKentat;
     //@FXML private Label                     labelVirhe;
     @FXML private ListChooser<Tyontekija>   chooserTyontekijat;
-    @FXML private ScrollPane                panelTyontekija;
+    //@FXML private ScrollPane                panelTyontekija;
     @FXML private ListChooser<Koulutus>     chooserKoulutukset;
+    @FXML private ListChooser<Relaatio>     chooserTyontekijanKoulutukset;
     @FXML private ScrollPane                panelKoulutus;
     //@FXML private StringGrid<Harrastus> tableHarrastukset;
     //@FXML private GridPane gridJasen;
@@ -161,6 +162,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
+     * Käsitellään työntekijän koulutuksen poistaminen
+     */
+    @FXML private void handlePoistaTyontekijanKoulutus() {
+        Dialogs.showQuestionDialog("Poista koulutus", "Poistetaanko työntekijän koulutus?", "Kyllä", "Ei");
+    }
+    
+    /**
      * Käsitellään apujen hakeminen
      * TODO: lukeminen tiedostosta tai selaimessa
      */
@@ -185,6 +193,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Koulutusrekisteri   koulutusrekisteri;
     private Tyontekija          tyontekijaKohdalla;
     private Koulutus            koulutusKohdalla;
+    //private Relaatio          relaatioKohdalla; --> tällä saisi tehtyä sen relaation poiston!!!!
+    
     //private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
     private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
     //=================== Alla olevat tullee TextArea juttujen tilalle! ====================
@@ -207,16 +217,19 @@ public class KoulutusrekisteriGUIController implements Initializable {
         //areaTyontekija.setFont(new Font("Courier New", 12));
         //panelTyontekija.setFitToHeight(true);
         
-        panelKoulutus.setContent(areaKoulutus);             // tekee TextArean koulutuksille
-        areaKoulutus.setFont(new Font("Courier New", 12));
-        panelKoulutus.setFitToHeight(true);
+        //panelKoulutus.setContent(areaKoulutus);             // tekee TextArean koulutuksille
+        //areaKoulutus.setFont(new Font("Courier New", 12));
+        //panelKoulutus.setFitToHeight(true);
         
         chooserTyontekijat.clear();
-        chooserTyontekijat.addSelectionListener(e -> naytaTyontekija());
+        chooserTyontekijat.addSelectionListener(e -> naytaTyontekijanKoulutukset());
         
         //naytaKoulutus();
         chooserKoulutukset.clear();             //tyhjentää chooserin
-        chooserKoulutukset.addSelectionListener(e -> naytaKoulutustieto());
+        //chooserKoulutukset.addSelectionListener(e -> naytaKoulutustieto());
+        //chooserKoulutukset.addSelectionListener(e -> naytaTyontekijanKoulutukset());
+        
+        chooserTyontekijanKoulutukset.clear();
         
         tyontekijaTiedot = new TextField[] {nimi, tyontekijatunnus, tehtavaalue, virkaasema};
         //koulutusTiedot = new TextField[] {
@@ -247,7 +260,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
         //ModalController.getStage(hakuehto).setTitle(title);
     }
     
-    //====================== Tässä alemmassa saattaa olla jotain pielessä! ========================
     /**
      * Alustaa koulutusrekisterin lukemalla sen valitun nimisestä tiedostosta
      * @param nimi tiedosto josta työntekijän tiedot luetaan
@@ -279,7 +291,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         lueTiedosto(uusinimi);
         naytaTyontekija();
         naytaKoulutus();
-        //naytaTyontekijanKoulutukset();
+        naytaTyontekijanKoulutukset();
         return true;
     }
     
@@ -335,7 +347,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     /**
      * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
-     */
+     
     private void naytaKoulutustieto() {
         koulutusKohdalla = chooserKoulutukset.getSelectedObject();
         
@@ -349,7 +361,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
             tulosta(os, koulutusKohdalla);
         }
     }
-    
+    */
     
     /**
      * Näyttää listasta valitun koulutuksen tiedot listChooseriin
@@ -366,22 +378,22 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     /**
      * Näyttää listasta valitun työntekijän koulutukset, tilapäisesti yhteen isoon edit-kenttään
-     
+     */
     private void naytaTyontekijanKoulutukset() {
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
         //koulutusKohdalla = chooserKoulutukset.getSelectedObject();
         
         if (tyontekijaKohdalla == null) {
-            areaTyontekija.clear();
+            areaKoulutus.clear();
             return;
         }
         
-        areaTyontekija.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
+        areaKoulutus.setText("");
+        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKoulutus)) {
             tulosta(os, tyontekijaKohdalla);
         }
     }
-*/
+
     
     /**
      * 
@@ -492,16 +504,14 @@ public class KoulutusrekisteriGUIController implements Initializable {
           * @param tyontekija tulostettava työntekijä
           */
          public void tulosta(PrintStream os, final Tyontekija tyontekija) {
-             os.println("----------------------------------------------");
-             tyontekija.tulosta(os);
-             os.println("----------------------------------------------");
-             
+             os.println("-------------------------");
+             //tyontekija.tulosta(os);
              List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekija.getTyontekijaTunnus());
              for (Relaatio relaatio : relaatio2) {
                  
                  relaatio.tulosta(os);
+                 os.println("-------------------------");
              }
-
          }
          
          
@@ -510,7 +520,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
           * @param os tietovirta johon tulostetaan
           * @param koulutus tulostettava koulutus
           */
-         private void tulosta(PrintStream os, final Koulutus koulutus) {
+         @SuppressWarnings("unused")
+        private void tulosta(PrintStream os, final Koulutus koulutus) {
              os.println("----------------------------------------------");
              koulutus.tulosta(os);
              os.println("----------------------------------------------");
