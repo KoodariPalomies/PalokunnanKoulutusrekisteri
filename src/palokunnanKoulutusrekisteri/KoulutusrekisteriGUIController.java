@@ -259,7 +259,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     public boolean avaa() {
         String uusinimi = AloitusIkkunaGUIController.kysyNimi(null, kayttajatunnus);
-        System.out.println(uusinimi + "Jee!");
         if (uusinimi == null) return false;
         lueTiedosto(uusinimi);
         naytaTyontekija();

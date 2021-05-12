@@ -145,15 +145,15 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label text="Nimi:" />
-                              <Label text="Työntekijätunnus:" GridPane.rowIndex="1" />
-                              <Label text="Tehtäväalue:" GridPane.rowIndex="2" />
-                              <Label text="Virka-asema:" GridPane.rowIndex="3" />
-                              <TextField text="Ankka Aku" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                              <TextField text="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                              <TextField text="Pelastus" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                              <TextField text="Palomies" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
-                           	  <Button onAction="#handleMuokkaaTyontekija" text="_Muokkaa työntekijää" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
+                              <Label 	text="Nimi:" />
+                              <Label 	text="Työntekijätunnus:" 	GridPane.rowIndex="1" />
+                              <Label 	text="Tehtäväalue:" 		GridPane.rowIndex="2" />
+                              <Label 	text="Virka-asema:" 		GridPane.rowIndex="3" />
+                              <TextField fx:id="nimi" 				editable="false" text="Ankka Aku" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                              <TextField fx:id="tyontekijatunnus" 	editable="false" text="1" 			GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                              <TextField fx:id="tehtavaalue" 		editable="false" text="Pelastus" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                              <TextField fx:id="virkaasema" 		editable="false" text="Palomies" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                           	  <Button onAction="#handleMuokkaaTyontekija" text="_Muokkaa työntekijää" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
                   				<tooltip>
                   					<Tooltip text="Muokkaa työntekijää" />
                   				</tooltip>
