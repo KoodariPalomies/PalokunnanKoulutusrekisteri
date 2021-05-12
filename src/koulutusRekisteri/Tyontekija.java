@@ -125,6 +125,32 @@ public class Tyontekija {
         return tyontekijaTunnus;
     }
     
+    /**
+     * Palauttaa alkuperäisen vuoden String-muodossa.
+     * @return alkuperäinen vuosi
+     */
+    public String getTyontekijaTunnusString(){
+        return ""+tyontekijaTunnus;
+    }
+    
+    
+    /**
+     * Palauttaa työntekijän tehtävä-alueen
+     * @return tyontekijan tehtava-alueen
+     */
+    public String getTehtavaAlue() {
+        return tehtavaAlue;
+    }
+    
+    
+    /**
+     * Palauttaa työntekijän virka-aseman
+     * @return tyontekijan virka-aseman
+     */
+    public String getVirkaAsema() {
+        return virkaAsema;
+    }
+    
     
     /**
      * @return työntekijän nimi

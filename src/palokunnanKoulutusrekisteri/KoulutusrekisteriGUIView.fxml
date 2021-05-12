@@ -118,7 +118,7 @@
                   </VBox>
                </top>
             </BorderPane>
-            <BorderPane prefWidth="350.0" maxWidth="350.0">
+            <BorderPane prefWidth="450.0" maxWidth="450.0">
                <top>
                   <Label text="Työntekijän tiedot" BorderPane.alignment="CENTER" />
                </top>
@@ -145,19 +145,23 @@
                               <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                            <children>
-                              <Label 	text="Nimi:" />
-                              <Label 	text="Työntekijätunnus:" 	GridPane.rowIndex="1" />
-                              <Label 	text="Tehtäväalue:" 		GridPane.rowIndex="2" />
-                              <Label 	text="Virka-asema:" 		GridPane.rowIndex="3" />
-                              <TextField fx:id="nimi" 				editable="false" text="Ankka Aku" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
-                              <TextField fx:id="tyontekijatunnus" 	editable="false" text="1" 			GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                              <TextField fx:id="tehtavaalue" 		editable="false" text="Pelastus" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
-                              <TextField fx:id="virkaasema" 		editable="false" text="Palomies" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                              <Label 	text="Nimi:" 				GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="200.0" prefWidth="200.0"/>
+                              <Label 	text="Työntekijätunnus:" 	GridPane.columnIndex="0" GridPane.rowIndex="2" maxWidth="200.0" prefWidth="200.0"/>
+                              <Label 	text="Tehtäväalue:" 		GridPane.columnIndex="0" GridPane.rowIndex="3" maxWidth="200.0" prefWidth="200.0"/>
+                              <Label 	text="Virka-asema:" 		GridPane.columnIndex="0" GridPane.rowIndex="4" maxWidth="200.0" prefWidth="200.0"/>
+                              <TextField fx:id="nimi" 				editable="false" text="Ankka Aku" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" maxWidth="200.0" prefWidth="200.0" />
+                              <TextField fx:id="tyontekijatunnus" 	editable="false" text="1" 			GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" maxWidth="200.0" prefWidth="200.0" />
+                              <TextField fx:id="tehtavaalue" 		editable="false" text="Pelastus" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" maxWidth="200.0" prefWidth="200.0" />
+                              <TextField fx:id="virkaasema" 		editable="false" text="Palomies" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" maxWidth="200.0" prefWidth="200.0" />
                            	  <Button onAction="#handleMuokkaaTyontekija" text="_Muokkaa työntekijää" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
                   				<tooltip>
                   					<Tooltip text="Muokkaa työntekijää" />
                   				</tooltip>
                   			  </Button>
+                  			  <Label text="Työntekijän koulutukset:" GridPane.hgrow="ALWAYS" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                  			<ScrollPane fx:id="panelKoulutus" fitToWidth="true" pannable="true" BorderPane.alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7">
+               				</ScrollPane>
+                  			  
                            </children>
                            <opaqueInsets>
                               <Insets left="10.0" top="10.0" />
@@ -176,16 +180,13 @@
                               <Insets top="10.0" />
                            </padding>
             </BorderPane>
-            <BorderPane>
+            <BorderPane maxWidth="250.0" prefWidth="250.0">
                <top>
                   <Label text="Koulutukset" BorderPane.alignment="CENTER" />
-                  <ListChooser fx:id="chooserKoulutukset" maxHeight="1.7976931348623157E308" prefHeight="200.0" maxWidth="200.0" rivit="Vesisukeltaja&#10;Nostolava&#10;Kemikaalivalvonta -peruskurssi&#10;" BorderPane.alignment="CENTER" />
                </top>
-               <center>
-               <ScrollPane fx:id="panelKoulutus" fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
-                  
-               </ScrollPane>
-               </center>
+               		<center>
+						<ListChooser fx:id="chooserKoulutukset" maxHeight="1.7976931348623157E308" prefHeight="250.0" maxWidth="250.0" rivit="Vesisukeltaja&#10;Nostolava&#10;Kemikaalivalvonta -peruskurssi&#10;" BorderPane.alignment="CENTER" />
+               		</center>
                <bottom>
                <Button onAction="#handleMuokkaaKoulutusta" text="_Muokkaa koulutusta" BorderPane.alignment="CENTER" >
                   		<tooltip>

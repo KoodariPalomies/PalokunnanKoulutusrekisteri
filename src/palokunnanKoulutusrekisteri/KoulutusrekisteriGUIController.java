@@ -30,7 +30,8 @@ import koulutusRekisteri.Tyontekijat;
 /**
  * Luokka käyttöliittymän tapahtumien hoitamiseksi
  * @author mitulint
- * @version 24.3.2021
+ * @version 1.0, 24.3.2021 / Huono versionhallinta...
+ * @version 1.1, 12.5.2021 / HT7 muokkailuja --> TextFieldien lisääminen ja paneelien poisto
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
@@ -43,6 +44,12 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ScrollPane                panelKoulutus;
     //@FXML private StringGrid<Harrastus> tableHarrastukset;
     //@FXML private GridPane gridJasen;
+    @FXML private TextField nimi;
+    @FXML private TextField tyontekijatunnus;
+    @FXML private TextField tehtavaalue;
+    @FXML private TextField virkaasema;
+    
+    //
     
     /**
      * @param url ei tietoa
@@ -178,10 +185,15 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Koulutusrekisteri   koulutusrekisteri;
     private Tyontekija          tyontekijaKohdalla;
     private Koulutus            koulutusKohdalla;
-    private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
+    //private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
     private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
-    //=================== Alla olevat tullee TextAre juttujen tilalle! ====================
-    // private TextField edits[];
+    //=================== Alla olevat tullee TextArea juttujen tilalle! ====================
+    private TextField tyontekijaTiedot[];
+    //private TextField koulutusTiedot[];
+    
+    //private int kentta = 0;
+    //private static Tyontekija aputyontekija = new Tyontekija();
+    //private static Koulutus apukoulutus = new Koulutus();
     // private TextField editsPaa[];
     //=====================================================================================
     
@@ -191,9 +203,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Alustetaan myös työntekijälistan ja koulutuslistan kuuntelijat
      */
     private void alusta() {
-        panelTyontekija.setContent(areaTyontekija);
-        areaTyontekija.setFont(new Font("Courier New", 12));
-        panelTyontekija.setFitToHeight(true);
+        //panelTyontekija.setContent(areaTyontekija);
+        //areaTyontekija.setFont(new Font("Courier New", 12));
+        //panelTyontekija.setFitToHeight(true);
         
         panelKoulutus.setContent(areaKoulutus);             // tekee TextArean koulutuksille
         areaKoulutus.setFont(new Font("Courier New", 12));
@@ -205,6 +217,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
         //naytaKoulutus();
         chooserKoulutukset.clear();             //tyhjentää chooserin
         chooserKoulutukset.addSelectionListener(e -> naytaKoulutustieto());
+        
+        tyontekijaTiedot = new TextField[] {nimi, tyontekijatunnus, tehtavaalue, virkaasema};
+        //koulutusTiedot = new TextField[] {
+        
         //================= Alla olevat tullee tilalle! =======================================
         // resultTeos.clear();
         // resultTeos.addSelectionListener(e -> naytaTeos());
@@ -263,7 +279,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         lueTiedosto(uusinimi);
         naytaTyontekija();
         naytaKoulutus();
-        naytaTyontekijanKoulutukset();
+        //naytaTyontekijanKoulutukset();
         return true;
     }
     
@@ -298,62 +314,25 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     private void naytaTyontekija() {
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
-        
-        if (tyontekijaKohdalla == null) {
-            areaTyontekija.clear();
-            return;
-        }
-        
-        areaTyontekija.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaTyontekija)) {
-            tulosta(os, tyontekijaKohdalla);
-        }
+        if (tyontekijaKohdalla == null) return;
+            naytaTyontekija(tyontekijaTiedot, tyontekijaKohdalla);
     }
-//======================= Välissä oleva tulisi korvata nykyiset rävellykset ==============================
-    /**
-     * Näyttää valitun teoksen tiedot tekstikentissä.
-     
-    protected void naytaTeos(){
-        teosKohdalla = resultTeos.getSelectedObject();
-        if(teosKohdalla == null) return;
-        naytaTeos(editsPaa, teosKohdalla);
-    }
-    */
+    
     
     /**
-     * Näyttää teoksen tiedot pääikkunan tekstikentissä.
-     * @param edit taulukko tekstikentissä
-     * @param teos näytettävä teos
-     
-    public void naytaTeos(TextField[] edit, Teos teos) { 
-        if (teos == null) return;
-        
-        edit[0].setText(kirjahylly.getTekijanNimi(teos.getTekijaID()));
-        edit[1].setText(teos.getTeoksenNimi());
-        edit[2].setText(teos.getalknimiString());
-        edit[3].setText(teos.getKieli());
-        edit[4].setText(teos.getpvuosiString());
-        edit[5].setText(teos.getalkvuosiString());
-        edit[6].setText(kirjahylly.getStatusNimi(teos.getStatusID()));
-        
+     * Näyttää työntekijän tiedot pääikkunan tekstikentissä.
+     * @param edit taulukko tekstikentistä
+     * @param tyontekija näytettävä työntekijä
+     */
+    public void naytaTyontekija(TextField[] edit, Tyontekija tyontekija) {
+        if (tyontekija == null) return;
+        edit[0].setText(tyontekija.getNimi());
+        edit[1].setText(tyontekija.getTyontekijaTunnusString());
+        edit[2].setText(tyontekija.getTehtavaAlue());
+        edit[3].setText(tyontekija.getVirkaAsema());
     }
-    */
+
     
-    /**
-     * Poistaa valitun teoksen, ellei valinta ole null.
-     
-    protected void poistateos(){ 
-        //teos = resultTeos.getSelectedObject();
-        if (teosKohdalla == null) return;
-        int id = kirjahylly.poistaTeos(teosKohdalla); // tï¿½mï¿½ palauttaa 0 tai tekijï¿½n id:n
-        
-        if (id !=0){
-            kirjahylly.poistaTekija(id); 
-        }
-        hae(0);
-    }
-    */
-//=========================================================================================================
     /**
      * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
      */
@@ -387,7 +366,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     /**
      * Näyttää listasta valitun työntekijän koulutukset, tilapäisesti yhteen isoon edit-kenttään
-     */
+     
     private void naytaTyontekijanKoulutukset() {
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
         //koulutusKohdalla = chooserKoulutukset.getSelectedObject();
@@ -402,7 +381,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
             tulosta(os, tyontekijaKohdalla);
         }
     }
-
+*/
     
     /**
      * 
@@ -499,6 +478,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     public void setKoulutusrekisteri(Koulutusrekisteri koulutusrekisteri) {
         this.koulutusrekisteri = koulutusrekisteri;
+        naytaTyontekija(tyontekijaTiedot, tyontekijaKohdalla);
         //naytaTyontekija();
         //naytaKoulutus();
         //naytaTyontekijanKoulutukset();
