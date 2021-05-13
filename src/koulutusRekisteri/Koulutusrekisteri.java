@@ -27,7 +27,8 @@ import java.util.List;
  * @version 1.0, ennen 29.4.2021 / pidin huonosti kirjaa mitä tein ja ehkäpä siksi vaikea pysyä muutoksissa kärryillä
  * @version 1.1, 29.4.2021 / HT6 tulostukset tekstikenttiin ja valinta (työntekijä ja koulutus) toimimaan
  * @version 1.2, 30.4.2021 / HT6 testejä
- * @version 1.3, 10.5.2021 / Lisätty poista-aliohjelma
+ * @version 1.3, 10.5.2021 / Lisätty poista()
+ * @version 1.4, 13.5.2021 / Lisätty poistaTyontekijanKoulutus() + poista() muokkaus
  *
  */
 public class Koulutusrekisteri {
@@ -47,11 +48,29 @@ public class Koulutusrekisteri {
      *   koulutusrekisteri.annaRelaatiot(aku1).size() === 2;
      *   koulutusrekisteri.poista(pitsi11);
      *   koulutusrekisteri.annaRelaatiot(aku1).size() === 1;
-     */
+     
     public void poista(Relaatio relaatio) { 
         relaatiot.poista(relaatio.getRelaatioTunnus()); 
     } 
-
+*/
+    
+    /** 
+     * Poistaa valitun relaation eli työntekijän koulutuksen.
+     * @param relaatio työntekijältä poistettava koulutus 
+     * @return poistettavan työntekijän koulutuksen tunnus
+     */
+    public int poistaTyontekijanKoulutus(Relaatio relaatio) {
+        return relaatiot.poistaTyontekijanKoulutus(relaatio);
+    }
+    
+    
+    /**
+     * Poistaa työntekijöistä ja koulutuksista ne joilla on nro. Kesken.
+     * @param id viitenumero, jonka mukaan poistetaan
+     */
+    public void poista(int id) {
+        relaatiot.poista(id);
+    }
     
     
     /**
@@ -80,16 +99,6 @@ public class Koulutusrekisteri {
         return this.relaatiot.getLkm();
     }
     
-
-    /**
-     * Poistaa työntekijöistä ja koulutuksista ne joilla on nro. Kesken.
-     * @param nro viitenumero, jonka mukaan poistetaan
-     * @return montako työntekijää poistettiin
-     */
-    public int poista(@SuppressWarnings("unused") int nro) {                // 7 vaiheessa ei saa olla SuppressWarnings
-        return 0;
-    }
-
     
     /**
      * Lisää uuden työntekijän

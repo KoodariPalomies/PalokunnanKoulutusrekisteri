@@ -35,15 +35,16 @@ import java.io.PrintWriter;
  * @version 1.0, 22.4.2021 / Tätä ennen en pitänyt järkevää versioseurantaa...
  * @version 1.1, 30.4.2021 / HT6 testien lisäämistä
  * @version 1.2, 10.5.2021 / Lisätty poista + etsiId
+ * @version 1.3, 13.5.2021 / Lisätty poistaTyontekijanKoulutus() + muokattu poista()
  *
  */
 public class Relaatiot implements Iterable<Relaatio> {
     
     private static final int MAX_RELAATIOITA = 5;
-    private boolean muutettu = false;           //======================================================================
+    private boolean muutettu = false;
     private int lkm = 0;
     private String kokoNimi = "";
-    private String tiedostonPerusNimi = "relaatiot";     //"relaatiot"
+    private String tiedostonPerusNimi = "relaatiot";
     private Relaatio alkiot[] = new Relaatio[MAX_RELAATIOITA];
     
     
@@ -56,9 +57,9 @@ public class Relaatiot implements Iterable<Relaatio> {
     
 
     /** 
-     * Poistaa relaation jolla on valittu tunnusnumero  
-     * @param id poistettavan relaation relaatiotunnus 
-     * @return 1 jos poistettiin, 0 jos ei löydy 
+     * Poistaa relaation jolla on valittu tunnusnumero ja tiivistää taulukon takaisin tiiviiksi.
+     * @param relaatio poistettava
+     * @return poistettavan relaation id tai 0
      * @example 
      * <pre name="test"> 
      * #THROWS SailoException  
@@ -72,16 +73,56 @@ public class Relaatiot implements Iterable<Relaatio> {
      * relaatiot.poista(id1) === 1; relaatiot.getLkm() === 1; 
      * relaatiot.poista(id1+3) === 0; relaatiot.getLkm() === 1; 
      * </pre> 
-     */ 
-    public int poista(int id) { 
-        int ind = etsiId(id); 
-        if (ind < 0) return 0; 
-        lkm--; 
-        for (int i = ind; i < lkm; i++) 
-            alkiot[i] = alkiot[i + 1]; 
-        alkiot[lkm] = null; 
-        muutettu = true; 
-        return 1; 
+     */
+    public int poistaTyontekijanKoulutus(Relaatio relaatio) {
+        int id = relaatio.getRelaatioTunnus();
+        
+        for (int i = 0; i < alkiot.length; i++) {
+            if (alkiot[i].getRelaatioTunnus() == id) {
+                alkiot[i] = relaatio;
+            }
+        }
+            for (int i = 0; i < alkiot.length; i++) {
+                if (alkiot[i].getRelaatioTunnus() == id) return 0;
+            }
+            return id;
+    }
+        
+    
+    /**
+     * Poistetaan relaatio taulukosta ja tiivistetään taas siistiksi.
+     * @param id poistettavan relaation id
+     */
+    public void poista(int id) {
+        for (int i = 0; i < lkm; i++) {
+        if (alkiot[i].getRelaatioTunnus() == id) {
+          while (i <alkiot.length-1) {
+            alkiot[i] = alkiot[i+1];
+              i++;
+                }
+                  lkm--;
+    }
+        }
+        
+//    public void poistaTyontekijanKoulutus(int id) {
+  //      for (int i = 0; i < lkm; i++) {
+    //        if (alkiot[i].getRelaatioTunnus() == id) {
+      //          while (i <alkiot.length-1) {
+        //            alkiot[i] = alkiot[i+1];
+          //          i++;
+            //    }
+              //  lkm--;
+//            }
+  //      }
+//    public int poistaTyontekijanKoulutus(int id) { 
+  //      int ind = etsiId(id); 
+    //    if (ind < 0) return 0; 
+      //  lkm--; 
+        //for (int i = ind; i < lkm; i++) 
+//            alkiot[i] = alkiot[i + 1]; 
+  //      alkiot[lkm] = null; 
+    //    muutettu = true; 
+      //  return 1; 
     }
 
     

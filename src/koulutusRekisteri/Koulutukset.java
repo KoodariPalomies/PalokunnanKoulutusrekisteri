@@ -35,6 +35,7 @@ import koulutusRekisteri.Tyontekijat.TyontekijatIterator;
  */
 public class Koulutukset implements Iterable<Koulutus> {
     
+    //=============== Tämä tarvinnee tehdä sillä hemmetin listalla....===========================
     private static final int MAX_KOULUTUKSIA = 5;
     private boolean muutettu = false;
     private int lkm = 0;

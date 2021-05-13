@@ -32,6 +32,7 @@ import koulutusRekisteri.Tyontekijat;
  * @author mitulint
  * @version 1.0, 24.3.2021 / Huono versionhallinta...
  * @version 1.1, 12.5.2021 / HT7 muokkailuja --> TextFieldien lisääminen ja paneelien poisto
+ * @version 1.2, 13.5.2021 / Lisäys naytaTyontekijanKoulutukset()
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
@@ -39,16 +40,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ComboBoxChooser<String>   cbKentat;
     //@FXML private Label                     labelVirhe;
     @FXML private ListChooser<Tyontekija>   chooserTyontekijat;
-    //@FXML private ScrollPane                panelTyontekija;
     @FXML private ListChooser<Koulutus>     chooserKoulutukset;
     @FXML private ListChooser<Relaatio>     chooserTyontekijanKoulutukset;
     @FXML private ScrollPane                panelKoulutus;
-    //@FXML private StringGrid<Harrastus> tableHarrastukset;
-    //@FXML private GridPane gridJasen;
-    @FXML private TextField nimi;
-    @FXML private TextField tyontekijatunnus;
-    @FXML private TextField tehtavaalue;
-    @FXML private TextField virkaasema;
+    @FXML private TextField                 nimi;
+    @FXML private TextField                 tyontekijatunnus;
+    @FXML private TextField                 tehtavaalue;
+    @FXML private TextField                 virkaasema;
     
     //
     
@@ -166,6 +164,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     @FXML private void handlePoistaTyontekijanKoulutus() {
         Dialogs.showQuestionDialog("Poista koulutus", "Poistetaanko työntekijän koulutus?", "Kyllä", "Ei");
+        poistaTyontekijanKoulutus1();
     }
     
     /**
@@ -188,40 +187,28 @@ public class KoulutusrekisteriGUIController implements Initializable {
 //==============================================================================================================================
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
-    private String kayttajatunnus   = "";
+    private String              kayttajatunnus= "";
     //private String salasana         = "";
     private Koulutusrekisteri   koulutusrekisteri;
     private Tyontekija          tyontekijaKohdalla;
     private Koulutus            koulutusKohdalla;
-    //private Relaatio          relaatioKohdalla; --> tällä saisi tehtyä sen relaation poiston!!!!
+    private Relaatio            relaatioKohdalla; //--> tällä saisi tehtyä sen relaation poiston!!!!
+    private TextField           tyontekijaTiedot[];
     
-    //private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
-    //private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
-    //=================== Alla olevat tullee TextArea juttujen tilalle! ====================
-    private TextField tyontekijaTiedot[];
-    //private TextField koulutusTiedot[];
-    
-    //private int kentta = 0;
-    //private static Tyontekija aputyontekija = new Tyontekija();
-    //private static Koulutus apukoulutus = new Koulutus();
-    // private TextField editsPaa[];
-    //=====================================================================================
     
     /**
-     * Tekee tarvittavat muut alustukset, nyt vaihdetaan GridPanen tilalle
-     * yksi iso tekstikenttä, johon voidaa tulostaa työntekijän ja koulutuksen tiedot.
-     * Alustetaan myös työntekijälistan ja koulutuslistan kuuntelijat
+     * Alustetaan työntekijä-, koulutus- ja työntekijöidenkoulutuksetlistojen kuuntelijat.
      */
     private void alusta() {
         chooserTyontekijat.clear();
         chooserTyontekijat.addSelectionListener(e -> naytaTyontekija());
         chooserTyontekijat.addSelectionListener(e -> naytaTyontekijanKoulutukset());
-        
         tyontekijaTiedot = new TextField[] {nimi, tyontekijatunnus, tehtavaalue, virkaasema};
         
         chooserKoulutukset.clear();
         
         chooserTyontekijanKoulutukset.clear();
+        chooserTyontekijanKoulutukset.addSelectionListener(e -> naytaTyontekijanKoulutukset());
     }
     
    /* 
@@ -358,6 +345,21 @@ public class KoulutusrekisteriGUIController implements Initializable {
             chooserTyontekijanKoulutukset.add(rel.getKoulutusTunnusString(), rel);
             }
     }
+    
+    
+    /**
+     * Poistetaan relaatiotaulukosta valitulla kohdalla oleva relaatio, eli työntekijän koulutus.
+     */
+    private void poistaTyontekijanKoulutus1() {
+    //private int poistaTyontekijanKoulutus() {
+        if (relaatioKohdalla == null) return;
+        int id = koulutusrekisteri.poistaTyontekijanKoulutus(relaatioKohdalla);
+        
+        if (id != 0) {
+            koulutusrekisteri.poista(id);
+        }
+        hae(0);
+    }
 
     
     /**
@@ -456,10 +458,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
     public void setKoulutusrekisteri(Koulutusrekisteri koulutusrekisteri) {
         this.koulutusrekisteri = koulutusrekisteri;
         naytaTyontekija(tyontekijaTiedot, tyontekijaKohdalla);
-        //naytaTyontekija();
         naytaKoulutus();
         naytaTyontekijanKoulutukset();
-        //============== naytaTeos(editsPaa, teosKohdalla);
     }
     
     
@@ -470,12 +470,12 @@ public class KoulutusrekisteriGUIController implements Initializable {
           */
          public void tulosta(PrintStream os, final Tyontekija tyontekija) {
              os.println("-------------------------");
-             //tyontekija.tulosta(os);
+             
              List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekija.getTyontekijaTunnus());
              for (Relaatio relaatio : relaatio2) {
-                 
                  relaatio.tulosta(os);
-                 os.println("-------------------------");
+                 
+             os.println("-------------------------");
              }
          }
          
@@ -496,25 +496,4 @@ public class KoulutusrekisteriGUIController implements Initializable {
                  koulutus2.tulosta(os);
              }
          }
-        
-        
-         /**
-          * Tulostaa listassa olevat työntekijät tekstialueeseen
-          * @param text alue johon tulostetaan
-          * @throws SailoException jos menee perseelleen
-         
-         public void tulostaValitut(TextArea text) throws SailoException {
-             try (PrintStream os = TextAreaOutputStream.getTextPrintStream(text)) {
-                 os.println("Tulostetaan kaikki työntekijät");
-                 for (int i = 0; i < koulutusrekisteri.getRelaatiot(); i++) {
-                     Relaatio relaatio = koulutusrekisteri.annaRelaatiot(i);
-                     try {
-                        tulosta(os, relaatio);
-                        os.println("\n\n");
-                    } catch (SailoException ex) {
-                        Dialogs.showMessageDialog("Työntekijän koulutusten tulostamisessa ongelmia! " + ex.getMessage());
-                    }
-                 }
-              }
-          }  */
 }
