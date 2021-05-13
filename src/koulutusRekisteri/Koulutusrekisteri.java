@@ -57,21 +57,21 @@ public class Koulutusrekisteri {
     /** 
      * Poistaa valitun relaation eli työntekijän koulutuksen.
      * @param relaatio työntekijältä poistettava koulutus 
-     * @return poistettavan työntekijän koulutuksen tunnus
+     * @return palauttaa 1 jos onnistui tai 0 jos epäonnistui
      */
     public int poistaTyontekijanKoulutus(Relaatio relaatio) {
-        return relaatiot.poistaTyontekijanKoulutus(relaatio);
+        return relaatiot.poista(relaatio.getRelaatioTunnus());
     }
     
     
     /**
      * Poistaa työntekijöistä ja koulutuksista ne joilla on nro. Kesken.
      * @param id viitenumero, jonka mukaan poistetaan
-     */
+     
     public void poista(int id) {
         relaatiot.poista(id);
     }
-    
+    */
     
     /**
      * Palauttaa koulutusrekisterin työntekijöiden määrän

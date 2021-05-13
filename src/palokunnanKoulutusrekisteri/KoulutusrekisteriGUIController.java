@@ -208,10 +208,20 @@ public class KoulutusrekisteriGUIController implements Initializable {
         chooserKoulutukset.clear();
         
         chooserTyontekijanKoulutukset.clear();
-        chooserTyontekijanKoulutukset.addSelectionListener(e -> naytaTyontekijanKoulutukset());
+        //chooserTyontekijanKoulutukset.addSelectionListener(e -> naytaTyontekijanKoulutukset());
+        chooserTyontekijanKoulutukset.addSelectionListener(e -> valitseTyontekijanKoulutus());
     }
     
-   /* 
+    
+    /**
+     * Valitsee työntekijän koulutuksen
+     */
+   private void valitseTyontekijanKoulutus() {
+        relaatioKohdalla = chooserTyontekijanKoulutukset.getSelectedObject();
+    }
+
+
+/* 
     @SuppressWarnings("unused")
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
@@ -328,7 +338,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
-     * Näyttää listasta valitun työntekijän koulutukset, tilapäisesti yhteen isoon edit-kenttään
+     * Näyttää listasta valitun työntekijän koulutukset
      */
     private void naytaTyontekijanKoulutukset() {
         chooserTyontekijanKoulutukset.clear();
@@ -351,14 +361,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Poistetaan relaatiotaulukosta valitulla kohdalla oleva relaatio, eli työntekijän koulutus.
      */
     private void poistaTyontekijanKoulutus1() {
-    //private int poistaTyontekijanKoulutus() {
         if (relaatioKohdalla == null) return;
         int id = koulutusrekisteri.poistaTyontekijanKoulutus(relaatioKohdalla);
         
         if (id != 0) {
-            koulutusrekisteri.poista(id);
+            //koulutusrekisteri.poista(id);
         }
-        hae(0);
+        //hae(0);
     }
 
     
