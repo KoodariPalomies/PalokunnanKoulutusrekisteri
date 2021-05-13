@@ -126,7 +126,7 @@ public class Tyontekija {
     }
     
     /**
-     * Palauttaa alkuperäisen vuoden String-muodossa.
+     * Palauttaa alkuperäisen työntekijätunnuksen String-muodossa.
      * @return alkuperäinen vuosi
      */
     public String getTyontekijaTunnusString(){
@@ -135,7 +135,7 @@ public class Tyontekija {
     
     
     /**
-     * Palauttaa työntekijän tehtävä-alueen
+     * Palauttaa työntekijän tehtävä-alueen String-muodossa.
      * @return tyontekijan tehtava-alueen
      */
     public String getTehtavaAlue() {
@@ -144,7 +144,7 @@ public class Tyontekija {
     
     
     /**
-     * Palauttaa työntekijän virka-aseman
+     * Palauttaa työntekijän virka-aseman String-muodossa.
      * @return tyontekijan virka-aseman
      */
     public String getVirkaAsema() {

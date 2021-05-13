@@ -36,11 +36,11 @@ import fi.jyu.mit.ohj2.Mjonot;  //==============================================
  * @author mitulint
  * @version 1.0, 24.3.2021 / Huonosti ylläpidetty versiopäiväkirja....
  * @version 1.1, 30.4.2021 / HT6 testejä...
+ * @version 1.2, 13.5.2021 / Lisäsin getKoulutusTunnusString()
  * 
  * https://tim.jyu.fi/view/kurssit/tie/ohj2/harjoitustyo/vaiheet/harrastukset-relaatioilla 
  */
 public class Relaatio {
-    // ota kaikki työntekijät ja koulutukset pois --> tilalle relaatio
     
     private int         relaatioTunnus;
     private int         tyontekijaTunnus;
@@ -128,8 +128,17 @@ public class Relaatio {
         return koulutusTunnus;
     }
     
+    /**
+     * Palauttaa työntekijän koulutustunnuksen String-muodossa.
+     * @return tyontekijan koulutustunnus
+     */
+    public String getKoulutusTunnusString() {
+        return ""+koulutusTunnus;
+    }
+    
     
     /**
+     * Palautetaan koulutuksen suorituspäivämäärä
      * @return koulutuksen suorituspäivämäärä
      */
     public String getSuoritettu() {
@@ -138,6 +147,7 @@ public class Relaatio {
     
     
     /**
+     * Palautetaan koulutuksen umpeutumispäivämäärä
      * @return koulutuksen suorituspäivämäärä
      */
     public String getUmpeutuu() {

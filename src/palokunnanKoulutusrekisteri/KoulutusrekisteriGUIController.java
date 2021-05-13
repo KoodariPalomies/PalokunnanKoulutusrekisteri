@@ -196,7 +196,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     //private Relaatio          relaatioKohdalla; --> tällä saisi tehtyä sen relaation poiston!!!!
     
     //private TextArea            areaTyontekija      = new TextArea();   // TODO: poista lopuksi
-    private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
+    //private TextArea            areaKoulutus        = new TextArea();   // TODO: poista lopuksi (tämä lisätty, kun koulutukset eivät tulostuneet!)
     //=================== Alla olevat tullee TextArea juttujen tilalle! ====================
     private TextField tyontekijaTiedot[];
     //private TextField koulutusTiedot[];
@@ -213,33 +213,15 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Alustetaan myös työntekijälistan ja koulutuslistan kuuntelijat
      */
     private void alusta() {
-        //panelTyontekija.setContent(areaTyontekija);
-        //areaTyontekija.setFont(new Font("Courier New", 12));
-        //panelTyontekija.setFitToHeight(true);
-        
-        //panelKoulutus.setContent(areaKoulutus);             // tekee TextArean koulutuksille
-        //areaKoulutus.setFont(new Font("Courier New", 12));
-        //panelKoulutus.setFitToHeight(true);
-        
         chooserTyontekijat.clear();
+        chooserTyontekijat.addSelectionListener(e -> naytaTyontekija());
         chooserTyontekijat.addSelectionListener(e -> naytaTyontekijanKoulutukset());
         
-        //naytaKoulutus();
-        chooserKoulutukset.clear();             //tyhjentää chooserin
-        //chooserKoulutukset.addSelectionListener(e -> naytaKoulutustieto());
-        //chooserKoulutukset.addSelectionListener(e -> naytaTyontekijanKoulutukset());
+        tyontekijaTiedot = new TextField[] {nimi, tyontekijatunnus, tehtavaalue, virkaasema};
+        
+        chooserKoulutukset.clear();
         
         chooserTyontekijanKoulutukset.clear();
-        
-        tyontekijaTiedot = new TextField[] {nimi, tyontekijatunnus, tehtavaalue, virkaasema};
-        //koulutusTiedot = new TextField[] {
-        
-        //================= Alla olevat tullee tilalle! =======================================
-        // resultTeos.clear();
-        // resultTeos.addSelectionListener(e -> naytaTeos());
-        // edits = new TextField[] {snimi, enimi, tnimi, alknimi, kieli, pvuosi, alkvuosi};
-        // editsPaa = new TextField[] {nimi, tnimi, alknimi, kieli, pvuosi, alkvuosi, status};
-        //=====================================================================================
     }
     
    /* 
@@ -322,7 +304,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         
     
     /**
-     * Näyttää listasta valitun työntekijän tiedot listChooseriin ja tilapäisesti yhteen isoon edit-kenttään
+     * Näyttää listasta valitun työntekijän tiedot listChooseriin.
      */
     private void naytaTyontekija() {
         tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
@@ -343,25 +325,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         edit[2].setText(tyontekija.getTehtavaAlue());
         edit[3].setText(tyontekija.getVirkaAsema());
     }
-
     
-    /**
-     * Näyttää listasta valitun koulutuksen tiedot, tilapäisesti yhteen isoon edit kenttään
-     
-    private void naytaKoulutustieto() {
-        koulutusKohdalla = chooserKoulutukset.getSelectedObject();
-        
-        if (koulutusKohdalla == null) {
-            areaKoulutus.clear();
-            return;
-        }
-        
-        areaKoulutus.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKoulutus)) {
-            tulosta(os, koulutusKohdalla);
-        }
-    }
-    */
     
     /**
      * Näyttää listasta valitun koulutuksen tiedot listChooseriin
@@ -380,18 +344,19 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Näyttää listasta valitun työntekijän koulutukset, tilapäisesti yhteen isoon edit-kenttään
      */
     private void naytaTyontekijanKoulutukset() {
-        tyontekijaKohdalla = chooserTyontekijat.getSelectedObject();
-        //koulutusKohdalla = chooserKoulutukset.getSelectedObject();
+        chooserTyontekijanKoulutukset.clear();
         
-        if (tyontekijaKohdalla == null) {
-            areaKoulutus.clear();
-            return;
-        }
+        if (tyontekijaKohdalla == null) return;
+        List<Relaatio> relaatio = koulutusrekisteri.annaRelaatiot(tyontekijaKohdalla.getTyontekijaTunnus());
         
-        areaKoulutus.setText("");
-        try (PrintStream os = TextAreaOutputStream.getTextPrintStream(areaKoulutus)) {
-            tulosta(os, tyontekijaKohdalla);
-        }
+        for (int i = 0; i < relaatio.size(); i++) {
+            Relaatio rel = relaatio.get(i);
+            rel.getKoulutusTunnus();
+            koulutusrekisteri.annaKoulutus(i);
+            rel.getSuoritettu();
+            rel.getUmpeutuu();
+            chooserTyontekijanKoulutukset.add(rel.getKoulutusTunnusString(), rel);
+            }
     }
 
     
@@ -492,8 +457,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
         this.koulutusrekisteri = koulutusrekisteri;
         naytaTyontekija(tyontekijaTiedot, tyontekijaKohdalla);
         //naytaTyontekija();
-        //naytaKoulutus();
-        //naytaTyontekijanKoulutukset();
+        naytaKoulutus();
+        naytaTyontekijanKoulutukset();
         //============== naytaTeos(editsPaa, teosKohdalla);
     }
     
