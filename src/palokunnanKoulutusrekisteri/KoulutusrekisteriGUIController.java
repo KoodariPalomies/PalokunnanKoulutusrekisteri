@@ -188,16 +188,15 @@ public class KoulutusrekisteriGUIController implements Initializable {
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
     private String              kayttajatunnus= "";
-    //private String salasana         = "";
     private Koulutusrekisteri   koulutusrekisteri;
     private Tyontekija          tyontekijaKohdalla;
     private Koulutus            koulutusKohdalla;
-    private Relaatio            relaatioKohdalla; //--> tällä saisi tehtyä sen relaation poiston!!!!
+    private Relaatio            relaatioKohdalla;
     private TextField           tyontekijaTiedot[];
     
     
     /**
-     * Alustetaan työntekijä-, koulutus- ja työntekijöidenkoulutuksetlistojen kuuntelijat.
+     * Alustetaan työntekijä-, koulutus- ja työntekijänKoulutukset-listojen kuuntelijat.
      */
     private void alusta() {
         chooserTyontekijat.clear();
@@ -206,9 +205,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
         tyontekijaTiedot = new TextField[] {nimi, tyontekijatunnus, tehtavaalue, virkaasema};
         
         chooserKoulutukset.clear();
+        chooserKoulutukset.addSelectionListener(e -> valitseKoulutus());
         
         chooserTyontekijanKoulutukset.clear();
-        //chooserTyontekijanKoulutukset.addSelectionListener(e -> naytaTyontekijanKoulutukset());
         chooserTyontekijanKoulutukset.addSelectionListener(e -> valitseTyontekijanKoulutus());
     }
     
@@ -219,6 +218,14 @@ public class KoulutusrekisteriGUIController implements Initializable {
    private void valitseTyontekijanKoulutus() {
         relaatioKohdalla = chooserTyontekijanKoulutukset.getSelectedObject();
     }
+   
+   
+   /**
+    * Valitsee koulutuksen
+    */
+   private void valitseKoulutus() {
+       koulutusKohdalla = chooserKoulutukset.getSelectedObject();
+   }
 
 
 /* 
@@ -234,10 +241,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     }
     */
     
-    @SuppressWarnings("unused")
-    private void setTitle(String title) {
-        //ModalController.getStage(hakuehto).setTitle(title);
-    }
+
     
     /**
      * Alustaa koulutusrekisterin lukemalla sen valitun nimisestä tiedostosta
@@ -246,7 +250,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     protected String lueTiedosto(String nimi) {
            kayttajatunnus = nimi;
-           setTitle("Palokunnankoulutusrekisteri - " + kayttajatunnus);
+           //setTitle("Palokunnankoulutusrekisteri - " + kayttajatunnus);
            try {
                koulutusrekisteri.lueTiedostosta(nimi);
                hae(0);
@@ -363,11 +367,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private void poistaTyontekijanKoulutus1() {
         if (relaatioKohdalla == null) return;
         int id = koulutusrekisteri.poistaTyontekijanKoulutus(relaatioKohdalla);
-        
-        if (id != 0) {
-            //koulutusrekisteri.poista(id);
-        }
-        //hae(0);
+        if (id != 0);
     }
 
     
@@ -451,7 +451,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
             rel.vastaaRelaatio();
             koulutusrekisteri.lisaa(rel);
             hae(rel.getRelaatioTunnus());
-            //naytaTyontekijanKoulutukset();
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;
