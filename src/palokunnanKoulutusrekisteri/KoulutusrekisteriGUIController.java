@@ -221,7 +221,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
    
    
    /**
-    * Valitsee koulutuksen
+    * Valitsee koulutuksen, joka voidaan sitten lisätä työntekijälle
     */
    private void valitseKoulutus() {
        koulutusKohdalla = chooserKoulutukset.getSelectedObject();
@@ -372,10 +372,16 @@ public class KoulutusrekisteriGUIController implements Initializable {
 
     
     /**
-     * 
-     * @param tnro 
+     * Hakee työntekijöiden tiedot listaan
+     * @param tnro työntekijän numero, joka aktivoidaan haun jälkeen
      */
     private void hae(int tnro) {
+        int tnr = tnro;     // tnr työntekijän numero, joka aktivoituu haun jälkeen
+        if (tnr <= 0) {
+            Tyontekija kohdalla = tyontekijaKohdalla;
+            if (kohdalla != null) tnr = kohdalla.getTyontekijaTunnus();
+        }
+        
         int k = cbKentat.getSelectionModel().getSelectedIndex();
         String ehto = hakuehto.getText();
         //if (k > 0 || ehto.length() > 0)

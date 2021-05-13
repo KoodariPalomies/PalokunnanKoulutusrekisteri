@@ -363,7 +363,7 @@ public class Koulutusrekisteri {
            try {
                koulutukset.tallenna();
            } catch ( SailoException ex ) {
-               virhe += ex.getMessage();
+               virhe = ex.getMessage();
            }
            
            try {
