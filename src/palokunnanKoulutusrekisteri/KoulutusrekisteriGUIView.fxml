@@ -22,239 +22,328 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="palokunnanKoulutusrekisteri.KoulutusrekisteriGUIController">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu text="_Tiedosto">
-            <items>
-              <MenuItem text="_Tallenna" onAction="#handleTallenna" >
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-    	          <MenuItem text="Avaa..." onAction="#handleAvaa">
-    	          	<accelerator>
-                        <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                    </accelerator>
-                  </MenuItem>
-	              <MenuItem mnemonicParsing="false" text="Tulosta..." onAction="#handleTulosta">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="T" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="true" text="_Muokkaa">
-            <items>
-	              <MenuItem mnemonicParsing="true" text="Uusi työntekijä" onAction="#handleUusiTyontekija">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="true" text="Muokkaa työntekijää..." onAction="#handleMuokkaaTyontekija">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-	              <MenuItem mnemonicParsing="true" text="Lisää koulutus" onAction="#handleLisaaKoulutus">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-                  <MenuItem mnemonicParsing="true" text="Muokkaa koulutusta..." onAction="#handleMuokkaaKoulutusta">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-	              <MenuItem mnemonicParsing="false" text="Poista työntekijä..." onAction="#handlePoistaTyontekija">
-	                 <accelerator>
-                        <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-	              <MenuItem mnemonicParsing="false" text="Poista koulutus" onAction="#handlePoistaKoulutus">
-	                 <accelerator>
-                        <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="true" text="_Apua">
-            <items>
-	              <MenuItem mnemonicParsing="false" text="Apua" onAction="#handleApua">
-	              	 <accelerator>
-                        <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                 </MenuItem>
-    	         <MenuItem mnemonicParsing="false" text="Tietoja..." onAction="#handleTietoja">
-    	          	 <accelerator>
-                        <KeyCodeCombination alt="UP" code="U" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                 </MenuItem>
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <center>
-      <SplitPane dividerPositions="0.27, 0.66" BorderPane.alignment="CENTER">
-        <items>
-            <BorderPane maxWidth="200.0" prefWidth="200.0">
-               <center>
-                  <ListChooser fx:id="chooserTyontekijat" maxHeight="1.7976931348623157E308" prefHeight="200.0" maxWidth="200.0" rivit="Ankka Aku&#10;Ponteva Veli&#10;Susi Sepe&#10;" BorderPane.alignment="CENTER" />
-               </center>
-               <top>
-                  <VBox BorderPane.alignment="CENTER">
-                     <children>
-                        <Label alignment="CENTER" maxWidth="200.0" prefWidth="200.0" text="Haku" />
-                        <TextField fx:id="hakuehto" />
-                        <ComboBoxChooser fx:id="cbKentat" maxWidth="200.0" rivit="Nimi&#10;Työntekijätunnus&#10;Tehtäväalue&#10;Virka-asema&#10;Koulutukset&#10;" />
-                        <Label alignment="CENTER" maxWidth="200.0" prefWidth="200.0" text="Työntekijät" />
-                     </children>
-                  </VBox>
-               </top>
-            </BorderPane>
-            <BorderPane prefWidth="450.0" maxWidth="450.0">
-               <top>
-                  <Label text="Työntekijän tiedot" BorderPane.alignment="CENTER" />
-               </top>
-               <center>
-                  <ScrollPane fx:id="panelTyontekija" fitToWidth="true" pannable="true" BorderPane.alignment="CENTER">
-                     <content>
-                        <GridPane hgap="10.0">
-                           <columnConstraints>
-                              <ColumnConstraints fillWidth="false" halignment="RIGHT" hgrow="NEVER" minWidth="10.0" />
-                              <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-                           </columnConstraints>
-                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                           </rowConstraints>
-                           <children>
-                              <Label 	text="Nimi:" 				GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="200.0" prefWidth="200.0"/>
-                              <Label 	text="Työntekijätunnus:" 	GridPane.columnIndex="0" GridPane.rowIndex="2" maxWidth="200.0" prefWidth="200.0"/>
-                              <Label 	text="Tehtäväalue:" 		GridPane.columnIndex="0" GridPane.rowIndex="3" maxWidth="200.0" prefWidth="200.0"/>
-                              <Label 	text="Virka-asema:" 		GridPane.columnIndex="0" GridPane.rowIndex="4" maxWidth="200.0" prefWidth="200.0"/>
-                              <TextField fx:id="nimi" 				editable="false" text="Ankka Aku" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" maxWidth="200.0" prefWidth="200.0" />
-                              <TextField fx:id="tyontekijatunnus" 	editable="false" text="1" 			GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" maxWidth="200.0" prefWidth="200.0" />
-                              <TextField fx:id="tehtavaalue" 		editable="false" text="Pelastus" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" maxWidth="200.0" prefWidth="200.0" />
-                              <TextField fx:id="virkaasema" 		editable="false" text="Palomies" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" maxWidth="200.0" prefWidth="200.0" />
-                           	  <Button onAction="#handleMuokkaaTyontekija" text="_Muokkaa työntekijää" 	GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
-                  				<tooltip>
-                  					<Tooltip text="Muokkaa työntekijää" />
-                  				</tooltip>
-                  			  </Button>
-                  			  
-                  			  
-                  			  
-                  			  <Label text="Työntekijän koulutukset:" GridPane.columnIndex="0" GridPane.rowIndex="7" maxWidth="200.0" prefWidth="200.0"/>
-               				<ListChooser fx:id="chooserTyontekijanKoulutukset" maxHeight="1.7976931348623157E308" prefHeight="150.0" maxWidth="250.0" rivit="" BorderPane.alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7"/>
-               				
-               				
-                  			        <Button mnemonicParsing="true" text="Lisää työntekijälle koulutus" onAction="#handleLisaaTyontekijalleKoulutus" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8">
-			                     		<tooltip>
-			                        		<Tooltip text="Lisää työntekijälle uuden koulutuksen" />
-			                     		</tooltip>
-               						</Button>
-               						<Button mnemonicParsing="true" text="Poista työntekijän koulutus" onAction="#handlePoistaTyontekijanKoulutus" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="9">
-			                     		<tooltip>
-			                        		<Tooltip text="Poista työntekijän koulutus" />
-			                     		</tooltip>
-               						</Button>
-                           </children>
-                           <opaqueInsets>
-                              <Insets left="10.0" top="10.0" />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </GridPane>
-                     </content>
-                  </ScrollPane>
-               </center>
-               <bottom>
-                  <Label alignment="CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER" />
-               </bottom>
-                           <padding>
-                              <Insets top="10.0" />
-                           </padding>
-            </BorderPane>
-            <BorderPane maxWidth="250.0" prefWidth="250.0">
-               <top>
-                  <Label text="Koulutukset" BorderPane.alignment="CENTER" />
-               </top>
-               		<center>
-						<ListChooser fx:id="chooserKoulutukset" maxHeight="1.7976931348623157E308" prefHeight="250.0" maxWidth="250.0" rivit="Vesisukeltaja&#10;Nostolava&#10;Kemikaalivalvonta -peruskurssi&#10;" BorderPane.alignment="CENTER" />
-               		</center>
-               <bottom>
-               <Button onAction="#handleMuokkaaKoulutusta" text="_Muokkaa koulutusta" BorderPane.alignment="CENTER" >
-                  		<tooltip>
-                  			<Tooltip text="Muokkaa koulutusta" />
-                  		</tooltip>
-               </Button>
-               </bottom>
-               <padding>
-                  <Insets bottom="30.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </BorderPane>
-        </items>
-         <padding>
-            <Insets left="5.0" right="5.0" />
-         </padding>
-      </SplitPane>
-   </center>
-   <bottom>
-      <BorderPane BorderPane.alignment="CENTER">
-         <left>
-            <HBox spacing="10.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Button onAction="#handleUusiTyontekija" text="_Uusi työntekijä">
-                     <tooltip>
-                        <Tooltip text="Lisää uuden työntekijän rekisteriin" />
-                     </tooltip>
-                  </Button>
-                  <Button onAction="#handlePoistaTyontekija" text="_Poista työntekijä">
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#handleTallenna" text="Tallenna">
-                     <tooltip>
-                        <Tooltip text="Tallentaa rekisterin tiedot" />
-                     </tooltip></Button>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
-         </left>
-         <right>
-            <HBox spacing="10.0" BorderPane.alignment="CENTER">
-               <children>
+	<top>
+		<MenuBar BorderPane.alignment="CENTER">
+			<menus>
+				<Menu text="_Tiedosto">
+					<items>
+						<MenuItem text="_Tallenna" onAction="#handleTallenna">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="S"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem text="Avaa..." onAction="#handleAvaa">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="T"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem mnemonicParsing="false" text="Tulosta..."
+							onAction="#handleTulosta">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="T"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="true" text="_Muokkaa">
+					<items>
+						<MenuItem mnemonicParsing="true" text="Uusi työntekijä"
+							onAction="#handleUusiTyontekija">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="N"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem mnemonicParsing="true"
+							text="Muokkaa työntekijää..." onAction="#handleMuokkaaTyontekija">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="E"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem mnemonicParsing="true" text="Lisää koulutus"
+							onAction="#handleLisaaKoulutus">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="H"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem mnemonicParsing="true"
+							text="Muokkaa koulutusta..." onAction="#handleMuokkaaKoulutusta">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="U"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem mnemonicParsing="false"
+							text="Poista työntekijä..." onAction="#handlePoistaTyontekija">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="U"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem mnemonicParsing="false" text="Poista koulutus"
+							onAction="#handlePoistaKoulutus">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="U"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="true" text="_Apua">
+					<items>
+						<MenuItem mnemonicParsing="false" text="Apua"
+							onAction="#handleApua">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="U"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem mnemonicParsing="false" text="Tietoja..."
+							onAction="#handleTietoja">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="U"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+	</top>
+	<center>
+		<SplitPane dividerPositions="0.27, 0.66"
+			BorderPane.alignment="CENTER">
+			<items>
+				<BorderPane maxWidth="200.0" prefWidth="200.0">
+					<center>
+						<ListChooser fx:id="chooserTyontekijat"
+							maxHeight="1.7976931348623157E308" prefHeight="200.0"
+							maxWidth="200.0"
+							rivit="Ankka Aku&#10;Ponteva Veli&#10;Susi Sepe&#10;"
+							BorderPane.alignment="CENTER" />
+					</center>
+					<top>
+						<VBox BorderPane.alignment="CENTER">
+							<children>
+								<Label alignment="CENTER" maxWidth="200.0"
+									prefWidth="200.0" text="Haku" />
+								<TextField fx:id="hakuehto" />
+								<ComboBoxChooser fx:id="cbKentat"
+									maxWidth="200.0"
+									rivit="Nimi&#10;Työntekijätunnus&#10;Tehtäväalue&#10;Virka-asema&#10;Koulutukset&#10;" />
+								<Label alignment="CENTER" maxWidth="200.0"
+									prefWidth="200.0" text="Työntekijät" />
+							</children>
+						</VBox>
+					</top>
+				</BorderPane>
+				<BorderPane prefWidth="450.0" maxWidth="450.0">
+					<top>
+						<Label text="Työntekijän tiedot"
+							BorderPane.alignment="CENTER" />
+					</top>
+					<center>
+						<ScrollPane fx:id="panelTyontekija" fitToWidth="true"
+							pannable="true" BorderPane.alignment="CENTER">
+							<content>
+								<GridPane hgap="10.0">
+									<columnConstraints>
+										<ColumnConstraints fillWidth="false"
+											halignment="RIGHT" hgrow="NEVER" minWidth="10.0" />
+										<ColumnConstraints hgrow="ALWAYS"
+											minWidth="10.0" />
+									</columnConstraints>
+									<rowConstraints>
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+										<RowConstraints minHeight="10.0"
+											vgrow="SOMETIMES" />
+									</rowConstraints>
+									<children>
+										<Label text="Nimi:" GridPane.columnIndex="0"
+											GridPane.rowIndex="1" maxWidth="200.0" prefWidth="200.0" />
+										<Label text="Työntekijätunnus:" GridPane.columnIndex="0"
+											GridPane.rowIndex="2" maxWidth="200.0" prefWidth="200.0" />
+										<Label text="Tehtäväalue:" GridPane.columnIndex="0"
+											GridPane.rowIndex="3" maxWidth="200.0" prefWidth="200.0" />
+										<Label text="Virka-asema:" GridPane.columnIndex="0"
+											GridPane.rowIndex="4" maxWidth="200.0" prefWidth="200.0" />
+										<TextField fx:id="nimi" editable="false"
+											text="Ankka Aku" GridPane.columnIndex="1"
+											GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"
+											maxWidth="200.0" prefWidth="200.0" />
+										<TextField fx:id="tyontekijatunnus" editable="false"
+											text="1" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+											GridPane.rowIndex="2" maxWidth="200.0" prefWidth="200.0" />
+										<TextField fx:id="tehtavaalue" editable="false"
+											text="Pelastus" GridPane.columnIndex="1"
+											GridPane.hgrow="ALWAYS" GridPane.rowIndex="3"
+											maxWidth="200.0" prefWidth="200.0" />
+										<TextField fx:id="virkaasema" editable="false"
+											text="Palomies" GridPane.columnIndex="1"
+											GridPane.hgrow="ALWAYS" GridPane.rowIndex="4"
+											maxWidth="200.0" prefWidth="200.0" />
+										<Button onAction="#handleMuokkaaTyontekija"
+											text="_Muokkaa työntekijää" GridPane.columnIndex="1"
+											GridPane.hgrow="ALWAYS" GridPane.rowIndex="5">
+											<tooltip>
+												<Tooltip text="Muokkaa työntekijää" />
+											</tooltip>
+										</Button>
 
 
 
-                  <Button mnemonicParsing="true" text="Lisää koulutus" onAction="#handleLisaaKoulutus">
-                     <tooltip>
-                        <Tooltip text="Lisää koulutusrekisteriin uuden koulutuksen" />
-                     </tooltip>
-                  </Button>
-                  <Button mnemonicParsing="false" text="Poista koulutus" onAction="#handlePoistaKoulutus">
-                     <tooltip>
-                        <Tooltip text="Poistetaan kohdalla oleva koulutus" />
-                     </tooltip></Button>
-               </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
-         </right>
-      </BorderPane>
-   </bottom>
+										<Label text="Työntekijän koulutukset:"
+											GridPane.columnIndex="0" GridPane.rowIndex="7"
+											maxWidth="200.0" prefWidth="200.0" />
+										<ListChooser fx:id="chooserTyontekijanKoulutukset"
+											maxHeight="1.7976931348623157E308" prefHeight="150.0"
+											maxWidth="250.0" rivit="" BorderPane.alignment="CENTER"
+											GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+											GridPane.rowIndex="7" />
+
+
+										<Button mnemonicParsing="true"
+											text="Lisää työntekijälle koulutus"
+											onAction="#handleLisaaTyontekijalleKoulutus"
+											GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+											GridPane.rowIndex="8">
+											<tooltip>
+												<Tooltip
+													text="Lisää työntekijälle uuden koulutuksen" />
+											</tooltip>
+										</Button>
+										<Button mnemonicParsing="true"
+											text="Poista työntekijän koulutus"
+											onAction="#handlePoistaTyontekijanKoulutus"
+											GridPane.columnIndex="1" GridPane.hgrow="ALWAYS"
+											GridPane.rowIndex="9">
+											<tooltip>
+												<Tooltip text="Poista työntekijän koulutus" />
+											</tooltip>
+										</Button>
+									</children>
+									<opaqueInsets>
+										<Insets left="10.0" top="10.0" />
+									</opaqueInsets>
+									<padding>
+										<Insets left="10.0" right="10.0" top="10.0" />
+									</padding>
+								</GridPane>
+							</content>
+						</ScrollPane>
+					</center>
+					<bottom>
+						<Label alignment="CENTER" maxWidth="1.7976931348623157E308"
+							BorderPane.alignment="CENTER" />
+					</bottom>
+					<padding>
+						<Insets top="10.0" />
+					</padding>
+				</BorderPane>
+				<BorderPane maxWidth="250.0" prefWidth="250.0">
+					<top>
+						<Label text="Koulutukset" BorderPane.alignment="CENTER" />
+					</top>
+					<center>
+						<ListChooser fx:id="chooserKoulutukset"
+							maxHeight="1.7976931348623157E308" prefHeight="250.0"
+							maxWidth="250.0"
+							rivit="Vesisukeltaja&#10;Nostolava&#10;Kemikaalivalvonta -peruskurssi&#10;"
+							BorderPane.alignment="CENTER" />
+					</center>
+					<bottom>
+						<Button onAction="#handleMuokkaaKoulutusta"
+							text="_Muokkaa koulutusta" BorderPane.alignment="CENTER">
+							<tooltip>
+								<Tooltip text="Muokkaa koulutusta" />
+							</tooltip>
+						</Button>
+					</bottom>
+					<padding>
+						<Insets bottom="30.0" left="10.0" right="10.0" top="10.0" />
+					</padding>
+				</BorderPane>
+			</items>
+			<padding>
+				<Insets left="5.0" right="5.0" />
+			</padding>
+		</SplitPane>
+	</center>
+	<bottom>
+		<BorderPane BorderPane.alignment="CENTER">
+			<left>
+				<HBox spacing="10.0" BorderPane.alignment="CENTER">
+					<children>
+						<Button onAction="#handleUusiTyontekija"
+							text="_Uusi työntekijä">
+							<tooltip>
+								<Tooltip text="Lisää uuden työntekijän rekisteriin" />
+							</tooltip>
+						</Button>
+						<Button onAction="#handlePoistaTyontekija"
+							text="_Poista työntekijä">
+						</Button>
+						<Button mnemonicParsing="false" onAction="#handleTallenna"
+							text="Tallenna">
+							<tooltip>
+								<Tooltip text="Tallentaa rekisterin tiedot" />
+							</tooltip>
+						</Button>
+					</children>
+					<padding>
+						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+					</padding>
+				</HBox>
+			</left>
+			<right>
+				<HBox spacing="10.0" BorderPane.alignment="CENTER">
+					<children>
+						<Button text="Lisää koulutus"
+							onAction="#handleLisaaKoulutus">
+							<tooltip>
+								<Tooltip
+									text="Lisää koulutusrekisteriin uuden koulutuksen" />
+							</tooltip>
+						</Button>
+						<Button mnemonicParsing="false" text="Poista koulutus"
+							onAction="#handlePoistaKoulutus">
+							<tooltip>
+								<Tooltip text="Poistetaan kohdalla oleva koulutus" />
+							</tooltip>
+						</Button>
+					</children>
+					<padding>
+						<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+					</padding>
+				</HBox>
+			</right>
+		</BorderPane>
+	</bottom>
 </BorderPane>

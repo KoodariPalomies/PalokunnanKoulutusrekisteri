@@ -96,11 +96,6 @@ public class Tyontekijat implements Iterable<Tyontekija>{
     public Tyontekija annaTyontekija(int i) throws IndexOutOfBoundsException {
         if ( i < 0 || lkm <= i ) throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         return tyontekijat[i];
-        
-        //for (Tyontekija tyontekija : this) {
-          //  if (i == tyontekija.getTyontekijaTunnus()) return tyontekija;
-        //}
-        //return null;
     }
     
     

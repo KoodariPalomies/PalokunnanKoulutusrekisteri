@@ -256,7 +256,7 @@ public class Koulutusrekisteri {
          
       /**
        * Lukee koulutusrekisterin tiedot tiedostosta
-       * @param nimi jota käyteään lukemisessa
+     * @param nimi avattavan tiedostom nimi
        * @throws SailoException jos lukeminen epäonnistuu
        * 
        * @example

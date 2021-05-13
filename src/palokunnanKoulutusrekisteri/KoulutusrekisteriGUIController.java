@@ -42,7 +42,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ListChooser<Tyontekija>   chooserTyontekijat;
     @FXML private ListChooser<Koulutus>     chooserKoulutukset;
     @FXML private ListChooser<Relaatio>     chooserTyontekijanKoulutukset;
-    @FXML private ScrollPane                panelKoulutus;
+    //@FXML private ScrollPane                panelKoulutus;
     @FXML private TextField                 nimi;
     @FXML private TextField                 tyontekijatunnus;
     @FXML private TextField                 tehtavaalue;
@@ -329,7 +329,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
-     * Näyttää listasta valitun koulutuksen tiedot listChooseriin
+     * Näyttää listasta koulutuksien tiedot listChooseriin
      */
     private void naytaKoulutus() {
         chooserKoulutukset.clear();

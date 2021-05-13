@@ -54,44 +54,23 @@ public class Relaatiot implements Iterable<Relaatio> {
     }
 
 
-    /** 
-     * Poistaa relaation jolla on valittu tunnusnumero ja tiivistää taulukon takaisin tiiviiksi.
-     * @param relaatio poistettava
-     * @return poistettavan relaation id tai 0
-     * @example 
-     * <pre name="test"> 
-     * #THROWS SailoException  
-     * Relaatiot relaatiot = new Relaatiot(); 
-     * Relaatio rel1 = new Relaatio(), rel2 = new Relaatio(), rel3 = new Relaatio(); 
-     * rel1.rekisteroi(); rel2.rekisteroi(); rel3.rekisteroi(); 
-     * int id1 = rel1.getRelaatioTunnus(); 
-     * relaatiot.lisaa(rel1); relaatiot.lisaa(rel2); relaatiot.lisaa(rel3); 
+    /**
+     * Poistetaan relaatio taulukosta, jolla on valittu relaatiotunnus
+     * @param id poistettavan relaation id
+     * @return 0 jos epäonnistui ja 1 jos onnistui
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Relaatiot relaatiot = new Relaatiot();
+     * Relaatio rel1 = new Relaatio(), rel2 = new Relaatio(), rel3 = new Relaatio();
+     * rel1.rekisteroi(); rel2.rekisteroi(); rel3.rekisteroi();
+     * int id1 = rel1.getRelaatioTunnus();
+     * relaatiot.lisaa(rel1); relaatiot.lisaa(rel2); relaatiot.lisaa(rel3);
      * relaatiot.poista(id1+1) === 1; 
      * relaatiot.annaId(id1+1) === null; relaatiot.getLkm() === 2; 
      * relaatiot.poista(id1) === 1; relaatiot.getLkm() === 1; 
-     * relaatiot.poista(id1+3) === 0; relaatiot.getLkm() === 1; 
-     * </pre> 
-     
-    public int poistaTyontekijanKoulutus(Relaatio relaatio) {
-        int id = relaatio.getRelaatioTunnus();
-
-        for (int i = 0; i < lkm; i++) { // mitä tällä tehdään?
-            if (alkiot[i].getRelaatioTunnus() == id) {
-                alkiot[i] = relaatio;
-            }
-        }
-        for (int i = 0; i < lkm; i++) {
-            if (alkiot[i].getRelaatioTunnus() == id)
-                return 0; // mitä tällä tehdään?
-        }
-        return id;
-    }
-*/
-
-    /**
-     * Poistetaan relaatio taulukosta ja tiivistetään taas siistiksi.
-     * @param id poistettavan relaation id
-     * @return 0 jos epäonnistui ja 1 jos onnistui
+     * relaatiot.poista(id1+3) === 0; relaatiot.getLkm() === 1;
+     * </pre>
      */
     public int poista(int id) {
         for (int i = 0; i < lkm; i++) {
@@ -99,33 +78,13 @@ public class Relaatiot implements Iterable<Relaatio> {
                 while (i < alkiot.length - 1) {
                     alkiot[i] = alkiot[i + 1];
                     i++;
-                    muutettu = true;    // Tallentaako nyt tiedostoon?
+                    muutettu = true;
                 }
                 lkm--;
                 return 1;
             }
         }
         return 0;
-
-        // public void poistaTyontekijanKoulutus(int id) {
-        // for (int i = 0; i < lkm; i++) {
-        // if (alkiot[i].getRelaatioTunnus() == id) {
-        // while (i <alkiot.length-1) {
-        // alkiot[i] = alkiot[i+1];
-        // i++;
-        // }
-        // lkm--;
-        // }
-        // }
-        // public int poistaTyontekijanKoulutus(int id) {
-        // int ind = etsiId(id);
-        // if (ind < 0) return 0;
-        // lkm--;
-        // for (int i = ind; i < lkm; i++)
-        // alkiot[i] = alkiot[i + 1];
-        // alkiot[lkm] = null;
-        // muutettu = true;
-        // return 1;
     }
 
 
