@@ -99,7 +99,6 @@ public class Tyontekijat implements Iterable<Tyontekija>{
     }
     
     
-    
     /**
      * Lukee työntekijät tiedostosta. 
      * @param tied tiedoston perusnimi
@@ -169,35 +168,35 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         }
 
         
-        /**
-         * Tallentaa työntekijat tiedostoon.  
-         * Tiedoston muoto:
-         * <pre>
-         * 2
-         * 1|Ankka Aku|Pelastustoiminta|Palomies
-         * 2|Ankka Tupu|Pelastustoiminta|Palomies
-         * </pre>
-         * @throws SailoException jos talletus epäonnistuu
-         */
-        public void tallenna() throws SailoException {
-            if ( !muutettu ) return;
-            File ftied = new File(getTiedostonNimi());
+    /**
+     * Tallentaa työntekijat tiedostoon.  
+     * Tiedoston muoto:
+     * <pre>
+     * 2
+     * 1|Ankka Aku|Pelastustoiminta|Palomies
+     * 2|Ankka Tupu|Pelastustoiminta|Palomies
+     * </pre>
+     * @throws SailoException jos talletus epäonnistuu
+     */
+    public void tallenna() throws SailoException {
+        if ( !muutettu ) return;
+        File ftied = new File(getTiedostonNimi());
 
-            try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-                fo.println(getKokoNimi());
-                fo.println(tyontekijat.length);
-                for (Tyontekija tyon : this) {
-                    fo.println(tyon.toString());
-                }
-                
-            } catch ( FileNotFoundException ex ) {
-                throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
-            } catch ( IOException ex ) {
-                throw new SailoException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
+        try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
+            fo.println(getKokoNimi());
+            fo.println(tyontekijat.length);
+            for (Tyontekija tyon : this) {
+                fo.println(tyon.toString());
             }
+            
+        } catch ( FileNotFoundException ex ) {
+            throw new SailoException("Tiedosto " + ftied.getName() + " ei aukea");
+        } catch ( IOException ex ) {
+            throw new SailoException("Tiedoston " + ftied.getName() + " kirjoittamisessa ongelmia");
+        }
 
-            muutettu = false;
-            }
+        muutettu = false;
+        }
         
         
         /**

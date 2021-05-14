@@ -29,10 +29,11 @@ import static kanta.HetuTarkistus.*; // HetuTarkistus --> kanta packet --> voi k
  * |                                                    |                   |  
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 1.0, 3.3.2021 / Huonosti seurannut näitä versiokehityksiä
- * @version 1.1, 30.4.2021 / HT6 testejä
+ * @version 1.0, 3.3.2021   / Huonosti seurannut näitä versiokehityksiä
+ * @version 1.1, 30.4.2021  / HT6 testejä
+ * @version 1.2, 14.5.2021  / Lisätty clone()
 */
-public class Tyontekija {
+public class Tyontekija implements Cloneable {
     
     private int         tyontekijaTunnus;
     private String      nimi                     = "";
@@ -230,6 +231,28 @@ public class Tyontekija {
         return tyontekijaTunnus;
     }
     
+    
+    /**
+     * Tehdään identtinen klooni työntekijästä
+     * @return Object kloonattu työntekijä
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Tyontekija tyontekija = new Tyontekija();
+     *   tyontekija.parse("   3  |  Ankka Aku   | 123");
+     *   Tyontekija kopio = tyontekija.clone();
+     *   kopio.toString() === tyontekija.toString();
+     *   tyontekija.parse("   4  |  Ankka Tupu   | 123");
+     *   kopio.toString().equals(tyontekija.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Tyontekija clone() throws CloneNotSupportedException {
+        Tyontekija uusi;
+        uusi = (Tyontekija) super.clone();
+        return uusi;
+    }
+
     
     /**
      * @param args ei käytössä

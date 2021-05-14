@@ -11,14 +11,17 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.TextAreaOutputStream;
+import fi.jyu.mit.ohj2.Mjonot;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 //import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
 import koulutusRekisteri.Koulutus;
 import koulutusRekisteri.Koulutusrekisteri;
@@ -34,6 +37,8 @@ import koulutusRekisteri.Tyontekijat;
  * @version 1.1, 12.5.2021  / HT7 muokkailuja --> TextFieldien lisääminen ja paneelien poisto
  * @version 1.2, 13.5.2021  / Lisäys naytaTyontekijanKoulutukset()
  * @version 1.3, 14.5.2021  / Lisäsin handleLisaaKoulutus() ja handleUusiTyontekija() Dialogit ja ModalControllerit + muokkaa tiedoston loppuun kommenttina
+ * @version 1.4, 14.5.2021  / Lisätty haeKoulutus() --> jotta chooserKoulutukset päivittyy
+ * @version 1.5, 14.5.2021  / Lisätty getFieldId() --> tarvinnee työntekijän muokkaamista varten
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
@@ -198,7 +203,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Koulutus            koulutusKohdalla;
     private Relaatio            relaatioKohdalla;
     private TextField           tyontekijaTiedot[];
-    private int                 kentta = 0;     // Tämä tuli muokkauksen mukana
+    private int                 kentta = 0;             // Tämä tuli muokkauksen mukana
+    private static Tyontekija   apuTyontekija = new Tyontekija(); // Tämä tuli muokkauksen mukana
     
     
     /**
@@ -220,9 +226,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
         for (TextField edit: tyontekijaTiedot)  
             if (edit != null) {  
                 edit.setEditable(true);  
-                //edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(getFieldId(e.getSource(),0)); });  
-                //edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));
-                //edit.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaa(kentta);}); 
+                edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(getFieldId(e.getSource(),0)); });  
+                edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));
+                edit.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaa(kentta);}); 
             } 
 //=====================================================================================================================
     }
@@ -573,17 +579,31 @@ public class KoulutusrekisteriGUIController implements Initializable {
              if (tyontekijaKohdalla == null) return;
              try {
                  Tyontekija tyontekija = new Tyontekija();
-                 //tyontekija = tyontekijaKohdalla.clone();
+                 tyontekija = tyontekijaKohdalla.clone();
                  //tyontekija = TyontekijaDialogController.kysyTietue(null, tyontekijaKohdalla.clone(), k);
-                 //if (tyontekija == null) return;
+                 if (tyontekija == null) return;
                  koulutusrekisteri.korvaaTaiLisaa(tyontekija);
                  hae(tyontekija.getTyontekijaTunnus());
-             //} catch (CloneNotSupportedException e) {
+             } catch (CloneNotSupportedException e) {
                  //
              } catch (SailoException e) {
                  Dialogs.showMessageDialog(e.getMessage());
              }
-             hae(0);    // ???
+             //hae(0);    // ???
          }
+         
+         
+         /**
+          * Palautetaan komponentin id:stä saatava luku
+          * @param obj tutkittava komponentti
+          * @param oletus mikä arvo jos id ei ole kunnollinen
+          * @return komponentin id lukuna 
+          */
+         public static int getFieldId(Object obj, int oletus) {
+             if ( !( obj instanceof Node)) return oletus;
+             Node node = (Node)obj;
+             return Mjonot.erotaInt(node.getId().substring(1),oletus);
+         }
+
           
 }
