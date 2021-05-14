@@ -345,8 +345,8 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) { 
             Collection<Tyontekija> loytyneet = new ArrayList<Tyontekija>(); 
             for (Tyontekija tyontekija : this) {
-                if (hakuehto.isEmpty() || hakuehto.equals(tyontekija.getNimi()))
-                //if (hakuehto.isEmpty() || hakuehto.matches(tyontekija.getNimi()))
+                //if (hakuehto.isEmpty() || hakuehto.equals(tyontekija.getNimi()))
+                if (hakuehto.isEmpty() || tyontekija.getNimi().toLowerCase().matches("(.*)" + hakuehto.toLowerCase() + "(.*)"))
                     loytyneet.add(tyontekija);  
             } 
             return loytyneet; 
