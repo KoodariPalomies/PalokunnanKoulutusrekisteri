@@ -38,12 +38,13 @@ import koulutusRekisteri.Tyontekijat;
  * @version 1.2, 13.5.2021  / Lisäys naytaTyontekijanKoulutukset()
  * @version 1.3, 14.5.2021  / Lisäsin handleLisaaKoulutus() ja handleUusiTyontekija() Dialogit + muokkaa() tiedoston loppuun 
  * @version 1.4, 14.5.2021  / Lisätty haeKoulutus() --> jotta chooserKoulutukset päivittyy
+ * @version 1.5, 14.5.2021  / Lisätty naytaVirhe() --> jos tulee virhe
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
     @FXML private TextField                 hakuehto;
     @FXML private ComboBoxChooser<String>   cbKentat;
-    //@FXML private Label                     labelVirhe;
+    @FXML private Label                     labelVirhe;
     @FXML private ListChooser<Tyontekija>   chooserTyontekijat;
     @FXML private ListChooser<Koulutus>     chooserKoulutukset;
     @FXML private ListChooser<Relaatio>     chooserTyontekijanKoulutukset;
@@ -64,8 +65,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     @FXML private void handleHakuehto() {
-         //if ( tyontekijaKohdalla != null )
-           //  hae(tyontekijaKohdalla.getTyontekijaTunnus()); 
          hae(0);
     }
 
@@ -75,7 +74,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     @FXML private void handleUusiTyontekija() {
         Dialogs.showQuestionDialog("Lisää työntekijä", "Lisätäänkö työntekijä?", "Kyllä", "Ei");
-        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("UusiTyontekijaDialogView.fxml"), "Lisää työntekijä", null, "");
         uusiTyontekija();
     }
     
@@ -84,7 +82,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään työntekijän muokkaaminen
      */
     @FXML private void handleMuokkaaTyontekija() {
-        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TyontekijaDialogView.fxml"), "Muokkaa työntekijää", null, "");
         muokkaa(kentta);
     }
     
@@ -138,7 +135,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     @FXML private void handleLisaaKoulutus() {
         Dialogs.showQuestionDialog("Lisää koulutus", "Lisätäänkö koulutus?", "Kyllä", "Ei");
-        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", null, "");
         uusiKoulutus();
     }
     
@@ -202,7 +198,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Koulutus            koulutusKohdalla;
     private Relaatio            relaatioKohdalla;
     private TextField           tyontekijaTiedot[];
-    private int                 kentta = 0;             // Tämä tuli muokkauksen mukana
+    private int                 kentta = 0;
     
     
     /**
@@ -242,8 +238,11 @@ public class KoulutusrekisteriGUIController implements Initializable {
        koulutusKohdalla = chooserKoulutukset.getSelectedObject();
    }
 
-
-/* 
+   
+    /**
+     * Kertoo käyttäjälle virheestä
+     * @param virhe virheilmoitus
+     */
     @SuppressWarnings("unused")
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
@@ -254,8 +253,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
     }
-    */
-    
 
     
     /**
@@ -436,10 +433,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
         
         int k = cbKentat.getSelectionModel().getSelectedIndex();
         String ehto = hakuehto.getText();
-        //if (k > 0 || ehto.length() > 0)
-            //naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
-      //  else
-           // naytaVirhe(null);
         
         chooserKoulutukset.clear();
         
@@ -583,6 +576,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
              } catch (SailoException e) {
                  Dialogs.showMessageDialog(e.getMessage());
              }
-             //hae(0);    // ???
+             //hae(0);
          }          
 }
