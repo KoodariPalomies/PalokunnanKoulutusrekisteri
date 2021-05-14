@@ -29,8 +29,9 @@ import koulutusRekisteri.Tyontekijat.TyontekijatIterator;
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 1.0, 24.3.2021 / Väärin pidetty versiokirjanpito
- * @version 1.1, 4.5.2021 / HT6 testejä
+ * @version 1.0, 24.3.2021  / Väärin pidetty versiokirjanpito
+ * @version 1.1, 4.5.2021   / HT6 testejä
+ * @version 1.2, 14.5.2021  / Lisätty lisaa -aliohjelmaan Arrays.copyOf
  *
  */
 public class Koulutukset implements Iterable<Koulutus> {
@@ -77,13 +78,18 @@ public class Koulutukset implements Iterable<Koulutus> {
      * </pre>
      */
     public void lisaa(Koulutus koulutus) throws SailoException {
-        if ( lkm >= koulutukset.length ) {
-            muutettu = true;
-        }
-        else {
-            koulutukset[lkm++] = koulutus;
-            muutettu = true;
-        }
+        if (lkm >= koulutukset.length) koulutukset = Arrays.copyOf(koulutukset, lkm+20); 
+        koulutukset[lkm] = koulutus;
+        lkm++;
+        muutettu = true;
+
+        //if ( lkm >= koulutukset.length ) {
+          //  muutettu = true;
+        //}
+        //else {
+          //  koulutukset[lkm++] = koulutus;
+            //muutettu = true;
+        //}
     }
     
     
@@ -354,6 +360,46 @@ public class Koulutukset implements Iterable<Koulutus> {
     public int getLkm() {
         return lkm;
     }
+    
+    
+    /**
+     * Korvaa koulutuksen tietorakenteessa.  Ottaa koulutuksen omistukseensa.
+     * Etsitään samalla tunnusnumerolla oleva koulutus.  Jos ei löydy, niin lisätään uutena koulutuksena.
+     * @param koulutus lisättävän koulutuksen viite. Huom tietorakenne muuttuu omistajaksi
+     * @throws SailoException jos tietorakenne on jo täynnä
+     * <pre name="test">
+     * #THROWS SailoException,CloneNotSupportedException
+     * #PACKAGEIMPORT
+     * Koulutukset koulutukset = new Koulutukset();
+     * Koulutus aku1 = new Koulutus(), aku2 = new Koulutus();
+     * aku1.rekisteroi(); aku2.rekisteroi();
+     * koulutukset.getLkm() === 0;
+     * koulutukset.korvaaTaiLisaa(aku1); koulutukset.getLkm() === 1;
+     * koulutukset.korvaaTaiLisaa(aku2); koulutukset.getLkm() === 2;
+     * Koulutus aku3 = aku1.clone();
+     * aku3.aseta(3,"kkk");
+     * Iterator<Koulutus> it = koulutukset.iterator();
+     * it.next() == aku1 === true;
+     * koulutukset.korvaaTaiLisaa(aku3); koulutukset.getLkm() === 2;
+     * it = koulutukset.iterator();
+     * Koulutus j0 = it.next();
+     * j0 === aku3;
+     * j0 == aku3 === true;
+     * j0 == aku1 === false;
+     * </pre>
+     */
+    public void korvaaTaiLisaa(Koulutus koulutus) throws SailoException {
+        int id = koulutus.getKoulutusTunnus();
+        for (int i = 0; i < lkm; i++) {
+            if ( koulutukset[i].getKoulutusTunnus() == id ) {
+                koulutukset[i] = koulutus;
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(koulutus);
+    }
+    
     
     
     /**

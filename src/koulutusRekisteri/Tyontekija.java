@@ -1,6 +1,3 @@
-/**
- * 
- */
 package koulutusRekisteri;
 
 import java.io.OutputStream;

@@ -366,6 +366,44 @@ public class Tyontekijat implements Iterable<Tyontekija>{
     }
 
     
+    /**
+     * Korvaa työntekijän tietorakenteessa.  Ottaa työntekijän omistukseensa.
+     * Etsitään samalla tunnusnumerolla oleva työntekijä.  Jos ei löydy, niin lisätään uutena työntekijänä.
+     * @param tyontekija lisättävän työntekijän viite.  Huom tietorakenne muuttuu omistajaksi
+     * @throws SailoException jos tietorakenne on jo täynnä
+     * <pre name="test">
+     * #THROWS SailoException,CloneNotSupportedException
+     * #PACKAGEIMPORT
+     * Tyontekijat tyontekijat = new Tyontekijat();
+     * Tyontekija aku1 = new Tyontekija(), aku2 = new Tyontekija();
+     * aku1.rekisteroi(); aku2.rekisteroi();
+     * tyontekijat.getLkm() === 0;
+     * tyontekijat.korvaaTaiLisaa(aku1); tyontekijat.getLkm() === 1;
+     * tyontekijat.korvaaTaiLisaa(aku2); tyontekijat.getLkm() === 2;
+     * Tyontekija aku3 = aku1.clone();
+     * aku3.aseta(3,"kkk");
+     * Iterator<Tyontekija> it = tyontekijat.iterator();
+     * it.next() == aku1 === true;
+     * tyontekijat.korvaaTaiLisaa(aku3); tyontekijat.getLkm() === 2;
+     * it = tyontekijat.iterator();
+     * Tyontekija j0 = it.next();
+     * j0 === aku3;
+     * j0 == aku3 === true;
+     * j0 == aku1 === false;
+     * </pre>
+     */
+    public void korvaaTaiLisaa(Tyontekija tyontekija) throws SailoException {
+        int id = tyontekija.getTyontekijaTunnus();
+        for (int i = 0; i < lkm; i++) {
+            if ( tyontekijat[i].getTyontekijaTunnus() == id ) {
+                tyontekijat[i] = tyontekija;
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(tyontekija);
+    }
+
     
     /**
      * @param args ei käytössä
@@ -399,5 +437,5 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         }
 
     }
-    
+
 }

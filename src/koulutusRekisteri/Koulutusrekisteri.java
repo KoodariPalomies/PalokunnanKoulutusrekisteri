@@ -25,10 +25,11 @@ import java.util.List;
  * |-------------------------------------------------------------------------
  * @author mitulint
  * @version 1.0, ennen 29.4.2021 / pidin huonosti kirjaa mitä tein ja ehkäpä siksi vaikea pysyä muutoksissa kärryillä
- * @version 1.1, 29.4.2021 / HT6 tulostukset tekstikenttiin ja valinta (työntekijä ja koulutus) toimimaan
- * @version 1.2, 30.4.2021 / HT6 testejä
- * @version 1.3, 10.5.2021 / Lisätty poista()
- * @version 1.4, 13.5.2021 / Lisätty poistaTyontekijanKoulutus() + poista() muokkaus
+ * @version 1.1, 29.4.2021  / HT6 tulostukset tekstikenttiin ja valinta (työntekijä ja koulutus) toimimaan
+ * @version 1.2, 30.4.2021  / HT6 testejä
+ * @version 1.3, 10.5.2021  / Lisätty poista()
+ * @version 1.4, 13.5.2021  / Lisätty poistaTyontekijanKoulutus() + poista() muokkaus
+ * @version 1.5, 14.5.2021  / Lisätty korvaaTaiLisaa() -aliohjelma, joka tarvitaan muokkaamista varten
  *
  */
 public class Koulutusrekisteri {
@@ -39,25 +40,16 @@ public class Koulutusrekisteri {
     
     
     /** 
-     * Poistaa valitun relaation eli koulutuksen.
-     * @param relaatio työntekijältä poistettava koulutus 
-     * @example
-     * <pre name="test">
-     * #THROWS Exception
-     *   alustaKerho();
-     *   koulutusrekisteri.annaRelaatiot(aku1).size() === 2;
-     *   koulutusrekisteri.poista(pitsi11);
-     *   koulutusrekisteri.annaRelaatiot(aku1).size() === 1;
-     
-    public void poista(Relaatio relaatio) { 
-        relaatiot.poista(relaatio.getRelaatioTunnus()); 
-    } 
-*/
-    
-    /** 
      * Poistaa valitun relaation eli työntekijän koulutuksen.
      * @param relaatio työntekijältä poistettava koulutus 
      * @return palauttaa 1 jos onnistui tai 0 jos epäonnistui
+     * <pre name="test">
+     * #THROWS Exception
+     *   alusta();
+     *   koulutusrekisteri.annaRelaatiot(aku1).size() === 2;
+     *   koulutusrekisteri.poista(pitsi11);
+     *   koulutusrekisteri.annaRelaatiot(aku1).size() === 1;
+     * </pre>
      */
     public int poistaTyontekijanKoulutus(Relaatio relaatio) {
         return relaatiot.poista(relaatio.getRelaatioTunnus());
@@ -375,6 +367,25 @@ public class Koulutusrekisteri {
            if ( !"".equals(virhe) ) throw new SailoException(virhe);
        }
     
+       
+   /** 
+    * Korvaa työntekijän tietorakenteessa.  Ottaa työntekijän omistukseensa. 
+    * Etsitään samalla tunnusnumerolla oleva työntekijä.  Jos ei löydy, niin lisätään uutena työntekijänä. 
+    * @param tyontekija lisättävän työntekijän viite.  Huom tietorakenne muuttuu omistajaksi 
+    * @throws SailoException jos tietorakenne on jo täynnä 
+    * @example
+    * <pre name="test">
+    * #THROWS SailoException  
+    *  alusta();
+    *  koulutusrekisteri.etsiTyontekija("*",0).size() === 2;
+    *  koulutusrekisteri.korvaaTaiLisaa(aku1);
+    *  koulutusrekisteri.etsiTyontekija("*",0).size() === 2;
+    * </pre>
+    */ 
+   public void korvaaTaiLisaa(Tyontekija tyontekija) throws SailoException { 
+       tyontekijat.korvaaTaiLisaa(tyontekija); 
+   }
+
        
     /**
      * Testiohjelma koulutusrekisteristä

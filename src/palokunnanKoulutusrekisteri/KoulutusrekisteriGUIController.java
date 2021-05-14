@@ -30,9 +30,10 @@ import koulutusRekisteri.Tyontekijat;
 /**
  * Luokka käyttöliittymän tapahtumien hoitamiseksi
  * @author mitulint
- * @version 1.0, 24.3.2021 / Huono versionhallinta...
- * @version 1.1, 12.5.2021 / HT7 muokkailuja --> TextFieldien lisääminen ja paneelien poisto
- * @version 1.2, 13.5.2021 / Lisäys naytaTyontekijanKoulutukset()
+ * @version 1.0, 24.3.2021  / Huono versionhallinta...
+ * @version 1.1, 12.5.2021  / HT7 muokkailuja --> TextFieldien lisääminen ja paneelien poisto
+ * @version 1.2, 13.5.2021  / Lisäys naytaTyontekijanKoulutukset()
+ * @version 1.3, 14.5.2021  / Lisäsin handleLisaaKoulutus() ja handleUusiTyontekija() Dialogit ja ModalControllerit + muokkaa tiedoston loppuun kommenttina
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
@@ -42,13 +43,11 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private ListChooser<Tyontekija>   chooserTyontekijat;
     @FXML private ListChooser<Koulutus>     chooserKoulutukset;
     @FXML private ListChooser<Relaatio>     chooserTyontekijanKoulutukset;
-    //@FXML private ScrollPane                panelKoulutus;
     @FXML private TextField                 nimi;
     @FXML private TextField                 tyontekijatunnus;
     @FXML private TextField                 tehtavaalue;
     @FXML private TextField                 virkaasema;
     
-    //
     
     /**
      * @param url ei tietoa
@@ -63,7 +62,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     @FXML private void handleHakuehto() {
          if ( tyontekijaKohdalla != null )
              hae(tyontekijaKohdalla.getTyontekijaTunnus()); 
-
+         //hae(0); ????
     }
 
     
@@ -71,6 +70,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään uuden työntekijän lisääminen
      */
     @FXML private void handleUusiTyontekija() {
+        Dialogs.showQuestionDialog("Lisää työntekijä", "Lisätäänkö työntekijä?", "Kyllä", "Ei");
+        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("UusiTyontekijaDialogView.fxml"), "Lisää työntekijä", null, "");
         uusiTyontekija();
     }
     
@@ -79,7 +80,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään työntekijän muokkaaminen
      */
     @FXML private void handleMuokkaaTyontekija() {
-        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TyontekijaDialogView.fxml"), "Muokkaa työntekijää", null, "");
+        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TyontekijaDialogView.fxml"), "Muokkaa työntekijää", null, "");
+        muokkaa(kentta);
     }
     
     
@@ -131,13 +133,17 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään uuden koulutuksen lisääminen
      */
     @FXML private void handleLisaaKoulutus() {
+        Dialogs.showQuestionDialog("Lisää koulutus", "Lisätäänkö koulutus?", "Kyllä", "Ei");
+        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", null, "");
         uusiKoulutus();
     }
+    
     
     /**
      * Käsitellään työntekijän koulutustietojen lisäämisen koulutusrekisteriin
      */
     @FXML private void handleLisaaTyontekijalleKoulutus() {
+        Dialogs.showQuestionDialog("Lisää työntekijälle koulutus", "Lisätäänkö koulutus työntekijälle?", "Kyllä", "Ei");
         lisaaTyontekijalleKoulutus();
     }
     
@@ -154,7 +160,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Käsitellään koulutuksen poistaminen
      */
     @FXML private void handlePoistaKoulutus() {
-        Dialogs.showQuestionDialog("Poista koulutus", "Poistetaanko työntekijän koulutus?", "Kyllä", "Ei");
+        Dialogs.showQuestionDialog("Poista koulutus", "Poistetaanko koulutus?", "Kyllä", "Ei");
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("PoistaKoulutusGUIView.fxml"), "Poista koulutus", null, "");
     }
     
@@ -183,7 +189,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TietojaView.fxml"), "Tietoja", null, "");
     }
 
-
 //==============================================================================================================================
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
     
@@ -193,6 +198,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Koulutus            koulutusKohdalla;
     private Relaatio            relaatioKohdalla;
     private TextField           tyontekijaTiedot[];
+    private int                 kentta = 0;     // Tämä tuli muokkauksen mukana
     
     
     /**
@@ -209,6 +215,16 @@ public class KoulutusrekisteriGUIController implements Initializable {
         
         chooserTyontekijanKoulutukset.clear();
         chooserTyontekijanKoulutukset.addSelectionListener(e -> valitseTyontekijanKoulutus());
+        
+//============================== tämä tuli muokkausta tehdessä ========================================================
+        for (TextField edit: tyontekijaTiedot)  
+            if (edit != null) {  
+                edit.setEditable(true);  
+                //edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(getFieldId(e.getSource(),0)); });  
+                //edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));
+                //edit.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaa(kentta);}); 
+            } 
+//=====================================================================================================================
     }
     
     
@@ -510,4 +526,27 @@ public class KoulutusrekisteriGUIController implements Initializable {
                  koulutus2.tulosta(os);
              }
          }
+         
+         
+         /**
+          * TODO: tarvitsee clone() -aliohjelman, jotta voi muokata
+          * @param k xxx
+         */
+         private void muokkaa(int k) {
+             if (tyontekijaKohdalla == null) return;
+             try {
+                 Tyontekija tyontekija = new Tyontekija();
+                 //tyontekija = tyontekijaKohdalla.clone();
+                 //tyontekija = TyontekijaDialogController.kysyTietue(null, tyontekijaKohdalla.clone(), k);
+                 //if (tyontekija == null) return;
+                 koulutusrekisteri.korvaaTaiLisaa(tyontekija);
+                 hae(tyontekija.getTyontekijaTunnus());
+             //} catch (CloneNotSupportedException e) {
+                 //
+             } catch (SailoException e) {
+                 Dialogs.showMessageDialog(e.getMessage());
+             }
+             hae(0);    // ???
+         }
+          
 }

@@ -8,8 +8,8 @@ import javafx.scene.control.Button;
 /**
  * Käsitellään työntekijöiden muokkausikkunan tapahtumat
  * @author mitulint
- * @version 18.2.2021
- *
+ * @version 1.0, 18.2.2021  / Tiedoston luonti
+ * @version 1.1, 14.5.2021  / Muokkaamisen mahdollistamiseksi lisää ominaisuuksia
  */
 public class TyontekijaDialogController implements ModalControllerInterface<String> {
     
