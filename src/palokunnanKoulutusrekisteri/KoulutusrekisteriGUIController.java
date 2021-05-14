@@ -226,9 +226,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
         for (TextField edit: tyontekijaTiedot)  
             if (edit != null) {  
                 edit.setEditable(true);  
-                edit.setOnMouseClicked(e -> { if ( e.getClickCount() > 1 ) muokkaa(getFieldId(e.getSource(),0)); });  
-                edit.focusedProperty().addListener((a,o,n) -> kentta = getFieldId(edit,kentta));
-                edit.setOnKeyPressed( e -> {if ( e.getCode() == KeyCode.F2 ) muokkaa(kentta);}); 
             } 
 //=====================================================================================================================
     }
@@ -572,16 +569,16 @@ public class KoulutusrekisteriGUIController implements Initializable {
          
          
          /**
-          * TODO: tarvitsee clone() -aliohjelman, jotta voi muokata
-          * @param k xxx
+          * Aliohjelma, jolla muokataan työntekijän tietoja
+          * @param k muokattava TextField
          */
          private void muokkaa(int k) {
              if (tyontekijaKohdalla == null) return;
              try {
                  Tyontekija tyontekija = new Tyontekija();
                  tyontekija = tyontekijaKohdalla.clone();
-                 //tyontekija = TyontekijaDialogController.kysyTietue(null, tyontekijaKohdalla.clone(), k);
-                 if (tyontekija == null) return;
+                 tyontekija.setNimi(tyontekijaTiedot[0].getText());
+                 //tyontekija = tyontekijaKohdalla.getFieldId(tyontekijaKohdalla.clone(), 0);
                  koulutusrekisteri.korvaaTaiLisaa(tyontekija);
                  hae(tyontekija.getTyontekijaTunnus());
              } catch (CloneNotSupportedException e) {
@@ -590,20 +587,5 @@ public class KoulutusrekisteriGUIController implements Initializable {
                  Dialogs.showMessageDialog(e.getMessage());
              }
              //hae(0);    // ???
-         }
-         
-         
-         /**
-          * Palautetaan komponentin id:stä saatava luku
-          * @param obj tutkittava komponentti
-          * @param oletus mikä arvo jos id ei ole kunnollinen
-          * @return komponentin id lukuna 
-          */
-         public static int getFieldId(Object obj, int oletus) {
-             if ( !( obj instanceof Node)) return oletus;
-             Node node = (Node)obj;
-             return Mjonot.erotaInt(node.getId().substring(1),oletus);
-         }
-
-          
+         }          
 }

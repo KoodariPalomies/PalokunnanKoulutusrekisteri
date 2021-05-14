@@ -3,6 +3,8 @@ package koulutusRekisteri;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import fi.jyu.mit.ohj2.Mjonot;
+import javafx.scene.Node;
+
 import static kanta.HetuTarkistus.*; // HetuTarkistus --> kanta packet --> voi käyttää johonkin muuhun tarkistamiseen
 
 /**
@@ -69,6 +71,14 @@ public class Tyontekija implements Cloneable {
           nimi          = "Ankka Aku";
           tehtavaAlue   = "Pelastus";
           virkaAsema    = "Palomies";
+      }
+      
+      
+    /**
+     * @param nimi työntekijän nimi
+     */
+    public void setNimi(String nimi) {
+          this.nimi = nimi;
       }
     
     
@@ -252,7 +262,7 @@ public class Tyontekija implements Cloneable {
         uusi = (Tyontekija) super.clone();
         return uusi;
     }
-
+    
     
     /**
      * @param args ei käytössä
@@ -272,5 +282,4 @@ public class Tyontekija implements Cloneable {
         aku2.vastaaAkuAnkka();
         aku2.tulosta(System.out);
     }
-
 }
