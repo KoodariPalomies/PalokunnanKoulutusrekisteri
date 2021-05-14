@@ -75,10 +75,29 @@ public class Tyontekija implements Cloneable {
       
       
     /**
+     * Asettaa työntekijän nimen
      * @param nimi työntekijän nimi
      */
     public void setNimi(String nimi) {
           this.nimi = nimi;
+      }
+    
+    
+    /**
+     * Asettaa työntekijän tehtäväalueen
+     * @param tehtavaAlue työntekijän tehtäväalue
+     */
+    public void setTehtavaAlue(String tehtavaAlue) {
+          this.tehtavaAlue = tehtavaAlue;
+      }
+    
+    
+    /**
+     * Asettaa työntekijän virka-aseman
+     * @param virkaAsema työntekijän virka-asema
+     */
+    public void setVirkaAsema(String virkaAsema) {
+          this.virkaAsema = virkaAsema;
       }
     
     

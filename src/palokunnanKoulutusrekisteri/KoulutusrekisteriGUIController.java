@@ -578,7 +578,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
                  Tyontekija tyontekija = new Tyontekija();
                  tyontekija = tyontekijaKohdalla.clone();
                  tyontekija.setNimi(tyontekijaTiedot[0].getText());
-                 //tyontekija = tyontekijaKohdalla.getFieldId(tyontekijaKohdalla.clone(), 0);
+                 tyontekija.setTehtavaAlue(tyontekijaTiedot[2].getText());
+                 tyontekija.setVirkaAsema(tyontekijaTiedot[3].getText());
                  koulutusrekisteri.korvaaTaiLisaa(tyontekija);
                  hae(tyontekija.getTyontekijaTunnus());
              } catch (CloneNotSupportedException e) {
