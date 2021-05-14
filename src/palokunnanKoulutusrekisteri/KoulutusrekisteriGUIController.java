@@ -36,9 +36,8 @@ import koulutusRekisteri.Tyontekijat;
  * @version 1.0, 24.3.2021  / Huono versionhallinta...
  * @version 1.1, 12.5.2021  / HT7 muokkailuja --> TextFieldien lisääminen ja paneelien poisto
  * @version 1.2, 13.5.2021  / Lisäys naytaTyontekijanKoulutukset()
- * @version 1.3, 14.5.2021  / Lisäsin handleLisaaKoulutus() ja handleUusiTyontekija() Dialogit ja ModalControllerit + muokkaa tiedoston loppuun kommenttina
+ * @version 1.3, 14.5.2021  / Lisäsin handleLisaaKoulutus() ja handleUusiTyontekija() Dialogit + muokkaa() tiedoston loppuun 
  * @version 1.4, 14.5.2021  / Lisätty haeKoulutus() --> jotta chooserKoulutukset päivittyy
- * @version 1.5, 14.5.2021  / Lisätty getFieldId() --> tarvinnee työntekijän muokkaamista varten
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
@@ -65,9 +64,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     @FXML private void handleHakuehto() {
-         if ( tyontekijaKohdalla != null )
-             hae(tyontekijaKohdalla.getTyontekijaTunnus()); 
-         //hae(0); ????
+         //if ( tyontekijaKohdalla != null )
+           //  hae(tyontekijaKohdalla.getTyontekijaTunnus()); 
+         hae(0);
     }
 
     
@@ -204,7 +203,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private Relaatio            relaatioKohdalla;
     private TextField           tyontekijaTiedot[];
     private int                 kentta = 0;             // Tämä tuli muokkauksen mukana
-    private static Tyontekija   apuTyontekija = new Tyontekija(); // Tämä tuli muokkauksen mukana
     
     
     /**
@@ -222,12 +220,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
         chooserTyontekijanKoulutukset.clear();
         chooserTyontekijanKoulutukset.addSelectionListener(e -> valitseTyontekijanKoulutus());
         
-//============================== tämä tuli muokkausta tehdessä ========================================================
         for (TextField edit: tyontekijaTiedot)  
             if (edit != null) {  
                 edit.setEditable(true);  
             } 
-//=====================================================================================================================
     }
     
     
@@ -416,8 +412,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
             tyontekijat = koulutusrekisteri.etsiTyontekija(ehto, k);
             int i = 0;
             for (Tyontekija tyontekija:tyontekijat) {
-                if (tyontekija.getTyontekijaTunnus() == tnro) index = i;
-                chooserTyontekijat.add(tyontekija);
+                if (tyontekija.getTyontekijaTunnus() == tnr) index = i;
+                chooserTyontekijat.add(tyontekija.getNimi(), tyontekija);
                 i++;
             }
         } catch (SailoException ex) {
