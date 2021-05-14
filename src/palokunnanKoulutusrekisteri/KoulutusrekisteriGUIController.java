@@ -425,13 +425,50 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
+     * Hakee koulutusten tiedot listaan
+     * @param tnro koulutuksen numero, joka aktivoidaan haun jälkeen
+     */
+    private void haeKoulutus(int knro) {
+        int knr = knro;     // knr koulutuksen numero, joka aktivoituu haun jälkeen
+        if (knr <= 0) {
+            Koulutus kohdalla = koulutusKohdalla;
+            if (kohdalla != null) knr = kohdalla.getKoulutusTunnus();
+        }
+        
+        int k = cbKentat.getSelectionModel().getSelectedIndex();
+        String ehto = hakuehto.getText();
+        //if (k > 0 || ehto.length() > 0)
+            //naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
+      //  else
+           // naytaVirhe(null);
+        
+        chooserKoulutukset.clear();
+        
+        int index = 0;
+        Collection<Koulutus> koulutukset;
+        try {
+            koulutukset = koulutusrekisteri.etsiKoulutus(ehto, k);
+            int i = 0;
+            for (Koulutus koulutus:koulutukset) {
+                if (koulutus.getKoulutusTunnus() == knro) index = i;
+                chooserKoulutukset.add(koulutus);
+                i++;
+            }
+        } catch (SailoException ex) {
+            Dialogs.showMessageDialog("Työntekijän hakemisessa ongelmia! " + ex.getMessage());
+        }
+        chooserKoulutukset.setSelectedIndex(index); // tästä tulee muutosviesti joka näyttää koulutuksen
+    }
+    
+    
+    /**
      * Lisätään rekisteriin uusi työntekijä
      */
     public void uusiTyontekija() {
         try {
             Tyontekija uusi = new Tyontekija();
             uusi.rekisteroi();
-            uusi.vastaaAkuAnkka();        // TODO: korvaa dialogilla aikanaan
+            uusi.vastaaAkuAnkka();
             koulutusrekisteri.lisaa(uusi);
             hae(uusi.getTyontekijaTunnus());
         } catch (SailoException e) {
@@ -451,7 +488,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
             koul.rekisteroi(); 
             koul.vastaaVesisukeltaja(); 
             koulutusrekisteri.lisaa(koul);
-            hae(koul.getKoulutusTunnus());
+            haeKoulutus(koul.getKoulutusTunnus());
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;

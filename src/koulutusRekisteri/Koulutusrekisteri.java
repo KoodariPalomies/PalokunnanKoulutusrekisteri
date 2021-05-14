@@ -385,6 +385,25 @@ public class Koulutusrekisteri {
    public void korvaaTaiLisaa(Tyontekija tyontekija) throws SailoException { 
        tyontekijat.korvaaTaiLisaa(tyontekija); 
    }
+   
+   
+   /** 
+    * Korvaa koulutuksen tietorakenteessa.  Ottaa koulutuksen omistukseensa. 
+    * Etsitään samalla tunnusnumerolla oleva koulutus.  Jos ei löydy, niin lisätään uutena koulutuksena. 
+    * @param koulutus lisättävän koulutuksen viite.  Huom tietorakenne muuttuu omistajaksi 
+    * @throws SailoException jos tietorakenne on jo täynnä 
+    * @example
+    * <pre name="test">
+    * #THROWS SailoException  
+    *  alusta();
+    *  koulutusrekisteri.etsiKoulutus("*",0).size() === 2;
+    *  koulutusrekisteri.korvaaTaiLisaa(koul1);
+    *  koulutusrekisteri.etsiKoulutus("*",0).size() === 2;
+    * </pre>
+    */ 
+   public void korvaaTaiLisaa(Koulutus koulutus) throws SailoException { 
+       koulutukset.korvaaTaiLisaa(koulutus); 
+   }
 
        
     /**
