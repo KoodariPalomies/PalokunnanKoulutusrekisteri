@@ -82,14 +82,6 @@ public class Koulutukset implements Iterable<Koulutus> {
         koulutukset[lkm] = koulutus;
         lkm++;
         muutettu = true;
-
-        //if ( lkm >= koulutukset.length ) {
-          //  muutettu = true;
-        //}
-        //else {
-          //  koulutukset[lkm++] = koulutus;
-            //muutettu = true;
-        //}
     }
     
     
@@ -153,15 +145,15 @@ public class Koulutukset implements Iterable<Koulutus> {
             koul.parse(rivi);
             lisaa(koul);
         }
-        muutettu = false;
+            muutettu = false;
                 
             } catch ( FileNotFoundException e ) {
                 throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
             } catch ( IOException e ) {
                 throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
             }
-    System.out.println(tied);
-}
+        System.out.println(tied);
+    }
 
     
     /**

@@ -46,6 +46,7 @@ public class Relaatiot implements Iterable<Relaatio> {
     private String tiedostonPerusNimi = "relaatiot";
     private Relaatio alkiot[] = new Relaatio[MAX_RELAATIOITA];
 
+    
     /**
      * Relaatioiden alustaminen
      */

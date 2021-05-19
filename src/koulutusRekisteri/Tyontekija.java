@@ -2,8 +2,11 @@ package koulutusRekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+
+import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.ohj2.Mjonot;
 import javafx.scene.Node;
+import palokunnanKoulutusrekisteri.KoulutusrekisteriGUIController;
 
 import static kanta.HetuTarkistus.*; // HetuTarkistus --> kanta packet --> voi käyttää johonkin muuhun tarkistamiseen
 
@@ -34,6 +37,7 @@ import static kanta.HetuTarkistus.*; // HetuTarkistus --> kanta packet --> voi k
  * @version 1.0, 3.3.2021   / Huonosti seurannut näitä versiokehityksiä
  * @version 1.1, 30.4.2021  / HT6 testejä
  * @version 1.2, 14.5.2021  / Lisätty clone()
+ * @version 1.3, 16.5.2021  / Lisätty throw new IllegalArgumentException setNimi --> oikeellisuustarkistusta varten
 */
 public class Tyontekija implements Cloneable {
     
@@ -77,9 +81,25 @@ public class Tyontekija implements Cloneable {
     /**
      * Asettaa työntekijän nimen
      * @param nimi työntekijän nimi
+     * @return syötetty työntekijän nimi tai virheilmoitus
+     * @throws IllegalArgumentException jos nimi ei sisällä sallittuja merkkejä
      */
-    public void setNimi(String nimi) {
-          this.nimi = nimi;
+    public String setNimi(String nimi) throws IllegalArgumentException {  // void
+        //@throws IllegalArgumentException jos nimi ei sisällä sallittuja merkkejä
+        //throws IllegalArgumentException 
+          //this.nimi = nimi;
+          //if (!nimi.matches("[0-9]*")) throw new IllegalArgumentException("Ei numeroita, eikä erikoismerkkejä!");
+        String virhe = "";
+        try {
+            this.nimi = nimi;
+            if (!nimi.matches("[0-9]*")) throw new IllegalArgumentException("Ei numeroita, eikä erikoismerkkejä!");
+            return nimi;
+        } catch (IllegalArgumentException e) {
+            virhe = e.getMessage();
+            //KoulutusrekisteriGUIController.naytaVirhe(virhe);
+            Dialogs.showMessageDialog(virhe);
+            return null;
+        }
       }
     
     
@@ -151,6 +171,7 @@ public class Tyontekija implements Cloneable {
     public int getTyontekijaTunnus() {
         return tyontekijaTunnus;
     }
+    
     
     /**
      * Palauttaa alkuperäisen työntekijätunnuksen String-muodossa.

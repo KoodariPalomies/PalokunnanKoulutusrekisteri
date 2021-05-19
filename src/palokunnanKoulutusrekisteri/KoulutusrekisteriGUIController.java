@@ -64,6 +64,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
         }
     
     
+    /**
+     * Käsitellään haun tekeminen
+     */
     @FXML private void handleHakuehto() {
          hae(0);
     }
@@ -175,7 +178,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     /**
      * Käsitellään apujen hakeminen
-     * TODO: lukeminen tiedostosta tai selaimessa
      */
     @FXML private void handleApua() {
         Dialogs.showMessageDialog("Try harder!");
@@ -202,7 +204,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
-     * Alustetaan työntekijä-, koulutus- ja työntekijänKoulutukset-listojen kuuntelijat.
+     * Alustetaan työntekijä-, koulutus- ja työntekijän koulutukset-listojen kuuntelijat.
      */
     private void alusta() {
         chooserTyontekijat.clear();
@@ -218,7 +220,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         
         for (TextField edit: tyontekijaTiedot)  
             if (edit != null) {  
-                edit.setEditable(true);  
+                edit.setEditable(true);
             } 
     }
     
@@ -327,7 +329,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     
     /**
-     * Näyttää työntekijän tiedot pääikkunan tekstikentissä.
+     * Näyttää valitun työntekijän tiedot pääikkunan tekstikentissä.
      * @param edit taulukko tekstikentistä
      * @param tyontekija näytettävä työntekijä
      */
@@ -396,10 +398,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
         
         int k = cbKentat.getSelectionModel().getSelectedIndex();
         String ehto = hakuehto.getText();
-        //if (k > 0 || ehto.length() > 0)
-            //naytaVirhe(String.format("Ei osata hakea (kenttä: %d, ehto: %s)", k, ehto));
-      //  else
-           // naytaVirhe(null);
         
         chooserTyontekijat.clear();
         
@@ -560,7 +558,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
          /**
           * Aliohjelma, jolla muokataan työntekijän tietoja
           * @param k muokattava TextField
-         */
+          *
+          */
          private void muokkaa(int k) {
              if (tyontekijaKohdalla == null) return;
              try {

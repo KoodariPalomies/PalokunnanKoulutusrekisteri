@@ -128,6 +128,7 @@ public class Relaatio {
         return koulutusTunnus;
     }
     
+    
     /**
      * Palauttaa työntekijän koulutustunnuksen String-muodossa.
      * @return tyontekijan koulutustunnus
