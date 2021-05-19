@@ -100,8 +100,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     /**
      * Käsitellään tietojen avaaminen
+     * @throws SailoException jos menee pieleen
      */
-    @FXML private void handleAvaa() {
+    @FXML private void handleAvaa() throws SailoException {
         avaa();
     }
 
@@ -209,7 +210,14 @@ public class KoulutusrekisteriGUIController implements Initializable {
     private void alusta() {
         chooserTyontekijat.clear();
         chooserTyontekijat.addSelectionListener(e -> naytaTyontekija());
-        chooserTyontekijat.addSelectionListener(e -> naytaTyontekijanKoulutukset());
+        chooserTyontekijat.addSelectionListener(e -> {
+            try {
+                naytaTyontekijanKoulutukset();
+            } catch (SailoException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        });
         tyontekijaTiedot = new TextField[] {nimi, tyontekijatunnus, tehtavaalue, virkaasema};
         
         chooserKoulutukset.clear();
@@ -281,8 +289,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
     /**
      * Kysytään tiedoston nimi ja luetaan se
      * @return true jos onnistui, false jos ei
+     * @throws SailoException jos menee pieleen
      */
-    public boolean avaa() {
+    public boolean avaa() throws SailoException {
         String uusinimi = AloitusIkkunaGUIController.kysyNimi(null, kayttajatunnus);
         if (uusinimi == null) return false;
         lueTiedosto(uusinimi);
@@ -347,18 +356,31 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     private void naytaKoulutus() {
         chooserKoulutukset.clear();
-
+        /*
         for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
             Koulutus koulutus = koulutusrekisteri.annaKoulutus(i);
             chooserKoulutukset.add(koulutus.getKoulutus(), koulutus);
             }
+            */
+        
+        try {
+            List<Koulutus> koulutukset = koulutusrekisteri.annaKoulutus(0);
+            if ( koulutukset.size() == 0 ) return;
+            for (Koulutus koulutus : koulutukset)
+                //naytaKoulutus(koul.getKoulutusTunnus());
+                chooserKoulutukset.add(koulutus.getKoulutus(), koulutus);
+        } catch (SailoException e) {
+            naytaVirhe(e.getMessage());
+        }
+
     } 
     
     
     /**
      * Näyttää listasta valitun työntekijän koulutukset
+     * @throws SailoException jos menee pieleen
      */
-    private void naytaTyontekijanKoulutukset() {
+    private void naytaTyontekijanKoulutukset() throws SailoException {
         chooserTyontekijanKoulutukset.clear();
         
         if (tyontekijaKohdalla == null) return;
@@ -511,8 +533,9 @@ public class KoulutusrekisteriGUIController implements Initializable {
     /**
      * Asetetaan käytettävä koulutusrekisteri
      * @param koulutusrekisteri jota käytetään
+     * @throws SailoException jos menee pieleen
      */
-    public void setKoulutusrekisteri(Koulutusrekisteri koulutusrekisteri) {
+    public void setKoulutusrekisteri(Koulutusrekisteri koulutusrekisteri) throws SailoException {
         this.koulutusrekisteri = koulutusrekisteri;
         naytaTyontekija(tyontekijaTiedot, tyontekijaKohdalla);
         naytaKoulutus();
@@ -547,11 +570,20 @@ public class KoulutusrekisteriGUIController implements Initializable {
              os.println("----------------------------------------------");
              koulutus.tulosta(os);
              os.println("----------------------------------------------");
-             
+             /*
              for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
                  Koulutus koulutus2 = koulutusrekisteri.annaKoulutus(i);
                  koulutus2.tulosta(os);
              }
+             */
+             try {
+                 List<Koulutus> koulutukset = koulutusrekisteri.annaKoulutus(0);
+                 for (Koulutus koul : koulutukset) 
+                     koul.tulosta(os);     
+             } catch (SailoException ex) {
+                 Dialogs.showMessageDialog("Harrastusten hakemisessa ongelmia! " + ex.getMessage());
+             } 
+
          }
          
          

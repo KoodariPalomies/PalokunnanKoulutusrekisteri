@@ -32,17 +32,26 @@ import koulutusRekisteri.Tyontekijat.TyontekijatIterator;
  * @version 1.0, 24.3.2021  / Väärin pidetty versiokirjanpito
  * @version 1.1, 4.5.2021   / HT6 testejä
  * @version 1.2, 14.5.2021  / Lisätty lisaa -aliohjelmaan Arrays.copyOf
+ * @version 1.3, 19.5.2021  / Muutettu rakenne taulukosta listaksi
  *
  */
 public class Koulutukset implements Iterable<Koulutus> {
     
-    //=============== Tämä tarvinnee tehdä sillä hemmetin listalla....===========================
+    /*
     private static final int MAX_KOULUTUKSIA = 5;
     private boolean muutettu = false;
     private int lkm = 0;
     private String kokoNimi = "";
     private String tiedostonPerusNimi = "koulutukset";
     private Koulutus koulutukset[] = new Koulutus[MAX_KOULUTUKSIA];
+    */
+    private boolean muutettu = false;
+    private String tiedostonPerusNimi = "";
+    
+    /**
+     * Taulukko koulutuksista
+     */
+    private final List<Koulutus> koulutukset = new ArrayList<Koulutus>();
     
     
     /**
@@ -78,9 +87,11 @@ public class Koulutukset implements Iterable<Koulutus> {
      * </pre>
      */
     public void lisaa(Koulutus koulutus) throws SailoException {
-        if (lkm >= koulutukset.length) koulutukset = Arrays.copyOf(koulutukset, lkm+20); 
-        koulutukset[lkm] = koulutus;
-        lkm++;
+        //if (lkm >= koulutukset.length) koulutukset = Arrays.copyOf(koulutukset, lkm+20); 
+        //koulutukset[lkm] = koulutus;
+        //lkm++;
+        //muutettu = true;
+        koulutukset.add(koulutus);
         muutettu = true;
     }
     
@@ -90,10 +101,17 @@ public class Koulutukset implements Iterable<Koulutus> {
      * @param i monennenko koulutuksen viite halutaan
      * @return viite koulutukseen, jonka indeksi on i
      * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
-     */
+     
     public Koulutus annaKoulutus(int i) throws IndexOutOfBoundsException {
         if ( i < 0 || lkm <= i ) throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
         return koulutukset[i];
+    }
+    */
+    public List<Koulutus> annaKoulutus(int i) {
+        List<Koulutus> loydetyt = new ArrayList<Koulutus>();
+        for (Koulutus koul : koulutukset)
+            if (koul.getKoulutusTunnus() == i) loydetyt.add(koul);
+        return loydetyt;
     }
     
     
@@ -131,7 +149,7 @@ public class Koulutukset implements Iterable<Koulutus> {
    */
     public void lueTiedostosta(String tied) throws SailoException {
     setTiedostonPerusNimi(tied);
-    
+    /*
     try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
         kokoNimi = fi.readLine();
         if ( kokoNimi == null ) throw new SailoException("Koulutuksen nimi puuttuu");
@@ -154,6 +172,27 @@ public class Koulutukset implements Iterable<Koulutus> {
             }
         System.out.println(tied);
     }
+    */
+    try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
+        
+        String rivi;
+        while ( (rivi = fi.readLine()) != null ) {
+            rivi = rivi.trim();
+            if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
+            Koulutus koul = new Koulutus();
+            koul.parse(rivi);
+            lisaa(koul);
+        }
+            muutettu = false;
+                
+            } catch ( FileNotFoundException e ) {
+                throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
+            } catch ( IOException e ) {
+                throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
+            }
+        System.out.println(tied);
+    }
+    
 
     
     /**
@@ -180,8 +219,8 @@ public class Koulutukset implements Iterable<Koulutus> {
         File ftied = new File(getTiedostonNimi());
 
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-            fo.println(getKokoNimi());
-            fo.println(koulutukset.length);
+            //fo.println(getKokoNimi());
+            //fo.println(koulutukset.length);
             for (Koulutus koul : this) {
                 fo.println(koul.toString());
             }
@@ -198,11 +237,11 @@ public class Koulutukset implements Iterable<Koulutus> {
     /**
      * Palauttaa koulutuksen koko nimen
      * @return koulutuksen koko nimi merkkijononna
-     */
+     
     public String getKokoNimi() {
         return kokoNimi;
     }
-    
+    */
     
     /**
      * Asettaa tiedoston perusnimen ilan tarkenninta
@@ -271,54 +310,63 @@ public class Koulutukset implements Iterable<Koulutus> {
      * i.next(); #THROWS NoSuchElementException
      * 
      * </pre>
-     */
+     
     public class KoulutuksetIterator implements Iterator<Koulutus> {
         private int kohdalla = 0;
-
+        */
+    
+        /**
+         * Palautetaan iteraattori koulutuksista.
+         */
+        @Override
+        public Iterator<Koulutus> iterator() {
+            return koulutukset.iterator();
+        }
 
         /**
          * Onko olemassa vielä seuraavaa koulutuksia
          * @see java.util.Iterator#hasNext()
          * @return true jos on vielä jäseniä
-         */
+         
         @Override
         public boolean hasNext() {
             return kohdalla < getLkm();
         }
-        
+        */
         
         /**
          * Annetaan seuraava jäsen
          * @return seuraava jäsen
          * @throws NoSuchElementException jos seuraava alkiota ei enää ole
          * @see java.util.Iterator#next()
-         */
+         
         @Override
         public Koulutus next() throws NoSuchElementException {
             if ( !hasNext() ) throw new NoSuchElementException("Ei oo");
             return annaKoulutus(kohdalla++);
         }
-        
+        */
         
         /**
          * Tuhoamista ei ole toteutettu
          * @throws UnsupportedOperationException aina
          * @see java.util.Iterator#remove()
-         */
+         
         @Override
         public void remove() throws UnsupportedOperationException {
             throw new UnsupportedOperationException("Me ei poisteta");
         }
     }
-    
+    */
     
     /**
      * Palautetaan iteraattori koulutuksista.
-     */
+     
     @Override
     public Iterator<Koulutus> iterator() {
         return new KoulutuksetIterator();
     }
+    */
     
     
     /**
@@ -350,7 +398,8 @@ public class Koulutukset implements Iterable<Koulutus> {
      * @return työntekijöiden lukumäärä
      */
     public int getLkm() {
-        return lkm;
+        //return lkm;
+        return koulutukset.size();
     }
     
     
@@ -381,10 +430,16 @@ public class Koulutukset implements Iterable<Koulutus> {
      * </pre>
      */
     public void korvaaTaiLisaa(Koulutus koulutus) throws SailoException {
+        //int id = koulutus.getKoulutusTunnus();
+        //for (int i = 0; i < lkm; i++) {
+          //  if ( koulutukset[i].getKoulutusTunnus() == id ) {
+            //    koulutukset[i] = koulutus;
+              //  muutettu = true;
+                //return;
         int id = koulutus.getKoulutusTunnus();
-        for (int i = 0; i < lkm; i++) {
-            if ( koulutukset[i].getKoulutusTunnus() == id ) {
-                koulutukset[i] = koulutus;
+        for (int i = 0; i < getLkm(); i++) {
+            if (koulutukset.get(i).getKoulutusTunnus() == id) {
+                koulutukset.set(i, koulutus);
                 muutettu = true;
                 return;
             }
@@ -409,7 +464,21 @@ public class Koulutukset implements Iterable<Koulutus> {
         pitsi1.vastaaVesisukeltaja();
         pitsi2.vastaaVesisukeltaja();
     
-        
+        try {
+            
+        koulutukset.lisaa(pitsi1);
+        koulutukset.lisaa(pitsi2);
+
+        System.out.println("============= Harrastukset testi =================");
+
+        List<Koulutus> koulutukset2 = koulutukset.annaKoulutus(2);
+
+        for (Koulutus koul : koulutukset2) {
+            System.out.print(koul.getKoulutusTunnus() + " ");
+            koul.tulosta(System.out);
+        }
+
+        /*
         try {
             koulutukset.lisaa(pitsi1);
             koulutukset.lisaa(pitsi2);
@@ -425,5 +494,9 @@ public class Koulutukset implements Iterable<Koulutus> {
         } catch (SailoException e) {
             System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.
         }
+        */
+    }  catch (SailoException e) {
+        System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon. 
+}
     }
 }

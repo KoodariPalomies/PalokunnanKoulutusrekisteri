@@ -176,9 +176,10 @@ public class Koulutusrekisteri {
       * Antaa koulutusrekisterin i:n koulutuksen
       * @param i työntekijä jolle koulutuksia haetaan
       * @return tietorakenne jossa viiteet löydetteyihin koulutuksiin
-      * @throws IndexOutOfBoundsException jos i väärin
+      * @throws SailoException jos i väärin
       */
-     public Koulutus annaKoulutus(int i) throws IndexOutOfBoundsException {
+     //public Koulutus annaKoulutus(int i) throws IndexOutOfBoundsException {
+    public List<Koulutus> annaKoulutus(int i) throws SailoException {
          return koulutukset.annaKoulutus(i);
      }
          
@@ -436,16 +437,20 @@ public class Koulutusrekisteri {
                  System.out.println("Työntekijä paikassa: " + i);
                  tyontekija.tulosta(System.out);
                  
+                 /*
                  for (int n = 0; n < koulutusrekisteri.getKoulutuksia(); n++) {
                      Koulutus koulutus = koulutusrekisteri.annaKoulutus(n);
                      System.out.println("Koulutus paikassa: " + n);
                      koulutus.tulosta(System.out);                 
-                     
+                     */
+                 List<Koulutus> loytyneet = koulutusrekisteri.annaKoulutus(i);
+                 for (Koulutus koul : loytyneet)
+                     koul.tulosta(System.out);
                  }
-             }
+             
          } catch (SailoException ex) {
              System.out.println(ex.getMessage());
-             }
-        }
+         }
     }
-
+}
+           
