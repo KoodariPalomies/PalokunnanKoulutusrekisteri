@@ -82,7 +82,7 @@ public class Tyontekija implements Cloneable {
      * @return syötetty työntekijän nimi tai virheilmoitus
      */
     public String setNimi(String nimi) {
-        if (nimi.matches("(.*)[0-9\\+\\-\\*]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
+        if (nimi.matches("(.*)[0-9\\+\\-\\*\\!\\#\\¤\\%\\/\\(\\)\\=\\?\\§\\^]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
         if (nimi.matches("")) return "Ei tyhjäarvoa!";
         this.nimi = nimi;
             return null;
@@ -95,7 +95,7 @@ public class Tyontekija implements Cloneable {
      * @return syötetty tehtäväalueen nimi tai virheilmoitus
      */
     public String setTehtavaAlue(String tehtavaAlue) {
-        if (tehtavaAlue.matches("(.*)[0-9\\+\\-\\*]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
+        if (tehtavaAlue.matches("(.*)[0-9\\+\\-\\*\\!\\#\\¤\\%\\/\\(\\)\\=\\?\\§\\^]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
         if (tehtavaAlue.matches("")) return "Ei tyhjäarvoa!";  
         this.tehtavaAlue = tehtavaAlue;
             return null;

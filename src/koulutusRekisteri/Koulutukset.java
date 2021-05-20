@@ -307,7 +307,7 @@ public class Koulutukset implements Iterable<Koulutus> {
      * koulutukset.getLkm() === 0;
      * koulutukset.korvaaTaiLisaa(aku1); koulutukset.getLkm() === 1;
      * koulutukset.korvaaTaiLisaa(aku2); koulutukset.getLkm() === 2;
-     * Koulutus aku3 = aku1.clone();
+     * Koulutus aku3 = new Koulutus(); aku3.rekisteroi(); koulutukset.korvaaTaiLisaa(aku3);
      * Iterator<Koulutus> it = koulutukset.iterator();
      * it.next() == aku1 === true;
      * koulutukset.korvaaTaiLisaa(aku3); koulutukset.getLkm() === 2;
