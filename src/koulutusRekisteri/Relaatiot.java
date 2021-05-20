@@ -26,11 +26,11 @@ import java.io.PrintWriter;
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 1.0, 22.4.2021 / Tätä ennen en pitänyt järkevää versioseurantaa...
- * @version 1.1, 30.4.2021 / HT6 testien lisäämistä
- * @version 1.2, 10.5.2021 / Lisätty poista + etsiId
- * @version 1.3, 13.5.2021 / Lisätty poistaTyontekijanKoulutus() + muokattu poista()
- *
+ * @version 1.0, 22.4.2021  / Tätä ennen en pitänyt järkevää versioseurantaa...
+ * @version 1.1, 30.4.2021  / HT6 testien lisäämistä
+ * @version 1.2, 10.5.2021  / Lisätty poista + etsiId
+ * @version 1.3, 13.5.2021  / Lisätty poistaTyontekijanKoulutus() + muokattu poista()
+ * @version 1.4, 20.5.2021  / Muokattu lisaa() -aliohjelma toimimaan listalla
  */
 public class Relaatiot implements Iterable<Relaatio> {
 
@@ -133,17 +133,6 @@ public class Relaatiot implements Iterable<Relaatio> {
      * </pre>
      */
     public void lisaa(Relaatio rel) throws SailoException {
-        /*
-        if (lkm >= alkiot.length) {
-            muutettu = true;
-        } else {
-            alkiot[lkm++] = rel;
-            muutettu = true;
-        }
-        */
-        // korjattava kohta
-        //luo uusi taulukko joka on isompi johon kopioit vanhan taulukon + aseta vanhan tilalle uusien kanssa ja suorita lisääminen
-        //kun on kasvatettu niin --> alkiot[lkm++] = rel;
         if (lkm >= alkiot.length) alkiot = Arrays.copyOf(alkiot, lkm+MAX_RELAATIOITA);
         alkiot[lkm] = rel;
         lkm++;
@@ -224,7 +213,6 @@ public class Relaatiot implements Iterable<Relaatio> {
                 rivi = rivi.trim();
                 if ("".equals(rivi) || rivi.charAt(0) == ';')
                     continue;
-                // if ( "".equals(rivi)) continue;
                 Relaatio rel = new Relaatio();
                 rel.parse(rivi);
                 lisaa(rel);
@@ -328,6 +316,7 @@ public class Relaatiot implements Iterable<Relaatio> {
         tiedostonPerusNimi = tied;
     }
 
+    
     /**
      * Luokka relaatioiden iteroimiseksi.
      * @example
@@ -371,6 +360,7 @@ public class Relaatiot implements Iterable<Relaatio> {
     public class RelaatiotIterator implements Iterator<Relaatio> {
         private int kohdalla = 0;
 
+        
         /**
          * Onko olemassa vielä seuraavaa relaatiota
          * @see java.util.Iterator#hasNext()
@@ -406,9 +396,6 @@ public class Relaatiot implements Iterable<Relaatio> {
             if (i < 0 || lkm <= i)
                 throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
             return alkiot[i];
-
-            // if (i < 0 || i < lkm) return null;
-            // return alkiot[i];
         }
 
 
@@ -423,6 +410,7 @@ public class Relaatiot implements Iterable<Relaatio> {
         }
     }
 
+    
     /**
      * Iteraattori kaikkien relaatioiden läpikäymiseen
      * @return relaatioiteraattori

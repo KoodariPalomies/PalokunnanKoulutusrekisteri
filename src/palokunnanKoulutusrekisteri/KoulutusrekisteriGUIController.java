@@ -565,12 +565,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
              os.println("----------------------------------------------");
              koulutus.tulosta(os);
              os.println("----------------------------------------------");
-             /*
-             for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
-                 Koulutus koulutus2 = koulutusrekisteri.annaKoulutus(i);
-                 koulutus2.tulosta(os);
-             }
-             */
+
              try {
                  List<Koulutus> koulutukset = koulutusrekisteri.annaKoulutus(0);
                  for (Koulutus koul : koulutukset) 
@@ -590,9 +585,14 @@ public class KoulutusrekisteriGUIController implements Initializable {
          private void muokkaa(int k) {
              if (tyontekijaKohdalla == null) return;
              try {
+                 String virhe;
                  Tyontekija tyontekija = new Tyontekija();
                  tyontekija = tyontekijaKohdalla.clone();
-                 tyontekija.setNimi(tyontekijaTiedot[0].getText());
+                 virhe = tyontekija.setNimi(tyontekijaTiedot[0].getText());
+                 if (virhe != null) {
+                     Dialogs.showMessageDialog(virhe);
+                     return;
+                 }
                  tyontekija.setTehtavaAlue(tyontekijaTiedot[2].getText());
                  tyontekija.setVirkaAsema(tyontekijaTiedot[3].getText());
                  koulutusrekisteri.korvaaTaiLisaa(tyontekija);

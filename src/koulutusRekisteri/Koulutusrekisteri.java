@@ -27,7 +27,8 @@ import java.util.List;
  * @version 1.3, 10.5.2021  / Lisätty poista()
  * @version 1.4, 13.5.2021  / Lisätty poistaTyontekijanKoulutus() + poista() muokkaus
  * @version 1.5, 14.5.2021  / Lisätty korvaaTaiLisaa() -aliohjelma, joka tarvitaan muokkaamista varten
- *
+ * @version 1.6, 19.5.2021  / annaKoulutus() muutettu listaksi
+ * @version 1.7, 20.5.2021  / Poistettu turha poista() -aliohjelma
  */
 public class Koulutusrekisteri {
     
@@ -52,15 +53,6 @@ public class Koulutusrekisteri {
         return relaatiot.poista(relaatio.getRelaatioTunnus());
     }
     
-    
-    /**
-     * Poistaa työntekijöistä ja koulutuksista ne joilla on nro. Kesken.
-     * @param id viitenumero, jonka mukaan poistetaan
-     
-    public void poista(int id) {
-        relaatiot.poista(id);
-    }
-    */
     
     /**
      * Palauttaa koulutusrekisterin työntekijöiden määrän
@@ -175,7 +167,6 @@ public class Koulutusrekisteri {
       * @return tietorakenne jossa viiteet löydetteyihin koulutuksiin
       * @throws SailoException jos i väärin
       */
-     //public Koulutus annaKoulutus(int i) throws IndexOutOfBoundsException {
     public List<Koulutus> annaKoulutus(int i) throws SailoException {
          return koulutukset.annaKoulutus(i);
      }
@@ -230,7 +221,7 @@ public class Koulutusrekisteri {
     
     /**
      * Asettaa tiedostojen perusnimet
-     * @param nimi uusi nimi
+     * @param nimi uusi tiedostonnimi
      */
     public void setTiedosto(String nimi) {
         File dir = new File(nimi);
@@ -246,7 +237,7 @@ public class Koulutusrekisteri {
          
       /**
        * Lukee koulutusrekisterin tiedot tiedostosta
-     * @param nimi avattavan tiedostom nimi
+       * @param nimi avattavan tiedostom nimi
        * @throws SailoException jos lukeminen epäonnistuu
        * 
        * @example
@@ -434,12 +425,6 @@ public class Koulutusrekisteri {
                  System.out.println("Työntekijä paikassa: " + i);
                  tyontekija.tulosta(System.out);
                  
-                 /*
-                 for (int n = 0; n < koulutusrekisteri.getKoulutuksia(); n++) {
-                     Koulutus koulutus = koulutusrekisteri.annaKoulutus(n);
-                     System.out.println("Koulutus paikassa: " + n);
-                     koulutus.tulosta(System.out);                 
-                     */
                  List<Koulutus> loytyneet = koulutusrekisteri.annaKoulutus(i);
                  for (Koulutus koul : loytyneet)
                      koul.tulosta(System.out);
