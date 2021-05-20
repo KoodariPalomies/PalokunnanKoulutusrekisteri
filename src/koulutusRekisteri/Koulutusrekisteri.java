@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * |------------------------------------------------------------------------|
  * | Luokan nimi:   Koulutusrekisteri                   | Avustajat:        |
@@ -32,7 +31,46 @@ import java.util.List;
  * @version 1.6, 19.5.2021  / annaKoulutus() muutettu listaksi
  * @version 1.7, 20.5.2021  / Poistettu turha poista() -aliohjelma
  * HUOM: ohjelmassa ei vielä toimi koulutuksen ja työntekijän poistaminen
- */
+ * 
+ * Testien alustus
+ * @example
+ * <pre name="testJAVA">
+ *  private Koulutusrekisteri koulutusrekisteri;
+ *  private Tyontekija aku1;
+ *  private Tyontekija aku2;
+ *  private int jid1;
+ *  private int jid2;
+ *  private Koulutus pitsi21;
+ *  private Koulutus pitsi11;
+ *  private Koulutus pitsi22; 
+ *  private Koulutus pitsi12; 
+ *  private Koulutus pitsi23;
+ *  
+ *  public void alusta() {
+ *    koulutusrekisteri = new Koulutusrekisteri();
+ *    aku1 = new Tyontekija(); aku1.vastaaAkuAnkka(); aku1.rekisteroi();
+ *    aku2 = new Tyontekija(); aku2.vastaaAkuAnkka(); aku2.rekisteroi();
+ *    jid1 = aku1.getTyontekijaTunnus();
+ *    jid2 = aku2.getTyontekijaTunnus();
+ *    pitsi21 = new Koulutus(jid2); pitsi21.vastaaVesisukeltaja();
+ *    pitsi11 = new Koulutus(jid1); pitsi11.vastaaVesisukeltaja();
+ *    pitsi22 = new Koulutus(jid2); pitsi22.vastaaVesisukeltaja(); 
+ *    pitsi12 = new Koulutus(jid1); pitsi12.vastaaVesisukeltaja(); 
+ *    pitsi23 = new Koulutus(jid2); pitsi23.vastaaVesisukeltaja();
+ *    try {
+ *    koulutusrekisteri.lisaa(aku1);
+ *    koulutusrekisteri.lisaa(aku2);
+ *    koulutusrekisteri.lisaa(pitsi21);
+ *    koulutusrekisteri.lisaa(pitsi11);
+ *    koulutusrekisteri.lisaa(pitsi22);
+ *    koulutusrekisteri.lisaa(pitsi12);
+ *    koulutusrekisteri.lisaa(pitsi23);
+ *    } catch ( Exception e) {
+ *       System.err.println(e.getMessage());
+ *    }
+ *  }
+ * </pre>
+*/
 public class Koulutusrekisteri {
     
     private Tyontekijat tyontekijat = new Tyontekijat();
@@ -47,9 +85,27 @@ public class Koulutusrekisteri {
      * <pre name="test">
      * #THROWS Exception
      *   alusta();
-     *   koulutusrekisteri.annaRelaatiot(aku1).size() === 2;
-     *   koulutusrekisteri.poista(pitsi11);
-     *   koulutusrekisteri.annaRelaatiot(aku1).size() === 1;
+     *   
+     * Koulutusrekisteri koulutusrekisteri = new Koulutusrekisteri();
+     * 
+     * Tyontekija aku1 = new Tyontekija(); aku1.vastaaAkuAnkka(); aku1.rekisteroi(); 
+     * Tyontekija aku2 = new Tyontekija(); aku2.vastaaAkuAnkka(); aku2.rekisteroi();
+     * Tyontekija aku3 = new Tyontekija(); aku3.vastaaAkuAnkka(); aku3.rekisteroi(); 
+     * 
+     * Koulutus vesi1 = new Koulutus(); vesi1.vastaaVesisukeltaja(); vesi1.rekisteroi(); 
+     * Koulutus vesi2 = new Koulutus(); vesi2.vastaaVesisukeltaja(); vesi2.rekisteroi();
+     * 
+     * int id1 = aku1.getTyontekijaTunnus();
+     * int id2 = aku2.getTyontekijaTunnus();
+     * int id3 = vesi1.getKoulutusTunnus();
+     * int id4 = vesi2.getKoulutusTunnus();
+     *      
+     * Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
+     * Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi();
+     *   
+     *   koulutusrekisteri.annaRelaatiot(1).size() === 2;
+     *   koulutusrekisteri.poistaTyontekijanKoulutus(rel1);
+     *   koulutusrekisteri.annaRelaatiot(2).size() === 1;
      * </pre>
      */
     public int poistaTyontekijanKoulutus(Relaatio relaatio) {
@@ -135,6 +191,19 @@ public class Koulutusrekisteri {
      * @param t etsittävän kentän indeksi  
      * @return tietorakenteen löytyneistä työntekijöistä 
      * @throws SailoException Jos jotakin menee väärin
+     * @example 
+     * <pre name="test">
+     *   #THROWS CloneNotSupportedException, SailoException
+     *   alusta();
+     *   Tyontekijat tyontekijat = new Tyontekijat();
+     *   Tyontekija jasen3 = new Tyontekija(); jasen3.rekisteroi();
+     *   tyontekijat.korvaaTaiLisaa(jasen3);
+     *   koulutusrekisteri.lisaa(jasen3);
+     *   Collection<Tyontekija> loytyneet = koulutusrekisteri.etsiTyontekija("*Susi*",1);
+     *   loytyneet.size() === 1;
+     *   Iterator<Tyontekija> it = loytyneet.iterator();
+     *   it.next() == jasen3 === true; 
+     * </pre>
      */ 
     public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) throws SailoException { 
         return tyontekijat.etsiTyontekija(hakuehto, t); 
@@ -389,7 +458,7 @@ public class Koulutusrekisteri {
     * #THROWS SailoException  
     *  alusta();
     *  koulutusrekisteri.etsiKoulutus("*",0).size() === 2;
-    *  koulutusrekisteri.korvaaTaiLisaa(koul1);
+    *  koulutusrekisteri.korvaaTaiLisaa(pitsi21);
     *  koulutusrekisteri.etsiKoulutus("*",0).size() === 2;
     * </pre>
     */ 
