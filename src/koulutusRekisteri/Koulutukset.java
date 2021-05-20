@@ -150,7 +150,6 @@ public class Koulutukset implements Iterable<Koulutus> {
             }
         System.out.println(tied);
     }
-    
 
     
     /**

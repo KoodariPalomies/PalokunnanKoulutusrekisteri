@@ -265,7 +265,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     protected String lueTiedosto(@SuppressWarnings("hiding") String nimi) {
            kayttajatunnus = nimi;
-           //setTitle("Palokunnankoulutusrekisteri - " + kayttajatunnus);
            try {
                koulutusrekisteri.lueTiedostosta(nimi);
                hae(0);
@@ -493,7 +492,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;
         } 
-
     }
     
     
@@ -514,7 +512,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;
         }
-
     }
     
     
@@ -531,76 +528,76 @@ public class KoulutusrekisteriGUIController implements Initializable {
     }
     
     
-         /**
-          * Tulostaa työntekijän tiedot
-          * @param os tietovirta johon tulostetaan
-          * @param tyontekija tulostettava työntekijä
-          */
-         public void tulosta(PrintStream os, final Tyontekija tyontekija) {
-             os.println("-------------------------");
+     /**
+      * Tulostaa työntekijän tiedot
+      * @param os tietovirta johon tulostetaan
+      * @param tyontekija tulostettava työntekijä
+      */
+     public void tulosta(PrintStream os, final Tyontekija tyontekija) {
+         os.println("-------------------------");
+         
+         List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekija.getTyontekijaTunnus());
+         for (Relaatio relaatio : relaatio2) {
+             relaatio.tulosta(os);
              
-             List<Relaatio> relaatio2 = koulutusrekisteri.annaRelaatiot(tyontekija.getTyontekijaTunnus());
-             for (Relaatio relaatio : relaatio2) {
-                 relaatio.tulosta(os);
-                 
-             os.println("-------------------------");
-             }
+         os.println("-------------------------");
          }
-         
-         
-         /**
-          * Tulostaa koulutuksen tiedot
-          * @param os tietovirta johon tulostetaan
-          * @param koulutus tulostettava koulutus
-          */
-         @SuppressWarnings("unused")
-        private void tulosta(PrintStream os, final Koulutus koulutus) {
-             os.println("----------------------------------------------");
-             koulutus.tulosta(os);
-             os.println("----------------------------------------------");
+     }
+     
+     
+     /**
+      * Tulostaa koulutuksen tiedot
+      * @param os tietovirta johon tulostetaan
+      * @param koulutus tulostettava koulutus
+      */
+     @SuppressWarnings("unused")
+    private void tulosta(PrintStream os, final Koulutus koulutus) {
+         os.println("----------------------------------------------");
+         koulutus.tulosta(os);
+         os.println("----------------------------------------------");
 
-             try {
-                 List<Koulutus> koulutukset = koulutusrekisteri.annaKoulutus(0);
-                 for (Koulutus koul : koulutukset) 
-                     koul.tulosta(os);     
-             } catch (SailoException ex) {
-                 Dialogs.showMessageDialog("Harrastusten hakemisessa ongelmia! " + ex.getMessage());
-             } 
+         try {
+             List<Koulutus> koulutukset = koulutusrekisteri.annaKoulutus(0);
+             for (Koulutus koul : koulutukset) 
+                 koul.tulosta(os);     
+         } catch (SailoException ex) {
+             Dialogs.showMessageDialog("Harrastusten hakemisessa ongelmia! " + ex.getMessage());
+         } 
 
-         }
-         
-         
-         /**
-          * Aliohjelma, jolla muokataan työntekijän tietoja
-          * @param k muokattava TextField
-          */
-         private void muokkaa(@SuppressWarnings("unused") int k) {
-             if (tyontekijaKohdalla == null) return;
-             try {
-                 String virhe;
-                 Tyontekija tyontekija = new Tyontekija();
-                 tyontekija = tyontekijaKohdalla.clone();
-                 virhe = tyontekija.setNimi(tyontekijaTiedot[0].getText());
-                 if (virhe != null) {
-                     Dialogs.showMessageDialog(virhe);
-                     return;
-                 }
-                 virhe = tyontekija.setTehtavaAlue(tyontekijaTiedot[2].getText());
-                 if (virhe != null) {
-                     Dialogs.showMessageDialog(virhe);
-                     return;
-                 }
-                 virhe = tyontekija.setVirkaAsema(tyontekijaTiedot[3].getText());
-                 if (virhe != null) {
-                     Dialogs.showMessageDialog(virhe);
-                     return;
-                 }
-                 koulutusrekisteri.korvaaTaiLisaa(tyontekija);
-                 hae(tyontekija.getTyontekijaTunnus());
-             } catch (CloneNotSupportedException e) {
-                 //
-             } catch (SailoException e) {
-                 Dialogs.showMessageDialog(e.getMessage());
+     }
+     
+     
+     /**
+      * Aliohjelma, jolla muokataan työntekijän tietoja
+      * @param k muokattava TextField
+      */
+     private void muokkaa(@SuppressWarnings("unused") int k) {
+         if (tyontekijaKohdalla == null) return;
+         try {
+             String virhe;
+             Tyontekija tyontekija = new Tyontekija();
+             tyontekija = tyontekijaKohdalla.clone();
+             virhe = tyontekija.setNimi(tyontekijaTiedot[0].getText());
+             if (virhe != null) {
+                 Dialogs.showMessageDialog(virhe);
+                 return;
              }
-         }          
+             virhe = tyontekija.setTehtavaAlue(tyontekijaTiedot[2].getText());
+             if (virhe != null) {
+                 Dialogs.showMessageDialog(virhe);
+                 return;
+             }
+             virhe = tyontekija.setVirkaAsema(tyontekijaTiedot[3].getText());
+             if (virhe != null) {
+                 Dialogs.showMessageDialog(virhe);
+                 return;
+             }
+             koulutusrekisteri.korvaaTaiLisaa(tyontekija);
+             hae(tyontekija.getTyontekijaTunnus());
+         } catch (CloneNotSupportedException e) {
+             //
+         } catch (SailoException e) {
+             Dialogs.showMessageDialog(e.getMessage());
+         }
+     }          
 }

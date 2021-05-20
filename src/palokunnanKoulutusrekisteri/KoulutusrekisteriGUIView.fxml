@@ -153,13 +153,8 @@
 												<Tooltip text="Muokkaa työntekijää" />
 											</tooltip>
 										</Button>
-
-
-
 										<Label maxWidth="200.0" prefWidth="200.0" text="Työntekijän koulutukset:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
 										<ListChooser fx:id="chooserTyontekijanKoulutukset" maxHeight="1.7976931348623157E308" maxWidth="250.0" prefHeight="150.0" rivit="" BorderPane.alignment="CENTER" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="7" />
-
-
 										<Button mnemonicParsing="true" onAction="#handleLisaaTyontekijalleKoulutus" text="Lisää työntekijälle koulutus" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="8">
 											<tooltip>
 												<Tooltip text="Lisää työntekijälle uuden koulutuksen" />

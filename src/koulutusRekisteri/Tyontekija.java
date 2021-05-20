@@ -95,7 +95,7 @@ public class Tyontekija implements Cloneable {
      * @return syötetty tehtäväalueen nimi tai virheilmoitus
      */
     public String setTehtavaAlue(String tehtavaAlue) {
-        if (tehtavaAlue.matches("(.*)[0-9\\+\\-\\*\\!\\#\\¤\\%\\/\\(\\)\\=\\?\\§\\^]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
+        if (tehtavaAlue.matches("(.*)[0-9\\+\\-\\*\\!\\#\\¤\\%\\&\\/\\(\\)\\=\\?\\§\\^]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
         if (tehtavaAlue.matches("")) return "Ei tyhjäarvoa!";  
         this.tehtavaAlue = tehtavaAlue;
             return null;
@@ -108,7 +108,7 @@ public class Tyontekija implements Cloneable {
      * @return syötetty virka-aseman nimi tai virheilmoitus
      */
     public String setVirkaAsema(String virkaAsema) {
-        if (virkaAsema.matches("(.*)[0-9\\+\\-\\*]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
+        if (virkaAsema.matches("(.*)[0-9\\+\\-\\*\\!\\#\\¤\\%\\&\\/\\(\\)\\=\\?\\§\\^]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
         if (virkaAsema.matches("")) return "Ei tyhjäarvoa!";  
         this.virkaAsema = virkaAsema;
             return null;
