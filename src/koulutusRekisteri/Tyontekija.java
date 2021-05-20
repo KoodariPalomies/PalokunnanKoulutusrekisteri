@@ -2,10 +2,8 @@ package koulutusRekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.ohj2.Mjonot;
-import javafx.scene.Node;
-import palokunnanKoulutusrekisteri.KoulutusrekisteriGUIController;
+
 
 /**
  * |------------------------------------------------------------------------|
@@ -85,25 +83,33 @@ public class Tyontekija implements Cloneable {
         if (nimi.matches("(.*)[0-9\\+\\-\\*]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
         if (nimi.matches("")) return "Ei tyhjäarvoa!";
         this.nimi = nimi;
-        return null;
-        }
+            return null;
+    }
     
     
     /**
      * Asettaa työntekijän tehtäväalueen
      * @param tehtavaAlue työntekijän tehtäväalue
+     * @return syötetty tehtäväalueen nimi tai virheilmoitus
      */
-    public void setTehtavaAlue(String tehtavaAlue) {
-          this.tehtavaAlue = tehtavaAlue;
+    public String setTehtavaAlue(String tehtavaAlue) {
+        if (tehtavaAlue.matches("(.*)[0-9\\+\\-\\*]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
+        if (tehtavaAlue.matches("")) return "Ei tyhjäarvoa!";  
+        this.tehtavaAlue = tehtavaAlue;
+            return null;
       }
     
     
     /**
      * Asettaa työntekijän virka-aseman
      * @param virkaAsema työntekijän virka-asema
+     * @return syötetty virka-aseman nimi tai virheilmoitus
      */
-    public void setVirkaAsema(String virkaAsema) {
-          this.virkaAsema = virkaAsema;
+    public String setVirkaAsema(String virkaAsema) {
+        if (virkaAsema.matches("(.*)[0-9\\+\\-\\*]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
+        if (virkaAsema.matches("")) return "Ei tyhjäarvoa!";  
+        this.virkaAsema = virkaAsema;
+            return null;
       }
     
     

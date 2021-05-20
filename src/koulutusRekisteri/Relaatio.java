@@ -2,8 +2,8 @@ package koulutusRekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import fi.jyu.mit.ohj2.Mjonot;
 
-import fi.jyu.mit.ohj2.Mjonot;  //==============================================
 
 /**
  * |------------------------------------------------------------------------|
@@ -34,6 +34,7 @@ import fi.jyu.mit.ohj2.Mjonot;  //==============================================
  * @version 1.1, 30.4.2021  / HT6 testejä...
  * @version 1.2, 13.5.2021  / Lisäsin getKoulutusTunnusString()
  * @version 1.3, 20.5.2021  / Poistin turhat importit
+ * @version 1.4, 20.5.2021  / Viimeistelyt
  */
 public class Relaatio {
     

@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.fxml.FXMLLoader;
 
+
 /**
  * Pääohjelma Palokunnan koulutusrekisteri -ohjelman käynnistämiseksi
  * @author mitulint

@@ -2,7 +2,6 @@ package palokunnanKoulutusrekisteri;
 
 import java.io.PrintStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
 import java.util.ResourceBundle;
@@ -10,25 +9,17 @@ import fi.jyu.mit.fxgui.ComboBoxChooser;
 import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ListChooser;
 import fi.jyu.mit.fxgui.ModalController;
-import fi.jyu.mit.fxgui.TextAreaOutputStream;
-import fi.jyu.mit.ohj2.Mjonot;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-//import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.text.Font;
 import koulutusRekisteri.Koulutus;
 import koulutusRekisteri.Koulutusrekisteri;
 import koulutusRekisteri.Relaatio;
 import koulutusRekisteri.SailoException;
 import koulutusRekisteri.Tyontekija;
-import koulutusRekisteri.Tyontekijat;
+
 
 /**
  * Luokka käyttöliittymän tapahtumien hoitamiseksi
@@ -39,6 +30,8 @@ import koulutusRekisteri.Tyontekijat;
  * @version 1.3, 14.5.2021  / Lisäsin handleLisaaKoulutus() ja handleUusiTyontekija() Dialogit + muokkaa() tiedoston loppuun 
  * @version 1.4, 14.5.2021  / Lisätty haeKoulutus() --> jotta chooserKoulutukset päivittyy
  * @version 1.5, 14.5.2021  / Lisätty naytaVirhe() --> jos tulee virhe
+ * @version 1.6, 20.5.2021  / Lisätty muokkaa() -aliohjelmaan oikeellisuustarkistukseen liittyvät jutut
+ * @version 1.7, 20.5.2021  / HT7 viimeistelyjä
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
@@ -221,7 +214,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
         
         chooserKoulutukset.clear();
         chooserKoulutukset.addSelectionListener(e -> valitseKoulutus());
-        //haeKoulutus(0);
         
         chooserTyontekijanKoulutukset.clear();
         chooserTyontekijanKoulutukset.addSelectionListener(e -> valitseTyontekijanKoulutus());
@@ -270,7 +262,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * @param nimi tiedosto josta työntekijän tiedot luetaan
      * @return null jos onnistuu, muuten virhe tekstinä
      */
-    protected String lueTiedosto(String nimi) {
+    protected String lueTiedosto(@SuppressWarnings("hiding") String nimi) {
            kayttajatunnus = nimi;
            //setTitle("Palokunnankoulutusrekisteri - " + kayttajatunnus);
            try {
@@ -580,9 +572,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
          /**
           * Aliohjelma, jolla muokataan työntekijän tietoja
           * @param k muokattava TextField
-          *
           */
-         private void muokkaa(int k) {
+         private void muokkaa(@SuppressWarnings("unused") int k) {
              if (tyontekijaKohdalla == null) return;
              try {
                  String virhe;
@@ -593,8 +584,16 @@ public class KoulutusrekisteriGUIController implements Initializable {
                      Dialogs.showMessageDialog(virhe);
                      return;
                  }
-                 tyontekija.setTehtavaAlue(tyontekijaTiedot[2].getText());
-                 tyontekija.setVirkaAsema(tyontekijaTiedot[3].getText());
+                 virhe = tyontekija.setTehtavaAlue(tyontekijaTiedot[2].getText());
+                 if (virhe != null) {
+                     Dialogs.showMessageDialog(virhe);
+                     return;
+                 }
+                 virhe = tyontekija.setVirkaAsema(tyontekijaTiedot[3].getText());
+                 if (virhe != null) {
+                     Dialogs.showMessageDialog(virhe);
+                     return;
+                 }
                  koulutusrekisteri.korvaaTaiLisaa(tyontekija);
                  hae(tyontekija.getTyontekijaTunnus());
              } catch (CloneNotSupportedException e) {
@@ -602,6 +601,5 @@ public class KoulutusrekisteriGUIController implements Initializable {
              } catch (SailoException e) {
                  Dialogs.showMessageDialog(e.getMessage());
              }
-             //hae(0);
          }          
 }

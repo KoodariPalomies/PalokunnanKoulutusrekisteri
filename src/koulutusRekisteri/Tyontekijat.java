@@ -156,13 +156,13 @@ public class Tyontekijat implements Iterable<Tyontekija>{
     }
     
         
-        /**
-         * Luetaan aikaisemmin annetun nimisestä tiedostosta
-         * @throws SailoException jos tulee poikkeus
-         */
-        public void lueTiedostosta() throws SailoException {
-            lueTiedostosta(getTiedostonPerusNimi());
-        }
+    /**
+     * Luetaan aikaisemmin annetun nimisestä tiedostosta
+     * @throws SailoException jos tulee poikkeus
+     */
+    public void lueTiedostosta() throws SailoException {
+        lueTiedostosta(getTiedostonPerusNimi());
+    }
 
         
     /**
@@ -193,7 +193,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         }
 
         muutettu = false;
-        }
+    }
         
         
         /**
@@ -323,30 +323,30 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         }
         
         
-        /** 
-         * Palauttaa "taulukossa" hakuehtoon vastaavien työntekijöiden viitteet 
-         * @param hakuehto hakuehto 
-         * @param t etsittävän kentän indeksi
-         * @return tietorakenteen löytyneistä työntekijöistä
-         * @example 
-         * <pre name="test"> 
-         * #THROWS SailoException
-         * Tyontekijat tyontekijat = new Tyontekijat();
-         * Tyontekija aku1 = new Tyontekija(); aku1.parse("1|Ankka Aku|Pelastustoiminta|Palomies");
-         * Tyontekija aku2 = new Tyontekija(); aku2.parse("2|Ankka Tupu|Pelastustoiminta|Palomies");
-         * Tyontekija aku3 = new Tyontekija(); aku3.parse("3|Ankka Hupu|Pelastustoiminta|Palomies");
-         * tyontekijat.lisaa(aku1); tyontekijat.lisaa(aku2); tyontekijat.lisaa(aku3);
-         * </pre> 
-         */ 
-        @SuppressWarnings("unused")
-        public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) { 
-            Collection<Tyontekija> loytyneet = new ArrayList<Tyontekija>(); 
-            for (Tyontekija tyontekija : this) {
-                if (hakuehto.isEmpty() || tyontekija.getNimi().toLowerCase().matches("(.*)" + hakuehto.toLowerCase() + "(.*)"))
-                    loytyneet.add(tyontekija);  
-            } 
-            return loytyneet; 
-        }
+    /** 
+     * Palauttaa "taulukossa" hakuehtoon vastaavien työntekijöiden viitteet 
+     * @param hakuehto hakuehto 
+     * @param t etsittävän kentän indeksi
+     * @return tietorakenteen löytyneistä työntekijöistä
+     * @example 
+     * <pre name="test"> 
+     * #THROWS SailoException
+     * Tyontekijat tyontekijat = new Tyontekijat();
+     * Tyontekija aku1 = new Tyontekija(); aku1.parse("1|Ankka Aku|Pelastustoiminta|Palomies");
+     * Tyontekija aku2 = new Tyontekija(); aku2.parse("2|Ankka Tupu|Pelastustoiminta|Palomies");
+     * Tyontekija aku3 = new Tyontekija(); aku3.parse("3|Ankka Hupu|Pelastustoiminta|Palomies");
+     * tyontekijat.lisaa(aku1); tyontekijat.lisaa(aku2); tyontekijat.lisaa(aku3);
+     * </pre> 
+     */ 
+    @SuppressWarnings("unused")
+    public Collection<Tyontekija> etsiTyontekija(String hakuehto, int t) { 
+        Collection<Tyontekija> loytyneet = new ArrayList<Tyontekija>(); 
+        for (Tyontekija tyontekija : this) {
+            if (hakuehto.isEmpty() || tyontekija.getNimi().toLowerCase().matches("(.*)" + hakuehto.toLowerCase() + "(.*)"))
+                loytyneet.add(tyontekija);  
+        } 
+        return loytyneet; 
+    }
         
     
     /**
@@ -425,7 +425,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
             }
 
         } catch (SailoException e) {
-            System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.
+            System.err.println(e.getMessage());
         }
 
     }

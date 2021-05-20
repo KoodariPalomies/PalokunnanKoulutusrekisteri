@@ -1,13 +1,9 @@
-/**
- * 
- */
 package koulutusRekisteri;
 
 import java.io.OutputStream;
 import fi.jyu.mit.ohj2.Mjonot;
-//import static kanta.HetuTarkistus.rand;         // jotta voi tulostaa lukuja randomilla
 import java.io.PrintStream;
-import java.util.List;
+
 
 /**
  * |------------------------------------------------------------------------|
@@ -33,9 +29,9 @@ import java.util.List;
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 1.0, 22.3.2021 / Tajusin vasta kurssin loppupuolella kuinka näitä versiotietoja tulee käyttää...
- * @version 1.1, 30.4.2021 / HT6 Testejä
- *
+ * @version 1.0, 22.3.2021  / Tajusin vasta kurssin loppupuolella kuinka näitä versiotietoja tulee käyttää...
+ * @version 1.1, 30.4.2021  / HT6 Testejä
+ * @version 1.2, 20.5.2021  / HT7 Viimeistelyjä
  */
 public class Koulutus {
     
@@ -163,7 +159,7 @@ public class Koulutus {
     public String toString() {
         return "" + getKoulutusTunnus() + "|" + 
                     koulutus;
-    }               // tahi getKoulutus()
+    }
 
 
     /**
@@ -187,21 +183,7 @@ public class Koulutus {
     public void parse(String rivi) {
         StringBuffer sb = new StringBuffer(rivi);
         setKoulutusTunnus(Mjonot.erota(sb, '|', getKoulutusTunnus()));
-        //koulutus = Mjonot.erota(sb, '|', getKoulutus());
-        koulutus = Mjonot.erota(sb, '|', koulutus); // ei välttämättä tarvitse |
-    }
-
-
-    @Override
-    public boolean equals(Object koulutus) {
-        if ( koulutus == null ) return false;
-        return this.toString().equals(koulutus.toString());
-    }
-    
-
-    @Override
-    public int hashCode() {
-        return koulutusTunnus;
+        koulutus = Mjonot.erota(sb, '|', koulutus);
     }
 
     

@@ -29,18 +29,10 @@ import java.util.*;
  * @version 1.1, 4.5.2021   / HT6 testejä
  * @version 1.2, 14.5.2021  / Lisätty lisaa -aliohjelmaan Arrays.copyOf
  * @version 1.3, 19.5.2021  / Muutettu rakenne taulukosta listaksi
- *
+ * @version 1.4, 20.5.2021  / Viimeistelyt
  */
 public class Koulutukset implements Iterable<Koulutus> {
     
-    /*
-    private static final int MAX_KOULUTUKSIA = 5;
-    private boolean muutettu = false;
-    private int lkm = 0;
-    private String kokoNimi = "";
-    private String tiedostonPerusNimi = "koulutukset";
-    private Koulutus koulutukset[] = new Koulutus[MAX_KOULUTUKSIA];
-    */
     private boolean muutettu = false;
     private String tiedostonPerusNimi = "";
     
@@ -83,10 +75,6 @@ public class Koulutukset implements Iterable<Koulutus> {
      * </pre>
      */
     public void lisaa(Koulutus koulutus) throws SailoException {
-        //if (lkm >= koulutukset.length) koulutukset = Arrays.copyOf(koulutukset, lkm+20); 
-        //koulutukset[lkm] = koulutus;
-        //lkm++;
-        //muutettu = true;
         koulutukset.add(koulutus);
         muutettu = true;
     }
@@ -97,12 +85,7 @@ public class Koulutukset implements Iterable<Koulutus> {
      * @param i monennenko koulutuksen viite halutaan
      * @return viite koulutukseen, jonka indeksi on i
      * @throws IndexOutOfBoundsException jos i ei ole sallitulla alueella
-     
-    public Koulutus annaKoulutus(int i) throws IndexOutOfBoundsException {
-        if ( i < 0 || lkm <= i ) throw new IndexOutOfBoundsException("Laiton indeksi: " + i);
-        return koulutukset[i];
-    }
-    */
+     */
     public List<Koulutus> annaKoulutus(int i) {
         List<Koulutus> loydetyt = new ArrayList<Koulutus>();
         for (Koulutus koul : koulutukset)
@@ -145,30 +128,7 @@ public class Koulutukset implements Iterable<Koulutus> {
    */
     public void lueTiedostosta(String tied) throws SailoException {
     setTiedostonPerusNimi(tied);
-    /*
-    try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
-        kokoNimi = fi.readLine();
-        if ( kokoNimi == null ) throw new SailoException("Koulutuksen nimi puuttuu");
-        String rivi = fi.readLine();
-        if ( rivi == null ) throw new SailoException("Maksimikoko puuttuu");
-
-        while ( (rivi = fi.readLine()) != null ) {
-            rivi = rivi.trim();
-            if ( "".equals(rivi) || rivi.charAt(0) == ';' ) continue;
-            Koulutus koul = new Koulutus();
-            koul.parse(rivi);
-            lisaa(koul);
-        }
-            muutettu = false;
-                
-            } catch ( FileNotFoundException e ) {
-                throw new SailoException("Tiedosto " + getTiedostonPerusNimi() + " ei aukea");
-            } catch ( IOException e ) {
-                throw new SailoException("Ongelmia tiedoston kanssa: " + e.getMessage());
-            }
-        System.out.println(tied);
-    }
-    */
+    
     try ( BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi())) ) {
         
         String rivi;
@@ -204,7 +164,6 @@ public class Koulutukset implements Iterable<Koulutus> {
      * Tallentaa koulutukset tiedostoon.
      * Tiedoston muoto:
      * <pre>
-     * 2
      * 1|Vesisukeltaja
      * 2|Vesisukeltaja
      * </pre>
@@ -215,8 +174,7 @@ public class Koulutukset implements Iterable<Koulutus> {
         File ftied = new File(getTiedostonNimi());
 
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-            //fo.println(getKokoNimi());
-            //fo.println(koulutukset.length);
+            
             for (Koulutus koul : this) {
                 fo.println(koul.toString());
             }
@@ -229,15 +187,6 @@ public class Koulutukset implements Iterable<Koulutus> {
         muutettu = false;
     }
     
-    
-    /**
-     * Palauttaa koulutuksen koko nimen
-     * @return koulutuksen koko nimi merkkijononna
-     
-    public String getKokoNimi() {
-        return kokoNimi;
-    }
-    */
     
     /**
      * Asettaa tiedoston perusnimen ilan tarkenninta
@@ -267,102 +216,38 @@ public class Koulutukset implements Iterable<Koulutus> {
 
     
     /**
-     * Luokka koulutusten iteroimiseksi.
+     * Iteraattori kaikkien koulutusten läpikäymiseksi.
+     * @return koulutusiteraattori
+     * 
      * @example
      * <pre name="test">
-     * #THROWS SailoException
      * #PACKAGEIMPORT
      * #import java.util.*;
      * 
      * Koulutukset koulutukset = new Koulutukset();
-     * Koulutus vesi1 = new Koulutus(), vesi2 = new Koulutus();
-     * vesi1.rekisteroi(); vesi2.rekisteroi();
-     * 
-     * koulutukset.lisaa(vesi1);
-     * koulutukset.lisaa(vesi2);
-     * koulutukset.lisaa(vesi1);
-     * 
-     * StringBuffer ids = new StringBuffer(30);
-     * for (Koulutus koulutus:koulutukset)
-     *      ids.append(" "+koulutus.getKoulutusTunnus());
-     *      
-     * String tulos = " " + vesi1.getKoulutusTunnus() + " " + vesi2.getKoulutusTunnus() + " " + vesi1.getKoulutusTunnus();
-     * 
-     * ids.toString() === tulos;
-     * 
-     * ids = new StringBuffer(30);
-     * for (Iterator<Koulutus> i=koulutukset.iterator(); i.hasNext(); ) {
-     *      Koulutus koulutus = i.next();
-     *      ids.append(" "+koulutus.getKoulutusTunnus());
-     * }
-     * 
-     * ids.toString() === tulos;
+     * Koulutus vesi1 = new Koulutus(1); vesi1.rekisteroi(); koulutukset.lisaa(vesi1);
+     * Koulutus vesi2 = new Koulutus(2); vesi2.rekisteroi(); koulutukset.lisaa(vesi2);
      * 
      * Iterator<Koulutus> i=koulutukset.iterator();
-     * i.next() == vesi1 === true;
-     * i.next() == vesi2 === true;
-     * i.next() == vesi1 === true;
+     * i.next() === vesi1;
+     * i.next() === vesi2;
+     * i.next() === vesi3; #THROWS NoSuchElementException 
      * 
-     * i.next(); #THROWS NoSuchElementException
+     * int n = 0;
+     * int jnrot[] = {1,2};
+     * 
+     * for ( Koulutus koul : koulutukset) {
+     *  koul.getKoulutusTunnus() === jnrot[n]; n++;
+     *  }
+     *  
+     *  n === 2;
      * 
      * </pre>
-     
-    public class KoulutuksetIterator implements Iterator<Koulutus> {
-        private int kohdalla = 0;
-        */
-    
-        /**
-         * Palautetaan iteraattori koulutuksista.
-         */
-        @Override
-        public Iterator<Koulutus> iterator() {
-            return koulutukset.iterator();
-        }
-
-        /**
-         * Onko olemassa vielä seuraavaa koulutuksia
-         * @see java.util.Iterator#hasNext()
-         * @return true jos on vielä jäseniä
-         
-        @Override
-        public boolean hasNext() {
-            return kohdalla < getLkm();
-        }
-        */
-        
-        /**
-         * Annetaan seuraava jäsen
-         * @return seuraava jäsen
-         * @throws NoSuchElementException jos seuraava alkiota ei enää ole
-         * @see java.util.Iterator#next()
-         
-        @Override
-        public Koulutus next() throws NoSuchElementException {
-            if ( !hasNext() ) throw new NoSuchElementException("Ei oo");
-            return annaKoulutus(kohdalla++);
-        }
-        */
-        
-        /**
-         * Tuhoamista ei ole toteutettu
-         * @throws UnsupportedOperationException aina
-         * @see java.util.Iterator#remove()
-         
-        @Override
-        public void remove() throws UnsupportedOperationException {
-            throw new UnsupportedOperationException("Me ei poisteta");
-        }
-    }
-    */
-    
-    /**
-     * Palautetaan iteraattori koulutuksista.
-     
+     */
     @Override
     public Iterator<Koulutus> iterator() {
-        return new KoulutuksetIterator();
+        return koulutukset.iterator();
     }
-    */
     
     
     /**
@@ -394,7 +279,6 @@ public class Koulutukset implements Iterable<Koulutus> {
      * @return työntekijöiden lukumäärä
      */
     public int getLkm() {
-        //return lkm;
         return koulutukset.size();
     }
     
@@ -402,8 +286,11 @@ public class Koulutukset implements Iterable<Koulutus> {
     /**
      * Korvaa koulutuksen tietorakenteessa.  Ottaa koulutuksen omistukseensa.
      * Etsitään samalla tunnusnumerolla oleva koulutus.  Jos ei löydy, niin lisätään uutena koulutuksena.
+     * 
      * @param koulutus lisättävän koulutuksen viite. Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
+     * 
+     * @example
      * <pre name="test">
      * #THROWS SailoException,CloneNotSupportedException
      * #PACKAGEIMPORT
@@ -426,12 +313,6 @@ public class Koulutukset implements Iterable<Koulutus> {
      * </pre>
      */
     public void korvaaTaiLisaa(Koulutus koulutus) throws SailoException {
-        //int id = koulutus.getKoulutusTunnus();
-        //for (int i = 0; i < lkm; i++) {
-          //  if ( koulutukset[i].getKoulutusTunnus() == id ) {
-            //    koulutukset[i] = koulutus;
-              //  muutettu = true;
-                //return;
         int id = koulutus.getKoulutusTunnus();
         for (int i = 0; i < getLkm(); i++) {
             if (koulutukset.get(i).getKoulutusTunnus() == id) {
@@ -474,25 +355,8 @@ public class Koulutukset implements Iterable<Koulutus> {
             koul.tulosta(System.out);
         }
 
-        /*
-        try {
-            koulutukset.lisaa(pitsi1);
-            koulutukset.lisaa(pitsi2);
-            
-            System.out.println("========== Työntekijät testi ==========");
-            
-            for (int i = 0; i < koulutukset.getLkm(); i++) {
-                Koulutus koulutus = koulutukset.annaKoulutus(i);
-                System.out.println("Työntekijätunnus: " + i);
-                koulutus.tulosta(System.out);
-                
-            }
-        } catch (SailoException e) {
-            System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon.
-        }
-        */
     }  catch (SailoException e) {
-        System.err.println(e.getMessage());     // Virhetiedot voidaan tietovirroilla ohjata menemään omaan lokitiedostoon. 
-}
+        System.err.println(e.getMessage());
+    }
     }
 }
