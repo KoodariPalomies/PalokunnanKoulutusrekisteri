@@ -214,7 +214,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
             try {
                 naytaTyontekijanKoulutukset();
             } catch (SailoException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
@@ -353,26 +352,20 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     /**
      * Näyttää listasta koulutuksien tiedot listChooseriin
+     * @throws SailoException jos menee pieleen
      */
-    private void naytaKoulutus() {
+    private void naytaKoulutus() throws SailoException {
         chooserKoulutukset.clear();
-        /*
-        for (int i = 0; i < koulutusrekisteri.getKoulutuksia(); i++) {
-            Koulutus koulutus = koulutusrekisteri.annaKoulutus(i);
-            chooserKoulutukset.add(koulutus.getKoulutus(), koulutus);
-            }
-            */
         
-        try {
-            List<Koulutus> koulutukset = koulutusrekisteri.annaKoulutus(0);
-            if ( koulutukset.size() == 0 ) return;
-            for (Koulutus koulutus : koulutukset)
-                //naytaKoulutus(koul.getKoulutusTunnus());
-                chooserKoulutukset.add(koulutus.getKoulutus(), koulutus);
-        } catch (SailoException e) {
-            naytaVirhe(e.getMessage());
-        }
-
+        if (koulutusKohdalla == null) return;
+        List<Koulutus> koulutus = koulutusrekisteri.annaKoulutus(koulutusKohdalla.getKoulutusTunnus());
+        
+        for (int i = 0; i < koulutus.size(); i++) {
+            Koulutus koul = koulutus.get(i);
+            koul.getKoulutusTunnus();
+            koulutusrekisteri.annaKoulutus(i);
+            chooserKoulutukset.add(koul.getKoulutus(), koul);
+            }
     } 
     
     

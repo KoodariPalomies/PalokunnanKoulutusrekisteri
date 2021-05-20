@@ -1,6 +1,3 @@
-/**
- * 
- */
 package koulutusRekisteri;
 
 import java.io.BufferedReader;
@@ -31,8 +28,8 @@ import java.util.NoSuchElementException;
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
  * @author mitulit
- * @version 1.0, 20.4.2021 / Väärin pidetty versiokirjanpito
- * @version 1.1, 4.5.2021 / HT6 testejä
+ * @version 1.0, 20.4.2021  / Väärin pidetty versiokirjanpito
+ * @version 1.1, 4.5.2021   / HT6 testejä
  *
  */
 public class Tyontekijat implements Iterable<Tyontekija>{

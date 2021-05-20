@@ -1,11 +1,7 @@
-/**
- * 
- */
 package koulutusRekisteri;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.time.LocalDate;     // import the LocalDate class
 
 import fi.jyu.mit.ohj2.Mjonot;  //==============================================
 
@@ -34,9 +30,10 @@ import fi.jyu.mit.ohj2.Mjonot;  //==============================================
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
  * @author mitulint
- * @version 1.0, 24.3.2021 / Huonosti ylläpidetty versiopäiväkirja....
- * @version 1.1, 30.4.2021 / HT6 testejä...
- * @version 1.2, 13.5.2021 / Lisäsin getKoulutusTunnusString()
+ * @version 1.0, 24.3.2021  / Huonosti ylläpidetty versiopäiväkirja....
+ * @version 1.1, 30.4.2021  / HT6 testejä...
+ * @version 1.2, 13.5.2021  / Lisäsin getKoulutusTunnusString()
+ * @version 1.3, 20.5.2021  / Poistin turhat importit
  * 
  * https://tim.jyu.fi/view/kurssit/tie/ohj2/harjoitustyo/vaiheet/harrastukset-relaatioilla 
  */

@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import fi.jyu.mit.ohj2.Mjonot;
 //import static kanta.HetuTarkistus.rand;         // jotta voi tulostaa lukuja randomilla
 import java.io.PrintStream;
+import java.util.List;
 
 /**
  * |------------------------------------------------------------------------|
@@ -90,7 +91,7 @@ public class Koulutus {
      * TODO: poista kun kaikki toimii
      */
     public void vastaaVesisukeltaja() {
-        koulutus            = "Vesisukeltaja";
+        koulutus = "Vesisukeltaja";
     }
     
     
