@@ -133,12 +133,21 @@ public class Relaatiot implements Iterable<Relaatio> {
      * </pre>
      */
     public void lisaa(Relaatio rel) throws SailoException {
+        /*
         if (lkm >= alkiot.length) {
             muutettu = true;
         } else {
             alkiot[lkm++] = rel;
             muutettu = true;
         }
+        */
+        // korjattava kohta
+        //luo uusi taulukko joka on isompi johon kopioit vanhan taulukon + aseta vanhan tilalle uusien kanssa ja suorita lisääminen
+        //kun on kasvatettu niin --> alkiot[lkm++] = rel;
+        if (lkm >= alkiot.length) alkiot = Arrays.copyOf(alkiot, lkm+MAX_RELAATIOITA);
+        alkiot[lkm] = rel;
+        lkm++;
+        muutettu = true;
     }
 
 

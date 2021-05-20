@@ -221,6 +221,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         
         chooserKoulutukset.clear();
         chooserKoulutukset.addSelectionListener(e -> valitseKoulutus());
+        //haeKoulutus(0);
         
         chooserTyontekijanKoulutukset.clear();
         chooserTyontekijanKoulutukset.addSelectionListener(e -> valitseTyontekijanKoulutus());
@@ -296,6 +297,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         lueTiedosto(uusinimi);
         naytaTyontekija();
         naytaKoulutus();
+        haeKoulutus(0);
         naytaTyontekijanKoulutukset();
         return true;
     }
@@ -435,7 +437,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
     
     /**
      * Hakee koulutusten tiedot listaan
-     * @param tnro koulutuksen numero, joka aktivoidaan haun jälkeen
+     * @param knro koulutuksen numero, joka aktivoidaan haun jälkeen
      */
     private void haeKoulutus(int knro) {
         int knr = knro;     // knr koulutuksen numero, joka aktivoituu haun jälkeen
@@ -455,7 +457,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
             koulutukset = koulutusrekisteri.etsiKoulutus(ehto, k);
             int i = 0;
             for (Koulutus koulutus:koulutukset) {
-                if (koulutus.getKoulutusTunnus() == knro) index = i;
+                if (koulutus.getKoulutusTunnus() == knr) index = i;
                 chooserKoulutukset.add(koulutus);
                 i++;
             }
