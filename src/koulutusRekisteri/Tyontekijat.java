@@ -375,7 +375,6 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * tyontekijat.korvaaTaiLisaa(aku1); tyontekijat.getLkm() === 1;
      * tyontekijat.korvaaTaiLisaa(aku2); tyontekijat.getLkm() === 2;
      * Tyontekija aku3 = aku1.clone();
-     * aku3.aseta(3,"kkk");
      * Iterator<Tyontekija> it = tyontekijat.iterator();
      * it.next() == aku1 === true;
      * tyontekijat.korvaaTaiLisaa(aku3); tyontekijat.getLkm() === 2;

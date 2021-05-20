@@ -76,7 +76,7 @@ public class Koulutus {
      * <pre name="test">
      *      Koulutus vesi = new Koulutus();
      *      vesi.vastaaVesisukeltaja();
-     *      vesi.getKoulutus() =R= "Vesisukeltaja .*";
+     *      vesi.getKoulutus() =R= "Vesisukeltaja";
      * </pre>
      */
     public String getKoulutus() {

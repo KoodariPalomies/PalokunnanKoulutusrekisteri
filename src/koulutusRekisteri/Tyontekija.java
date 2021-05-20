@@ -35,7 +35,8 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 1.2, 14.5.2021  / Lisätty clone()
  * @version 1.3, 16.5.2021  / Lisätty throw new IllegalArgumentException setNimi --> oikeellisuustarkistusta varten --> ei tarvita kuitenkaan
  * @version 1.4, 20.5.2021  / setNimi muokattu oikeellisuustarkistusta varten
-*/
+ * HUOM: puuttuu työntekijän poistaminen
+ */
 public class Tyontekija implements Cloneable {
     
     private int         tyontekijaTunnus;
@@ -199,7 +200,7 @@ public class Tyontekija implements Cloneable {
      * <pre name="test">
      *   Tyontekija aku = new Tyontekija();
      *   aku.vastaaAkuAnkka();
-     *   aku.getNimi() =R= "Ankka Aku .*";
+     *   aku.getNimi() =R= "Ankka Aku";
      * </pre>
      */
     public String getNimi() {

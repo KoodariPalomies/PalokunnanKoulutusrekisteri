@@ -227,13 +227,19 @@ public class Koulutukset implements Iterable<Koulutus> {
      * #import java.util.*;
      * 
      * Koulutukset koulutukset = new Koulutukset();
-     * Koulutus vesi1 = new Koulutus(1); vesi1.rekisteroi(); koulutukset.lisaa(vesi1);
-     * Koulutus vesi2 = new Koulutus(2); vesi2.rekisteroi(); koulutukset.lisaa(vesi2);
+     * Koulutus vesi1 = new Koulutus(1); vesi1.rekisteroi(); 
+     * Koulutus vesi2 = new Koulutus(2); vesi2.rekisteroi(); 
+     * try {
+     *      koulutukset.lisaa(vesi1);
+     *      koulutukset.lisaa(vesi2);
+     * }  catch ( Exception e) {
+     *       System.err.println(e.getMessage());
+     *    }
      * 
      * Iterator<Koulutus> i=koulutukset.iterator();
      * i.next() === vesi1;
      * i.next() === vesi2;
-     * i.next() === vesi3; #THROWS NoSuchElementException 
+     * i.next() === vesi1; #THROWS NoSuchElementException  
      * 
      * int n = 0;
      * int jnrot[] = {1,2};
@@ -291,7 +297,6 @@ public class Koulutukset implements Iterable<Koulutus> {
      * 
      * @param koulutus lisättävän koulutuksen viite. Huom tietorakenne muuttuu omistajaksi
      * @throws SailoException jos tietorakenne on jo täynnä
-     * 
      * @example
      * <pre name="test">
      * #THROWS SailoException,CloneNotSupportedException
@@ -303,7 +308,6 @@ public class Koulutukset implements Iterable<Koulutus> {
      * koulutukset.korvaaTaiLisaa(aku1); koulutukset.getLkm() === 1;
      * koulutukset.korvaaTaiLisaa(aku2); koulutukset.getLkm() === 2;
      * Koulutus aku3 = aku1.clone();
-     * aku3.aseta(3,"kkk");
      * Iterator<Koulutus> it = koulutukset.iterator();
      * it.next() == aku1 === true;
      * koulutukset.korvaaTaiLisaa(aku3); koulutukset.getLkm() === 2;
@@ -325,7 +329,6 @@ public class Koulutukset implements Iterable<Koulutus> {
         }
         lisaa(koulutus);
     }
-    
     
     
     /**

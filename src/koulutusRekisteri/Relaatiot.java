@@ -63,7 +63,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * int id1 = rel1.getRelaatioTunnus();
      * relaatiot.lisaa(rel1); relaatiot.lisaa(rel2); relaatiot.lisaa(rel3);
      * relaatiot.poista(id1+1) === 1; 
-     * relaatiot.annaId(id1+1) === null; relaatiot.getLkm() === 2; 
+     * relaatiot.annaRelaatiot(id1+1) === null; relaatiot.getLkm() === 2; 
      * relaatiot.poista(id1) === 1; relaatiot.getLkm() === 1; 
      * relaatiot.poista(id1+3) === 0; relaatiot.getLkm() === 1;
      * </pre>
@@ -183,7 +183,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * relaatiot.lueTiedostosta(tiedNimi); #THROWS SailoException
      * relaatiot.lisaa(rel1);
      * relaatiot.lisaa(rel2);
-     * relaatiot.talleta();
+     * relaatiot.tallenna();
      * relaatiot = new Relaatiot();
      * relaatiot.lueTiedostosta(tiedNimi);
      * 
@@ -192,7 +192,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * i.next() === rel2;
      * i.hasNext() === false;
      * relaatiot.lisaa(rel2);
-     * relaatiot.talleta();
+     * relaatiot.tallenna();
      * ftied.delete() === true;
      * dir.delete() === true;
      * </pre>
