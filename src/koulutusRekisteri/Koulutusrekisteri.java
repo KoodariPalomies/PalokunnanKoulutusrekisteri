@@ -21,7 +21,8 @@ import java.util.List;
  * |                                                    | - Relaatiot       |
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
- * @author mitulint
+ * 
+ * @author mitulint, tuomas.mikko.lintula@gmail.com
  * @version 1.0, ennen 29.4.2021 / pidin huonosti kirjaa mitä tein ja ehkäpä siksi vaikea pysyä muutoksissa kärryillä
  * @version 1.1, 29.4.2021  / HT6 tulostukset tekstikenttiin ja valinta (työntekijä ja koulutus) toimimaan
  * @version 1.2, 30.4.2021  / HT6 testejä
@@ -30,6 +31,7 @@ import java.util.List;
  * @version 1.5, 14.5.2021  / Lisätty korvaaTaiLisaa() -aliohjelma, joka tarvitaan muokkaamista varten
  * @version 1.6, 19.5.2021  / annaKoulutus() muutettu listaksi
  * @version 1.7, 20.5.2021  / Poistettu turha poista() -aliohjelma
+ * HUOM: ohjelmassa ei vielä toimi koulutuksen ja työntekijän poistaminen
  */
 public class Koulutusrekisteri {
     

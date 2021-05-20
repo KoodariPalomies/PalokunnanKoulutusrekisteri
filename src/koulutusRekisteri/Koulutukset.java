@@ -24,12 +24,14 @@ import java.util.*;
  * | - Osaa etsiä ja lajitella.                         |                   | 
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
- * @author mitulint
+ * 
+ * @author mitulint, tuomas.mikko.lintula@gmail.com
  * @version 1.0, 24.3.2021  / Väärin pidetty versiokirjanpito
  * @version 1.1, 4.5.2021   / HT6 testejä
  * @version 1.2, 14.5.2021  / Lisätty lisaa -aliohjelmaan Arrays.copyOf
  * @version 1.3, 19.5.2021  / Muutettu rakenne taulukosta listaksi
- * @version 1.4, 20.5.2021  / Viimeistelyt
+ * @version 1.4, 20.5.2021  / HT7 viimeistelyt
+ * HUOM: puuttuu koulutuksen poistaminen ja muokkaaminen
  */
 public class Koulutukset implements Iterable<Koulutus> {
     
@@ -327,6 +329,7 @@ public class Koulutukset implements Iterable<Koulutus> {
     
     
     /**
+     * Testiohjelma koulutuksista
      * @param args ei käytössä
      */
     public static void main(String[] args) {

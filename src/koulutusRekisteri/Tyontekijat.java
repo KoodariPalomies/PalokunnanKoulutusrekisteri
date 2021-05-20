@@ -27,10 +27,12 @@ import java.util.NoSuchElementException;
  * | - Osaa etsiä ja lajitella.                         |                   |  
  * |                                                    |                   | 
  * |-------------------------------------------------------------------------
- * @author mitulit
+ * 
+ * @author mitulit, tuomas.mikko.lintula@gmail.com
  * @version 1.0, 20.4.2021  / Väärin pidetty versiokirjanpito
  * @version 1.1, 4.5.2021   / HT6 testejä
- *
+ * @version 1.2, 20.5.2021  / HT7 viimeistelyjä
+ * HUOM: puuttuu työntekijän poistaminen
  */
 public class Tyontekijat implements Iterable<Tyontekija>{
 
@@ -398,6 +400,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
 
     
     /**
+     * Testiohjelma työntekijöistä
      * @param args ei käytössä
      */
     public static void main(String[] args) {

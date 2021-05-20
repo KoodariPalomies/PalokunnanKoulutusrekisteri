@@ -24,7 +24,8 @@ import java.io.PrintWriter;
  * |   etsiminen, tiedoston luku ja kirjoitus).         |                   |
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
- * @author mitulint
+ * 
+ * @author mitulint, tuomas.mikko.lintula@gmail.com
  * @version 1.0, 22.4.2021  / Tätä ennen en pitänyt järkevää versioseurantaa...
  * @version 1.1, 30.4.2021  / HT6 testien lisäämistä
  * @version 1.2, 10.5.2021  / Lisätty poista + etsiId
@@ -443,6 +444,7 @@ public class Relaatiot implements Iterable<Relaatio> {
 
 
     /**
+     * Testiohjelma relaatioista
      * @param args ei käytössä
      */
     public static void main(String[] args) {

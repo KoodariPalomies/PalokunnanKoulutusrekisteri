@@ -28,7 +28,8 @@ import fi.jyu.mit.ohj2.Mjonot;
  * | - Osaa laittaa merkkijonon i:neksi kentäksi.       |                   |
  * |                                                    |                   |  
  * |-------------------------------------------------------------------------
- * @author mitulint
+ * 
+ * @author mitulint, tuomas.mikko.lintula@gmail.com
  * @version 1.0, 3.3.2021   / Huonosti seurannut näitä versiokehityksiä
  * @version 1.1, 30.4.2021  / HT6 testejä
  * @version 1.2, 14.5.2021  / Lisätty clone()
@@ -261,19 +262,6 @@ public class Tyontekija implements Cloneable {
     }
     
     
-    @Override
-    public boolean equals(Object tyontekija) {
-        if ( tyontekija == null ) return false;
-        return this.toString().equals(tyontekija.toString());
-    }
-
-
-    @Override
-    public int hashCode() {
-        return tyontekijaTunnus;
-    }
-    
-    
     /**
      * Tehdään identtinen klooni työntekijästä
      * @return Object kloonattu työntekijä
@@ -297,6 +285,7 @@ public class Tyontekija implements Cloneable {
     
     
     /**
+     * Testiohjelma työntekijästä
      * @param args ei käytössä
      */
     public static void main(String[] args) {

@@ -23,7 +23,7 @@ import koulutusRekisteri.Tyontekija;
 
 /**
  * Luokka käyttöliittymän tapahtumien hoitamiseksi
- * @author mitulint
+ * @author mitulint, tuomas.mikko.lintula@gmail.com
  * @version 1.0, 24.3.2021  / Huono versionhallinta...
  * @version 1.1, 12.5.2021  / HT7 muokkailuja --> TextFieldien lisääminen ja paneelien poisto
  * @version 1.2, 13.5.2021  / Lisäys naytaTyontekijanKoulutukset()
@@ -32,6 +32,7 @@ import koulutusRekisteri.Tyontekija;
  * @version 1.5, 14.5.2021  / Lisätty naytaVirhe() --> jos tulee virhe
  * @version 1.6, 20.5.2021  / Lisätty muokkaa() -aliohjelmaan oikeellisuustarkistukseen liittyvät jutut
  * @version 1.7, 20.5.2021  / HT7 viimeistelyjä
+ * HUOM: ohjelmassa ei vielä toimi koulutuksen poistaminen, työntekijän poistaminen, tulostaminen, koulutuksen muokkaaminen eikä apuohjeiden antaminen
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     

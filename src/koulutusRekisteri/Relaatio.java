@@ -29,7 +29,8 @@ import fi.jyu.mit.ohj2.Mjonot;
  * | - Osaa laittaa merkkijonon i:neksi kentäksi.       |                   |
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
- * @author mitulint
+ * 
+ * @author mitulint, tuomas.mikko.lintula@gmail.com
  * @version 1.0, 24.3.2021  / Huonosti ylläpidetty versiopäiväkirja....
  * @version 1.1, 30.4.2021  / HT6 testejä...
  * @version 1.2, 13.5.2021  / Lisäsin getKoulutusTunnusString()
@@ -227,22 +228,10 @@ public class Relaatio {
        suoritettu           = Mjonot.erota(sb, '|', suoritettu);
        umpeutuu             = Mjonot.erota(sb, '|', umpeutuu);
    }
-
-
-   @Override
-   public boolean equals(Object relaatio) {
-       if ( relaatio == null ) return false;
-       return this.toString().equals(relaatio.toString());
-   }
-   
-
-   @Override
-   public int hashCode() {
-       return relaatioTunnus;
-   }
     
     
     /**
+     * Testiohjelma relaatiosta
      * @param args ei käytössä
      */
     public static void main(String[] args) {

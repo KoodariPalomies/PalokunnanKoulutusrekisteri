@@ -28,10 +28,12 @@ import java.io.PrintStream;
  * | - Osaa laittaa merkkijonon i:neksi kentäksi.       |                   |
  * |                                                    |                   |
  * |-------------------------------------------------------------------------
- * @author mitulint
+ * 
+ * @author mitulint, tuomas.mikko.lintula@gmail.com
  * @version 1.0, 22.3.2021  / Tajusin vasta kurssin loppupuolella kuinka näitä versiotietoja tulee käyttää...
  * @version 1.1, 30.4.2021  / HT6 Testejä
  * @version 1.2, 20.5.2021  / HT7 Viimeistelyjä
+ * HUOM: puuttuu koulutuksen muokkaus sekä oikeellisuustarkistukset muokattaessa
  */
 public class Koulutus {
     
@@ -188,6 +190,7 @@ public class Koulutus {
 
     
     /**
+     * Testiohjelma koulutuksesta
      * @param args ei käytössä
      */
     public static void main(String[] args) {
