@@ -34,7 +34,7 @@ public class KoulutusrekisteriMain extends Application {
             scene.getStylesheets().add(getClass()
                     .getResource("Koulutusrekisteri.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Palokunnan koulutusrekisteri");
+            primaryStage.setTitle("Palokunnankoulutusrekisteri");
 
             primaryStage.setOnCloseRequest((event) -> {
                 if (!koulutusrekisteriCtrl.voikoSulkea())

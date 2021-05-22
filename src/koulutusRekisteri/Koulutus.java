@@ -33,6 +33,7 @@ import java.io.PrintStream;
  * @version 1.0, 22.3.2021  / Tajusin vasta kurssin loppupuolella kuinka näitä versiotietoja tulee käyttää...
  * @version 1.1, 30.4.2021  / HT6 Testejä
  * @version 1.2, 20.5.2021  / HT7 Viimeistelyjä
+ * @version 1.3, 22.5.2021  / Lisätty setKoulutus(), jotta voi asettaa koulutukselle muunkin nimen kuin Vesisukeltaja
  * HUOM: puuttuu koulutuksen muokkaus sekä oikeellisuustarkistukset muokattaessa
  */
 public class Koulutus {
@@ -66,6 +67,19 @@ public class Koulutus {
      */
     public int getKoulutusTunnus() {
         return koulutusTunnus;
+    }
+    
+    
+    /**
+     * Asettaa koulutuksen nimen
+     * @param koulutus koulutuksen nimi
+     * @return syötetty koulutuksen nimi tai virheilmoitus
+     */
+    public String setKoulutus(String koulutus) {
+        if (koulutus.matches("(.*)[0-9\\+\\-\\*\\!\\#\\¤\\%\\/\\(\\)\\=\\?\\§\\^]+(.*)")) return "Ei numeroita ja erikoismerkkejä!";
+        if (koulutus.matches("")) return "Ei tyhjäarvoa!";
+        this.koulutus = koulutus;
+            return null;
     }
     
     

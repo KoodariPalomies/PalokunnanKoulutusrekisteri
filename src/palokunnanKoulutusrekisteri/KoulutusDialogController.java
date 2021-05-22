@@ -6,7 +6,7 @@ import fi.jyu.mit.fxgui.Dialogs;
 import fi.jyu.mit.fxgui.ModalController;
 import fi.jyu.mit.fxgui.ModalControllerInterface;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -22,16 +22,36 @@ import koulutusRekisteri.SailoException;
  * @version 1.1, 22.5.2021  / Lisäyksiä ja muokkauksia, jotta uusi koulutus voidaan lisätä ja muokata dialogin kautta
  *
  */
-public class KoulutusDialogController implements ModalControllerInterface<Koulutus> {   // aikasemmin <String>
-    
-    @FXML private Button buttonOK;
-    
-    @FXML private Button buttonPeruuta;
+public class KoulutusDialogController implements ModalControllerInterface<Koulutus>,Initializable {   // aikasemmin <String> + lisätty Initializable
     
     @FXML private TextField koulutuksenNimi;
-    
     @FXML private Label labelVirhe;
+    
+    
+    /**
+     * @param url ei tietoa
+     * @param bundle ei tietoa
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle bundle ) {
+        alusta();
+    }
 
+    
+    @FXML private void handleOK() {
+        if (koul != null && koul.getKoulutus().trim().equals("")) {
+            naytaVirhe("Koulutus ei saa olla tyhjä!");
+            return;
+        }
+        ModalController.closeStage(labelVirhe);
+    }
+    
+    
+    @FXML private void handlePeruuta() {
+        koul = null;
+        ModalController.closeStage(labelVirhe);
+    }
+    
     
 //============= Metodit alla ==================================================================================================================================================================================
     
@@ -56,23 +76,27 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
      * @return ladattavan modaalisen ikkunan
      */
     public static Koulutus uudenLisaaminen(Stage modalityStage, Koulutus koul, Koulutusrekisteri koulutusrekisteri) {
-        return ModalController.<Koulutus, KoulutusDialogController>showModal(KoulutusDialogController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", modalityStage, koul, 
+        return ModalController.<Koulutus, KoulutusDialogController>showModal(
+                KoulutusDialogController.class.getResource("KoulutusDialogView.fxml"), 
+                "Lisää koulutus", 
+                modalityStage, koul, 
                 controller->controller.setKoulutusrekisteri(koulutusrekisteri));
     }
     
     
     /**
      * Kysytään tiedoston nimi ja luetaan se
-     * @param koul2 koulutus jota käsitellään
-     * @param koulr koulutusrekisteri
-     * @throws SailoException jos menee pieleen
-     */
+//     * @param koul2 koulutus jota käsitellään
+//     * @param koulr koulutusrekisteri
+//     * @throws SailoException jos menee pieleen
+     
     public void avaa(Koulutus koul2, Koulutusrekisteri koulr) throws SailoException {
         this.koulutusrekisteri = koulr;
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", null, koul2);
     }
+    */
     
-
+    
     @Override
     public Koulutus getResult() {
         return null;
@@ -87,18 +111,8 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     
     @Override
     public void handleShown() {
-        naytaKoulutus(edits, koul);        
+        //naytaKoulutus(edits, koul);        
     }
-    
-    
-    /**
-     * @param url ei tietoa
-     * @param bundle ei tietoa
-     */
-    @SuppressWarnings("unused")
-    public void initialize(URL url, ResourceBundle bundle ) {
-        alusta();
-        }
     
     
     /**
@@ -108,7 +122,7 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
 
         edits = new TextField[] {koulutuksenNimi};
         
-        for (TextField edit: edits)  
+        for (TextField edit : edits)  
             if (edit != null) {  
                 edit.setEditable(true);
             } 
@@ -119,11 +133,11 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
      * Asettaa koulutuksen lisäysikkunaan tekstikentälle sinne kuuluvat tiedot.
      * @param edit taulukko tekstikentistä
      * @param koulu jota käsitellään
-     */
+     
     public void naytaKoulutus(TextField[] edit, Koulutus koulu) {
-        //edit[0].setText(koulu.getKoulutus());
-        edit[0].setText("");
+        edit[0].setText(koulu.getKoulutus());
     }
+    */
     
     
     /**
@@ -136,6 +150,7 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
         } catch (SailoException ex) {
             Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
         }
+        ModalController.closeStage(labelVirhe);
     }
     
     
@@ -149,4 +164,16 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
         ModalController.closeStage(labelVirhe);
         
     }
+    
+    
+    private void naytaVirhe(String virhe) {
+        if ( virhe == null || virhe.isEmpty() ) {
+            labelVirhe.setText("");
+            labelVirhe.getStyleClass().removeAll("virhe");
+            return;
+        }
+        labelVirhe.setText(virhe);
+        labelVirhe.getStyleClass().add("virhe");
+    }
+
 }
