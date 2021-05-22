@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import koulutusRekisteri.Koulutus;
 import koulutusRekisteri.Koulutusrekisteri;
 import koulutusRekisteri.SailoException;
+import palokunnanKoulutusrekisteri.KoulutusrekisteriGUIController;
 
 
 /**
@@ -39,10 +40,7 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
 
     
     @FXML private void handleOK() {
-        if (koul != null && koul.getKoulutus().trim().equals("")) {
-            naytaVirhe("Koulutus ei saa olla tyhjä!");
-            return;
-        }
+        kasitteleUusiKoulutus(kentta);
         ModalController.closeStage(labelVirhe);
     }
     
@@ -59,32 +57,8 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     private Koulutusrekisteri koulutusrekisteri;
     private Koulutus koul;
     private TextField edits[];
+    private int kentta = 0;
     
-
-    
-    
-    /**
-     * Kysytään tiedoston nimi ja luetaan se
-//     * @param koul2 koulutus jota käsitellään
-//     * @param koulr koulutusrekisteri
-//     * @throws SailoException jos menee pieleen
-     
-    public void avaa(Koulutus koul2, Koulutusrekisteri koulr) throws SailoException {
-        this.koulutusrekisteri = koulr;
-        ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", null, koul2);
-    }
-    */
-    
-    
-    /**
-     * Luodaan tekstikenttään koulutuksennimi
-     * @param koulutuksenNimi mihin koulutuksen tiedot tuodaan
-     * @return luotu tekstikenttä
-     */
-    public static TextField[] luoKentta(TextField koulutuksenNimi) {
-        TextField[] edits = new TextField[1];
-        return edits;
-    }
     
     /**
      * Tyhjentään tekstikentät 
@@ -102,10 +76,12 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     private void alusta() {
 
         edits = new TextField[] {koulutuksenNimi};
-        
+        int i = 0;
         for (TextField edit : edits)  
             if (edit != null) {  
                 edit.setEditable(true);
+                final int k = ++i;
+                edit.setOnKeyReleased(e -> kasitteleUusiKoulutus(k));   //, (TextField) (e.getSource())
             } 
     }
     
@@ -151,9 +127,9 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     
     /**
      * Käsitellään koulutukseen tullut muutos
-     * @param koulutuksenNimi muuttunut tekstikenttä
+     * @param k muokattava TextField
      */
-    protected void kasitteleUusiKoulutus(TextField koulutuksenNimi) {
+    protected void kasitteleUusiKoulutus(int k) {
         if (koul == null) return;
         try {
             String virhe;
