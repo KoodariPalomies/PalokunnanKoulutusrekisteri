@@ -32,6 +32,7 @@ import koulutusRekisteri.Tyontekija;
  * @version 1.5, 14.5.2021  / Lisätty naytaVirhe() --> jos tulee virhe
  * @version 1.6, 20.5.2021  / Lisätty muokkaa() -aliohjelmaan oikeellisuustarkistukseen liittyvät jutut
  * @version 1.7, 20.5.2021  / HT7 viimeistelyjä
+ * @version 1.8, 22.5.2021  / naytaTyontekijanKoulutukset() -aliohjelmaa muokkaus, jotta tulostaa vaaditulla tavalla
  * HUOM: ohjelmassa ei vielä toimi koulutuksen poistaminen, työntekijän poistaminen, tulostaminen, koulutuksen muokkaaminen eikä apuohjeiden antaminen
  */
 public class KoulutusrekisteriGUIController implements Initializable {
@@ -133,6 +134,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     @FXML private void handleLisaaKoulutus() {
         Dialogs.showQuestionDialog("Lisää koulutus", "Lisätäänkö koulutus?", "Kyllä", "Ei");
+        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", null, "");
         uusiKoulutus();
     }
     
@@ -379,7 +381,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
             koulutusrekisteri.annaKoulutus(i);
             rel.getSuoritettu();
             rel.getUmpeutuu();
-            chooserTyontekijanKoulutukset.add(rel.getKoulutusTunnusString(), rel);
+            //chooserTyontekijanKoulutukset.add(rel.getKoulutusTunnusString(), rel);
+            chooserTyontekijanKoulutukset.add(rel);
             }
     }
     
@@ -483,9 +486,11 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */ 
     public void uusiKoulutus() { 
         try {
-            Koulutus koul = new Koulutus(); 
+            Koulutus koul = new Koulutus();
+            koul = KoulutusDialogController.uudenLisaaminen(null, koul, koulutusrekisteri); // tämä lisätty jotta voidaan muokata uutta koulutusta
+            if ( koul == null ) return;
             koul.rekisteroi(); 
-            koul.vastaaVesisukeltaja(); 
+            //koul.vastaaVesisukeltaja(); // tämä ehkä poistettava
             koulutusrekisteri.lisaa(koul);
             haeKoulutus(koul.getKoulutusTunnus());
         } catch (SailoException e) {

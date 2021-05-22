@@ -16,8 +16,8 @@
             <HBox />
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button fx:id="buttonTallenna" defaultButton="true" mnemonicParsing="false" text="OK" onAction="#handleDefaultOK" />
-                  <Button cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#handleDefaultCancel" />
+                <Button fx:id="buttonOK" mnemonicParsing="false" text="OK" onAction="#tallennaN" />
+                  <Button fx:id="buttonPeruuta" mnemonicParsing="false" text="Peruuta" onAction="#peruuta" />
               </buttons>
                <padding>
                   <Insets right="10.0" />
@@ -50,11 +50,7 @@
                </rowConstraints>
                <children>
                   <Label text="Koulutus:" />
-                  <Label text="Suoritettu:" GridPane.rowIndex="1" />
-                  <Label text="Umpeutuu:" GridPane.rowIndex="2" />
-                  <ComboBoxChooser prefWidth="200.0" maxWidth="200.0" rivit="_&#10;Vesisukeltaja&#10;Nostolava&#10;Kemikaalivalvonta -peruskurssi&#10;Tietosuoja&#10;Asianhallinta&#10;" GridPane.columnIndex="1"/>
-                  <TextField prefWidth="200.0" maxWidth="200.0" text="pp.kk.vvvv" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                  <TextField prefWidth="200.0" maxWidth="200.0" text="pp.kk.vvvv" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                  <TextField fx:id="koulutuksenNimi" prefWidth="200.0" maxWidth="200.0" text="Koulutuksennimi" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" />
                </children>
                <opaqueInsets>
                   <Insets left="10.0" top="10.0" />
