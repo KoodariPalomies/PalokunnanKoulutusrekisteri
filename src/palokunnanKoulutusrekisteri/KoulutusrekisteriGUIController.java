@@ -485,18 +485,13 @@ public class KoulutusrekisteriGUIController implements Initializable {
      * Lisätään rekisteriin uusi koulutus
      */ 
     public void uusiKoulutus() { 
-        try {
             Koulutus koul = new Koulutus();
+            //koul.rekisteroi();
             koul = KoulutusDialogController.uudenLisaaminen(null, koul, koulutusrekisteri); // tämä lisätty jotta voidaan muokata uutta koulutusta
             if ( koul == null ) return;
-            koul.rekisteroi(); 
-            //koul.vastaaVesisukeltaja(); // tämä ehkä poistettava
-            koulutusrekisteri.lisaa(koul);
+            //koul.rekisteroi();
             haeKoulutus(koul.getKoulutusTunnus());
-        } catch (SailoException e) {
-            Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;
-        } 
     }
     
     

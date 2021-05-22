@@ -13,15 +13,14 @@ import javafx.stage.Stage;
 import koulutusRekisteri.Koulutus;
 import koulutusRekisteri.Koulutusrekisteri;
 import koulutusRekisteri.SailoException;
-import palokunnanKoulutusrekisteri.KoulutusrekisteriGUIController;
 
 
 /**
  * Käsitellään koulutusten lisäysikkunan tapahtumat
  * @author mitulint
  * @version 1.0, 19.2.2021  / Tiedoston luonti
- * @version 1.1, 22.5.2021  / Lisäyksiä ja muokkauksia, jotta uusi koulutus voidaan lisätä ja muokata dialogin kautta
- *
+ * @version 1.1, 22.5.2021  / Käytännössä kaikki uusiksi, jotta uusi koulutus voidaan lisätä ja muokata dialogin kautta
+ * HUOM: puuttuu koulutuksen poistaminen
  */
 public class KoulutusDialogController implements ModalControllerInterface<Koulutus>,Initializable {   // aikasemmin <String> + lisätty Initializable
     
@@ -38,13 +37,13 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
         alusta();
     }
 
-    
+    // Tässä ei vielä toimi tekstin kanssa?
     @FXML private void handleOK() {
         kasitteleUusiKoulutus(kentta);
         ModalController.closeStage(labelVirhe);
     }
     
-    
+    // Tämän toimii oikein!
     @FXML private void handlePeruuta() {
         koul = null;
         ModalController.closeStage(labelVirhe);
@@ -76,12 +75,9 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     private void alusta() {
 
         edits = new TextField[] {koulutuksenNimi};
-        int i = 0;
         for (TextField edit : edits)  
             if (edit != null) {  
                 edit.setEditable(true);
-                final int k = ++i;
-                edit.setOnKeyReleased(e -> kasitteleUusiKoulutus(k));   //, (TextField) (e.getSource())
             } 
     }
     
@@ -129,27 +125,18 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
      * Käsitellään koulutukseen tullut muutos
      * @param k muokattava TextField
      */
-    protected void kasitteleUusiKoulutus(int k) {
-        if (koul == null) return;
+    private void kasitteleUusiKoulutus(int k) {
         try {
-            String virhe;
             Koulutus koulutus = new Koulutus();
-            koulutus = koul.clone();
-            virhe = koulutus.setKoulutus(edits[0].getText());
-            if (virhe != null) {
-                Dialogs.showMessageDialog(virhe);
-                return;
-            }
+            koulutus.setKoulutus(edits[0].getText());
+            koulutus.rekisteroi();
             koulutusrekisteri.korvaaTaiLisaa(koulutus);
-            //haeKoulutus(koulutus.getKoulutusTunnus());
-        } catch (CloneNotSupportedException e) {
-            //
         } catch (SailoException e) {
-            Dialogs.showMessageDialog(e.getMessage());
+            Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
+            return;
         }
     }
 
-    
     
     /**
      * Asettaa koulutuksen lisäysikkunaan tekstikentälle sinne kuuluvat tiedot.
