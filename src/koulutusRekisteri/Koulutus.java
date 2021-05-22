@@ -204,6 +204,28 @@ public class Koulutus {
 
     
     /**
+     * Tehdään identtinen klooni työntekijästä
+     * @return Object kloonattu työntekijä
+     * @example
+     * <pre name="test">
+     * #THROWS CloneNotSupportedException 
+     *   Koulutus koulutus = new Koulutus();
+     *   koulutus.parse("   3  |  Ankka Aku   | 123");
+     *   koulutus kopio = koulutus.clone();
+     *   kopio.toString() === koulutus.toString();
+     *   koulutus.parse("   4  |  Ankka Tupu   | 123");
+     *   kopio.toString().equals(koulutus.toString()) === false;
+     * </pre>
+     */
+    @Override
+    public Koulutus clone() throws CloneNotSupportedException {
+        Koulutus uusi;
+        uusi = (Koulutus) super.clone();
+        return uusi;
+    }
+    
+    
+    /**
      * Testiohjelma koulutuksesta
      * @param args ei käytössä
      */

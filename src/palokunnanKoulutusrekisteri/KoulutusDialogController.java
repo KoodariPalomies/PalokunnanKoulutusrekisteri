@@ -60,28 +60,7 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     private Koulutus koul;
     private TextField edits[];
     
-    
-    /**
-     * Asettaa koulutuksen lisäysikkunalle saman koulutusrekisterin kuin pääikkunassa.
-     * @param koulutusrekisteri asetettava koulutusrekisteri
-     */
-    public void setKoulutusrekisteri(Koulutusrekisteri koulutusrekisteri) {
-        this.koulutusrekisteri = koulutusrekisteri;
-    }
-    
-    /**
-     * @param modalityStage ???
-     * @param koul koulutus jota käsitellään
-     * @param koulutusrekisteri rekisteri, jossa käsiteltävät koulutukset sijaitsevat
-     * @return ladattavan modaalisen ikkunan
-     */
-    public static Koulutus uudenLisaaminen(Stage modalityStage, Koulutus koul, Koulutusrekisteri koulutusrekisteri) {
-        return ModalController.<Koulutus, KoulutusDialogController>showModal(
-                KoulutusDialogController.class.getResource("KoulutusDialogView.fxml"), 
-                "Lisää koulutus", 
-                modalityStage, koul, 
-                controller->controller.setKoulutusrekisteri(koulutusrekisteri));
-    }
+
     
     
     /**
@@ -97,23 +76,25 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     */
     
     
-    @Override
-    public Koulutus getResult() {
-        return null;
+    /**
+     * Luodaan tekstikenttään koulutuksennimi
+     * @param koulutuksenNimi mihin koulutuksen tiedot tuodaan
+     * @return luotu tekstikenttä
+     */
+    public static TextField[] luoKentta(TextField koulutuksenNimi) {
+        TextField[] edits = new TextField[1];
+        return edits;
+    }
+    
+    /**
+     * Tyhjentään tekstikentät 
+     * @param edits tyhjennettävät kentät
+     */
+    public static void tyhjenna(TextField[] edits) {
+        for (TextField edit: edits) 
+            if ( edit != null ) edit.setText(""); 
     }
 
-    
-    @Override
-    public void setDefault(Koulutus oletus) {
-        koul = oletus;
-    }
-    
-    
-    @Override
-    public void handleShown() {
-        //naytaKoulutus(edits, koul);        
-    }
-    
     
     /**
      * Alustetaan koulutustekstikentän kuuntelijan
@@ -129,40 +110,31 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     }
     
     
-    /**
-     * Asettaa koulutuksen lisäysikkunaan tekstikentälle sinne kuuluvat tiedot.
-     * @param edit taulukko tekstikentistä
-     * @param koulu jota käsitellään
-     
-    public void naytaKoulutus(TextField[] edit, Koulutus koulu) {
-        edit[0].setText(koulu.getKoulutus());
+    @Override
+    public void setDefault(Koulutus oletus) {
+        koul = oletus;
+        naytaKoulutus(edits, koul);
     }
-    */
     
     
-    /**
-     * Käsitellään koulutuksen lisäysikkunan tallennusnapin painallus
-     */
-    @FXML void tallennaN() {
-        try {
-            koulutusrekisteri.tallenna();
-            return;
-        } catch (SailoException ex) {
-            Dialogs.showMessageDialog("Tallennuksessa ongelmia! " + ex.getMessage());
-        }
-        ModalController.closeStage(labelVirhe);
+    @Override
+    public Koulutus getResult() {
+        return koul;
     }
     
     
     /**
-     * Käsitellään peruutusnapin painallusta
-     * @param event triggeri peruutanapin tapahtumalle
+     * Asettaa koulutuksen lisäysikkunalle saman koulutusrekisterin kuin pääikkunassa.
+     * @param koulutusrekisteri asetettava koulutusrekisteri
      */
-    @FXML
-    void peruuta() {
-        koul = null;
-        ModalController.closeStage(labelVirhe);
-        
+    public void setKoulutusrekisteri(Koulutusrekisteri koulutusrekisteri) {
+        this.koulutusrekisteri = koulutusrekisteri;
+    }
+    
+    
+    @Override
+    public void handleShown() {
+        //naytaKoulutus(edits, koul);        
     }
     
     
@@ -175,5 +147,57 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
         labelVirhe.setText(virhe);
         labelVirhe.getStyleClass().add("virhe");
     }
+    
+    
+    /**
+     * Käsitellään koulutukseen tullut muutos
+     * @param koulutuksenNimi muuttunut tekstikenttä
+     */
+    protected void kasitteleUusiKoulutus(TextField koulutuksenNimi) {
+        if (koul == null) return;
+        try {
+            String virhe;
+            Koulutus koulutus = new Koulutus();
+            koulutus = koul.clone();
+            virhe = koulutus.setKoulutus(edits[0].getText());
+            if (virhe != null) {
+                Dialogs.showMessageDialog(virhe);
+                return;
+            }
+            koulutusrekisteri.korvaaTaiLisaa(koulutus);
+            //haeKoulutus(koulutus.getKoulutusTunnus());
+        } catch (CloneNotSupportedException e) {
+            //
+        } catch (SailoException e) {
+            Dialogs.showMessageDialog(e.getMessage());
+        }
+    }
 
+    
+    
+    /**
+     * Asettaa koulutuksen lisäysikkunaan tekstikentälle sinne kuuluvat tiedot.
+     * @param edit taulukko tekstikentistä
+     * @param koulutus jota käsitellään
+     */
+    public void naytaKoulutus(TextField[] edit, Koulutus koulutus) {
+        if (koulutus == null) return;
+        edit[0].setText(koulutus.getKoulutus());
+    }
+    
+    
+    /**
+     * Luodaan koulutuksen lisäys dialogi ja palautetaan sama tietue muutettuna tahi null
+     * @param modalityStage mille ollaan modaalisia, null = sovellukselle
+     * @param koul koulutus jota käsitellään
+     * @param koulutusrekisteri rekisteri, jossa käsiteltävät koulutukset sijaitsevat
+     * @return ladattavan modaalisen ikkunan
+     */
+    public static Koulutus uudenLisaaminen(Stage modalityStage, Koulutus koul, Koulutusrekisteri koulutusrekisteri) {
+        return ModalController.<Koulutus, KoulutusDialogController>showModal(
+                KoulutusDialogController.class.getResource("KoulutusDialogView.fxml"), 
+                "Lisää koulutus", 
+                modalityStage, koul, 
+                controller->controller.setKoulutusrekisteri(koulutusrekisteri));
+    }
 }
