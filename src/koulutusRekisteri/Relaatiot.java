@@ -1,10 +1,6 @@
 package koulutusRekisteri;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.*;
-import java.util.NoSuchElementException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,6 +27,7 @@ import java.io.PrintWriter;
  * @version 1.2, 10.5.2021  / Lisätty poista + etsiId
  * @version 1.3, 13.5.2021  / Lisätty poistaTyontekijanKoulutus() + muokattu poista()
  * @version 1.4, 20.5.2021  / Muokattu lisaa() -aliohjelma toimimaan listalla
+ * @version 1.5, 23.5.2021  / Lisätty korvaaTaiLisaa() ja etsiRelaatio()
  */
 public class Relaatiot implements Iterable<Relaatio> {
 
@@ -49,6 +46,68 @@ public class Relaatiot implements Iterable<Relaatio> {
         // EI vielä
     }
 
+    
+    /**
+     * Korvaa relaation tietorakenteessa.  Ottaa relaation omistukseensa.
+     * Etsitään samalla tunnusnumerolla oleva relaatio.  Jos ei löydy, niin lisätään uutena relaationa.
+     * @param relaatio lisättävän relaation viite.  Huom tietorakenne muuttuu omistajaksi
+     * @throws SailoException jos tietorakenne on jo täynnä
+     * <pre name="test">
+     * #THROWS SailoException,CloneNotSupportedException
+     * #PACKAGEIMPORT
+     * Relaatiot relaatiot = new Relaatiot();
+     * Relaatio aku1 = new Relaatio(), aku2 = new Relaatio();
+     * aku1.rekisteroi(); aku2.rekisteroi();
+     * relaatiot.getLkm() === 0;
+     * relaatiot.korvaaTaiLisaa(aku1); relaatiot.getLkm() === 1;
+     * relaatiot.korvaaTaiLisaa(aku2); relaatiot.getLkm() === 2;
+     * Relaatio aku3 = aku1.clone();
+     * Iterator<Relaatio> it = relaatiot.iterator();
+     * it.next() == aku1 === true;
+     * relaatiot.korvaaTaiLisaa(aku3); relaatiot.getLkm() === 2;
+     * it = relaatiot.iterator();
+     * Relaatio j0 = it.next();
+     * j0 === aku3;
+     * j0 == aku3 === true;
+     * j0 == aku1 === false;
+     * </pre>
+     */
+    public void korvaaTaiLisaa(Relaatio relaatio) throws SailoException {
+        int id = relaatio.getRelaatioTunnus();
+        for (int i = 0; i < lkm; i++) {
+            if ( alkiot[i].getRelaatioTunnus() == id ) {
+                alkiot[i] = relaatio;
+                muutettu = true;
+                return;
+            }
+        }
+        lisaa(relaatio);
+    }
+    
+    
+    /**
+     * Palauttaa "taulukosta" hakuehtoon vastaavien relaatioiden viitteet
+     * @param hakuehto hakuehto
+     * @param t etsittävän kentän indeksi
+     * @return tietorakenteen löytyneistä koulutuksista
+     * @example
+     * <pre name="test">
+     * #THROWS SailoException
+     * Relaatiot relaatiot = new Relaatiot();
+     * Relaatio vesi1 = new Relaatio(); vesi1.parse("1|Vesisukeltaja");
+     * Relaatio vesi2 = new Relaatio(); vesi2.parse("1|Vesisukeltaja");
+     * Relaatio vesi3 = new Relaatio(); vesi3.parse("1|Vesisukeltaja");
+     * relaatiot.lisaa(vesi1); relaatiot.lisaa(vesi2); relaatiot.lisaa(vesi3);
+     */
+    @SuppressWarnings("unused")
+    public Collection<Relaatio> etsiRelaatio(String hakuehto, int t) { 
+        Collection<Relaatio> loytyneet = new ArrayList<Relaatio>(); 
+        for (Relaatio relaatio : this) { 
+            loytyneet.add(relaatio);  
+        } 
+        return loytyneet; 
+    }
+    
 
     /**
      * Poistetaan relaatio taulukosta, jolla on valittu relaatiotunnus
@@ -243,7 +302,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * Tallentaa relaatiot tiedostoon.
      * Tiedoston muoto:
      * <pre>
-     * 1|1|1|1.1.2021|1.1.2031
+     * 1|1|1|Vesisukeltaja|1.1.2021|1.1.2031
      * 2|1|2|1.1.2021|1.1.2031
      * </pre>
      * @throws SailoException jos talletus epäonnistuu

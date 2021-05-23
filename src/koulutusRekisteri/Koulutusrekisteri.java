@@ -221,6 +221,18 @@ public class Koulutusrekisteri {
         return koulutukset.etsiKoulutus(hakuehto, t);
     }
     
+    
+    /**
+     * Palauttaa "taulukosta" hakuehtoon vastaavien relaatioiden viitteet
+     * @param hakuehto hakuehto
+     * @param t etsittävän kentän indeksi
+     * @return tietorakenteen löytyneistä relaatioista
+     * @throws SailoException jos jotain menee mönkään
+     */
+    public Collection<Relaatio> etsiRelaatio(String hakuehto, int t) throws SailoException {
+        return relaatiot.etsiRelaatio(hakuehto, t);
+    }
+    
 
     /**
      * Antaa koulutusrekisterin i:n työntekijän
@@ -397,7 +409,6 @@ public class Koulutusrekisteri {
           tyontekijat.lueTiedostosta();
           koulutukset.lueTiedostosta();
           relaatiot.lueTiedostosta();
-
       }
   
   
@@ -466,6 +477,25 @@ public class Koulutusrekisteri {
        koulutukset.korvaaTaiLisaa(koulutus); 
    }
 
+   
+   /** 
+    * Korvaa relaation tietorakenteessa.  Ottaa relaation omistukseensa. 
+    * Etsitään samalla tunnusnumerolla oleva relaatio.  Jos ei löydy, niin lisätään uutena relaationa. 
+    * @param relaatio lisättävän relaation viite.  Huom tietorakenne muuttuu omistajaksi 
+    * @throws SailoException jos tietorakenne on jo täynnä 
+    * @example
+    * <pre name="test">
+    * #THROWS SailoException  
+    *  alusta();
+    *  koulutusrekisteri.etsiRelaatio("*",0).size() === 2;
+    *  koulutusrekisteri.korvaaTaiLisaa(rel1);
+    *  koulutusrekisteri.etsiRelaatio("*",0).size() === 2;
+    * </pre>
+    */ 
+   public void korvaaTaiLisaa(Relaatio relaatio) throws SailoException { 
+       relaatiot.korvaaTaiLisaa(relaatio); 
+   }
+   
        
     /**
      * Testiohjelma koulutusrekisteristä

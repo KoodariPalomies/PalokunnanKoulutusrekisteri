@@ -10,21 +10,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import koulutusRekisteri.Koulutus;
 import koulutusRekisteri.Koulutusrekisteri;
+import koulutusRekisteri.Relaatio;
 import koulutusRekisteri.SailoException;
 
-
 /**
- * Käsitellään koulutusten lisäysikkunan tapahtumat
+ * Käsitellään koulutusten muokkausikkunan tapahtumat
  * @author mitulint
  * @version 1.0, 19.2.2021  / Tiedoston luonti
- * @version 1.1, 22.5.2021  / Käytännössä kaikki uusiksi, jotta uusi koulutus voidaan lisätä ja muokata dialogin kautta
- * HUOM: puuttuu koulutuksen poistaminen
+ * @version 1.1, 23.5.2021  / Käytännössä kaikki uusiksi, jotta uusi koulutus voidaan lisätä ja muokata dialogin kautta
+ *
  */
-public class KoulutusDialogController implements ModalControllerInterface<Koulutus>,Initializable {   // aikasemmin <String> + lisätty Initializable
+public class LisaaTyontekijalleKoulutusDialogController implements ModalControllerInterface<Relaatio>, Initializable {
     
-    @FXML private TextField koulutuksenNimi;
+    @FXML private TextField koulutus;
+    @FXML private TextField suoritettu;
+    @FXML private TextField umpeutuu;
     @FXML private Label labelVirhe;
     
     
@@ -37,15 +38,15 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
         alusta();
     }
 
-    
+    // Tässä ei vielä toimi tekstin kanssa?
     @FXML private void handleOK() {
-        kasitteleUusiKoulutus(kentta);
+        kasitteleTyontekijanUusiKoulutus(kentta);
         ModalController.closeStage(labelVirhe);
     }
     
-    
+    // Tämän toimii oikein!
     @FXML private void handlePeruuta() {
-        koul = null;
+        rel = null;
         ModalController.closeStage(labelVirhe);
     }
     
@@ -54,8 +55,8 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     
     
     private Koulutusrekisteri koulutusrekisteri;
-    private Koulutus koul;
-    private TextField edits[];
+    private Relaatio rel;
+    private TextField tiedot[];
     private int kentta = 0;
     
     
@@ -74,8 +75,8 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
      */
     private void alusta() {
 
-        edits = new TextField[] {koulutuksenNimi};
-        for (TextField edit : edits)  
+        tiedot = new TextField[] {koulutus, suoritettu, umpeutuu};
+        for (TextField edit : tiedot)  
             if (edit != null) {  
                 edit.setEditable(true);
             } 
@@ -83,15 +84,15 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     
     
     @Override
-    public void setDefault(Koulutus oletus) {
-        koul = oletus;
-        naytaKoulutus(edits, koul);
+    public void setDefault(Relaatio oletus) {
+        rel = oletus;
+        naytaRelaatio(tiedot, rel);
     }
     
     
     @Override
-    public Koulutus getResult() {
-        return koul;
+    public Relaatio getResult() {
+        return rel;
     }
     
     
@@ -124,13 +125,16 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
     /**
      * Käsitellään koulutukseen tullut muutos
      * @param k muokattava TextField
+     * TODO: Dialogin OK-nappia painettaessa häviää viittaus valittuun työntekijään ja koulutukseen --> siksi ei tule relaatioon niiden tunnuksia!!!!!!!!!!!
      */
-    private void kasitteleUusiKoulutus(int k) {
+    private void kasitteleTyontekijanUusiKoulutus(int k) {
         try {
-            Koulutus koulutus = new Koulutus();
-            koulutus.setKoulutus(edits[0].getText());
-            koulutus.rekisteroi();
-            koulutusrekisteri.korvaaTaiLisaa(koulutus);
+            Relaatio relaatio = new Relaatio();
+            relaatio.setKoulutus(tiedot[0].getText());
+            relaatio.setSuoritettu(tiedot[1].getText());
+            relaatio.setUmpeutuu(tiedot[2].getText());
+            relaatio.rekisteroi();
+            koulutusrekisteri.korvaaTaiLisaa(relaatio);
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;
@@ -139,28 +143,30 @@ public class KoulutusDialogController implements ModalControllerInterface<Koulut
 
     
     /**
-     * Asettaa koulutuksen lisäysikkunaan tekstikentälle sinne kuuluvat tiedot.
+     * Asettaa relaation lisäysikkunaan tekstikentälle sinne kuuluvat tiedot.
      * @param edit taulukko tekstikentistä
-     * @param koulutus jota käsitellään
+     * @param relaatio jota käsitellään
      */
-    public void naytaKoulutus(TextField[] edit, Koulutus koulutus) {
-        if (koulutus == null) return;
-        edit[0].setText(koulutus.getKoulutus());
+    public void naytaRelaatio(TextField[] edit, Relaatio relaatio) {
+        if (relaatio == null) return;
+        edit[0].setText(relaatio.getKoulutus());
+        edit[1].setText(relaatio.getSuoritettu());
+        edit[2].setText(relaatio.getUmpeutuu());
     }
     
     
     /**
      * Luodaan koulutuksen lisäys dialogi ja palautetaan sama tietue muutettuna tahi null
      * @param modalityStage mille ollaan modaalisia, null = sovellukselle
-     * @param koul koulutus jota käsitellään
+     * @param rel koulutus jota käsitellään
      * @param koulutusrekisteri rekisteri, jossa käsiteltävät koulutukset sijaitsevat
      * @return ladattavan modaalisen ikkunan
      */
-    public static Koulutus uudenLisaaminen(Stage modalityStage, Koulutus koul, Koulutusrekisteri koulutusrekisteri) {
-        return ModalController.<Koulutus, KoulutusDialogController>showModal(
-                KoulutusDialogController.class.getResource("KoulutusDialogView.fxml"), 
-                "Lisää koulutus", 
-                modalityStage, koul, 
+    public static Relaatio uudenLisaaminen(Stage modalityStage, Relaatio rel, Koulutusrekisteri koulutusrekisteri) {
+        return ModalController.<Relaatio, LisaaTyontekijalleKoulutusDialogController>showModal(
+                LisaaTyontekijalleKoulutusDialogController.class.getResource("LisaaTyontekijalleKoulutusDialogView.fxml"), 
+                "Lisää työntekijälle koulutustiedot", 
+                modalityStage, rel, 
                 controller->controller.setKoulutusrekisteri(koulutusrekisteri));
     }
 }

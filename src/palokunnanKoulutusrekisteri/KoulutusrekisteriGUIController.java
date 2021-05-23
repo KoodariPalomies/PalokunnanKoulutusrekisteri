@@ -486,10 +486,8 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */ 
     public void uusiKoulutus() { 
             Koulutus koul = new Koulutus();
-            //koul.rekisteroi();
             koul = KoulutusDialogController.uudenLisaaminen(null, koul, koulutusrekisteri); // tämä lisätty jotta voidaan muokata uutta koulutusta
             if ( koul == null ) return;
-            //koul.rekisteroi();
             haeKoulutus(koul.getKoulutusTunnus());
             return;
     }
@@ -501,17 +499,12 @@ public class KoulutusrekisteriGUIController implements Initializable {
     public void lisaaTyontekijalleKoulutus() {
         if ( tyontekijaKohdalla == null ) return; 
         if ( koulutusKohdalla == null ) return;
-        
-        try {
-            Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
-            rel.rekisteroi();
-            rel.vastaaRelaatio();
-            koulutusrekisteri.lisaa(rel);
-            hae(rel.getRelaatioTunnus());
-        } catch (SailoException e) {
-            Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
-            return;
-        }
+            
+        Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
+        rel = LisaaTyontekijalleKoulutusDialogController.uudenLisaaminen(null, rel, koulutusrekisteri);
+        if ( rel == null ) return;
+        hae(rel.getRelaatioTunnus());
+        return;
     }
     
     

@@ -8,16 +8,16 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import fi.jyu.mit.fxgui.ComboBoxChooser?>
 
-<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="palokunnanKoulutusrekisteri.MuokkaaKoulutustaDialogController" >
+<BorderPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="palokunnanKoulutusrekisteri.LisaaTyontekijalleKoulutusDialogController" >
    <bottom>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Label prefWidth="350.0" />
+            <Label fx:id="labelVirhe" prefWidth="350.0" />
             <HBox />
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button fx:id="buttonTallenna" defaultButton="true" mnemonicParsing="false" text="OK" onAction="#handleDefaultOK" />
-                  <Button fx:id="buttonSulje" cancelButton="true" mnemonicParsing="false" text="Cancel" onAction="#handleDefaultCancel" />
+                	<Button defaultButton="true" mnemonicParsing="false" text="OK" onAction="#handleOK" />
+                  	<Button cancelButton="true" mnemonicParsing="false" text="Peruuta" onAction="#handlePeruuta" />
               </buttons>
                <padding>
                   <Insets right="10.0" />
@@ -39,22 +39,14 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <Label text="Koulutus:" />
                   <Label text="Suoritettu:" GridPane.rowIndex="1" />
                   <Label text="Umpeutuu:" GridPane.rowIndex="2" />
-                  <ComboBoxChooser prefWidth="200.0" maxWidth="200.0" rivit="_&#10;Vesisukeltaja&#10;Nostolava&#10;Kemikaalivalvonta -peruskurssi&#10;Tietosuoja&#10;Asianhallinta&#10;" GridPane.columnIndex="1"/>
-                  <TextField prefWidth="200.0" maxWidth="200.0" text="01.01.2021" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
-                  <TextField prefWidth="200.0" maxWidth="200.0" text="01.01.2022" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                  <TextField fx:id="koulutus" prefWidth="200.0" maxWidth="200.0" text="" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" />
+                  <TextField fx:id="suoritettu" prefWidth="200.0" maxWidth="200.0" text="" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+                  <TextField fx:id="umpeutuu" prefWidth="200.0" maxWidth="200.0" text="" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
                </children>
                <opaqueInsets>
                   <Insets left="10.0" top="10.0" />
