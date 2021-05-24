@@ -33,7 +33,8 @@ import koulutusRekisteri.Tyontekija;
  * @version 1.6, 20.5.2021  / Lisätty muokkaa() -aliohjelmaan oikeellisuustarkistukseen liittyvät jutut
  * @version 1.7, 20.5.2021  / HT7 viimeistelyjä
  * @version 1.8, 22.5.2021  / naytaTyontekijanKoulutukset() -aliohjelmaa muokkaus, jotta tulostaa vaaditulla tavalla
- * HUOM: ohjelmassa ei vielä toimi koulutuksen poistaminen, työntekijän poistaminen, tulostaminen, koulutuksen muokkaaminen eikä apuohjeiden antaminen
+ * @version 1.9, 24.5.2021  / lisaaTyontekijalleKoulutus() muokkausta, jotta sille viedään klooni relaatiosta muokkaamista varten
+ * HUOM: ohjelmassa ei vielä toimi koulutuksen poistaminen, työntekijän poistaminen, tulostaminen eikä apuohjeiden antaminen
  */
 public class KoulutusrekisteriGUIController implements Initializable {
     
@@ -499,12 +500,16 @@ public class KoulutusrekisteriGUIController implements Initializable {
     public void lisaaTyontekijalleKoulutus() {
         if ( tyontekijaKohdalla == null ) return; 
         if ( koulutusKohdalla == null ) return;
-            
-        Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
-        rel = LisaaTyontekijalleKoulutusDialogController.uudenLisaaminen(null, rel, koulutusrekisteri);
-        if ( rel == null ) return;
-        hae(rel.getRelaatioTunnus());
-        return;
+
+        try {
+            Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
+            rel = LisaaTyontekijalleKoulutusDialogController.uudenLisaaminen(null, rel.clone(), koulutusrekisteri);
+            if ( rel == null ) return;
+            hae(rel.getRelaatioTunnus());
+        } catch (CloneNotSupportedException e) {
+            Dialogs.showMessageDialog("Ongelmia koulutuksen lisäämisessä työntekijälle " + e.getMessage());
+            return;
+        }
     }
     
     

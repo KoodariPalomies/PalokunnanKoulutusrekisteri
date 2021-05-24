@@ -19,7 +19,7 @@ import koulutusRekisteri.SailoException;
  * @author mitulint
  * @version 1.0, 19.2.2021  / Tiedoston luonti
  * @version 1.1, 23.5.2021  / Käytännössä kaikki uusiksi, jotta uusi koulutus voidaan lisätä ja muokata dialogin kautta
- *
+ * @version 1.2, 24.5.2021  / Muokattu kasitteleTyontekijanUusiKoulutus() ja handleOK() --> dialogi toimii!
  */
 public class LisaaTyontekijalleKoulutusDialogController implements ModalControllerInterface<Relaatio>, Initializable {
     
@@ -38,13 +38,13 @@ public class LisaaTyontekijalleKoulutusDialogController implements ModalControll
         alusta();
     }
 
-    // Tässä ei vielä toimi tekstin kanssa?
+
     @FXML private void handleOK() {
-        kasitteleTyontekijanUusiKoulutus(kentta);
+        kasitteleTyontekijanUusiKoulutus(rel);
         ModalController.closeStage(labelVirhe);
-    }
+    }    
+
     
-    // Tämän toimii oikein!
     @FXML private void handlePeruuta() {
         rel = null;
         ModalController.closeStage(labelVirhe);
@@ -55,19 +55,8 @@ public class LisaaTyontekijalleKoulutusDialogController implements ModalControll
     
     
     private Koulutusrekisteri koulutusrekisteri;
-    private Relaatio rel;
+    private Relaatio rel;    // TÄMÄ tuli nyt static!!!!!!
     private TextField tiedot[];
-    private int kentta = 0;
-    
-    
-    /**
-     * Tyhjentään tekstikentät 
-     * @param edits tyhjennettävät kentät
-     */
-    public static void tyhjenna(TextField[] edits) {
-        for (TextField edit: edits) 
-            if ( edit != null ) edit.setText(""); 
-    }
 
     
     /**
@@ -75,11 +64,14 @@ public class LisaaTyontekijalleKoulutusDialogController implements ModalControll
      */
     private void alusta() {
 
+        //naytaRelaatio(tiedot, rel);
+        
         tiedot = new TextField[] {koulutus, suoritettu, umpeutuu};
-        for (TextField edit : tiedot)  
-            if (edit != null) {  
-                edit.setEditable(true);
-            } 
+        koulutus.setEditable(false);
+        suoritettu.setEditable(true);
+        umpeutuu.setEditable(true);
+        
+        //naytaRelaatio(tiedot, rel);
     }
     
     
@@ -111,6 +103,7 @@ public class LisaaTyontekijalleKoulutusDialogController implements ModalControll
     }
     
     
+    @SuppressWarnings("unused")
     private void naytaVirhe(String virhe) {
         if ( virhe == null || virhe.isEmpty() ) {
             labelVirhe.setText("");
@@ -124,17 +117,15 @@ public class LisaaTyontekijalleKoulutusDialogController implements ModalControll
     
     /**
      * Käsitellään koulutukseen tullut muutos
-     * @param k muokattava TextField
-     * TODO: Dialogin OK-nappia painettaessa häviää viittaus valittuun työntekijään ja koulutukseen --> siksi ei tule relaatioon niiden tunnuksia!!!!!!!!!!!
+     * @param rel muokattava relaatio
      */
-    private void kasitteleTyontekijanUusiKoulutus(int k) {
+    private void kasitteleTyontekijanUusiKoulutus(Relaatio rel) {
         try {
-            Relaatio relaatio = new Relaatio();
-            relaatio.setKoulutus(tiedot[0].getText());
-            relaatio.setSuoritettu(tiedot[1].getText());
-            relaatio.setUmpeutuu(tiedot[2].getText());
-            relaatio.rekisteroi();
-            koulutusrekisteri.korvaaTaiLisaa(relaatio);
+            rel.setKoulutus(tiedot[0].getText());
+            rel.setSuoritettu(tiedot[1].getText());
+            rel.setUmpeutuu(tiedot[2].getText());
+            rel.rekisteroi();
+            koulutusrekisteri.korvaaTaiLisaa(rel);
         } catch (SailoException e) {
             Dialogs.showMessageDialog("Ongelmia uuden lisäämisessä " + e.getMessage());
             return;

@@ -14,7 +14,7 @@ import javafx.fxml.FXMLLoader;
  * @author mitulint, tuomas.mikko.lintula@gmail.com
  * @version 1.0, 21.4.2021  / Koska huonosti pidetty versionhallinta...
  * @version 1.1, 13.5.2021  / Source --> Format korjaukset
- * @version 1.2, 20.5.2021  / Poistettu kanta -paketti, koska tein oikeellisuustarkistuksen suoraan tyontekija.javaan
+ * @version 1.2, 20.5.2021  / Poistettu kanta -paketti, koska tein oikeellisuustarkistuksen suoraan alkuperäisiin java-luokkiin
  */
 public class KoulutusrekisteriMain extends Application {
 
