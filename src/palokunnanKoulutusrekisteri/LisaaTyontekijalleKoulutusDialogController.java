@@ -55,7 +55,7 @@ public class LisaaTyontekijalleKoulutusDialogController implements ModalControll
     
     
     private Koulutusrekisteri koulutusrekisteri;
-    private Relaatio rel;    // TÄMÄ tuli nyt static!!!!!!
+    private Relaatio rel;
     private TextField tiedot[];
 
     
@@ -63,22 +63,17 @@ public class LisaaTyontekijalleKoulutusDialogController implements ModalControll
      * Alustetaan koulutustekstikentän kuuntelijan
      */
     private void alusta() {
-
-        //naytaRelaatio(tiedot, rel);
-        
         tiedot = new TextField[] {koulutus, suoritettu, umpeutuu};
-        koulutus.setEditable(false);
+        koulutus.setEditable(true);
         suoritettu.setEditable(true);
         umpeutuu.setEditable(true);
-        
-        //naytaRelaatio(tiedot, rel);
     }
     
     
     @Override
     public void setDefault(Relaatio oletus) {
         rel = oletus;
-        naytaRelaatio(tiedot, rel);
+        //naytaRelaatio(tiedot, rel);
     }
     
     
