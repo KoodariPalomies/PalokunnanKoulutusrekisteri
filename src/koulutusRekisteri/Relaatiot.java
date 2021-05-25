@@ -303,7 +303,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * Tiedoston muoto:
      * <pre>
      * 1|1|1|Vesisukeltaja|1.1.2021|1.1.2031
-     * 2|1|2|1.1.2021|1.1.2031
+     * 2|1|2|Kissankusettaja|1.1.2021|1.1.2031
      * </pre>
      * @throws SailoException jos talletus epäonnistuu
      */

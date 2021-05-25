@@ -37,6 +37,7 @@ import fi.jyu.mit.ohj2.Mjonot;
  * @version 1.3, 20.5.2021  / Poistin turhat importit
  * @version 1.4, 20.5.2021  / Viimeistelyt
  * @version 1.5, 23.5.2021  / Lisätty setSuoritettu(), setUmpeutuu(), implements Cloneable, getKoulutus()
+ * @version 1.6, 25.5.2021  / Lisätty Relaatio() String koulutus, jotta saadaan koulutuksen nimi mukaan dialogi-ikkunaan
  */
 public class Relaatio implements Cloneable {
     
@@ -62,10 +63,12 @@ public class Relaatio implements Cloneable {
      * Alustetaan tietyn työntekijän koulutus.
      * @param tyontekijaTunnus työntekijän viitenumero
      * @param koulutusTunnus koulutuksen viitenumero
+     * @param koulutus koulutuksen nimi
      */
-    public Relaatio(int tyontekijaTunnus, int koulutusTunnus) {
+    public Relaatio(int tyontekijaTunnus, int koulutusTunnus, String koulutus) {
         this.tyontekijaTunnus = tyontekijaTunnus;
         this.koulutusTunnus = koulutusTunnus;
+        this.koulutus = koulutus;
     }
     
     

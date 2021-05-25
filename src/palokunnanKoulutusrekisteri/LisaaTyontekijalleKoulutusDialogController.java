@@ -73,7 +73,7 @@ public class LisaaTyontekijalleKoulutusDialogController implements ModalControll
     @Override
     public void setDefault(Relaatio oletus) {
         rel = oletus;
-        //naytaRelaatio(tiedot, rel);
+        naytaRelaatio(tiedot, rel);
     }
     
     

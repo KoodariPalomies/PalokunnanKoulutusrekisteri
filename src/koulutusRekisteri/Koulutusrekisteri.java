@@ -30,6 +30,7 @@ import java.util.List;
  * @version 1.5, 14.5.2021  / Lisätty korvaaTaiLisaa() -aliohjelma, joka tarvitaan muokkaamista varten
  * @version 1.6, 19.5.2021  / annaKoulutus() muutettu listaksi
  * @version 1.7, 20.5.2021  / Poistettu turha poista() -aliohjelma
+ * @version 1.8, 25.5.2021  / Lisätty Main() kaksi String id:tä, koska tarvitaan lisää työntekijälle koulutus dialogin alustamista varten. + testeihin samat lisäykset
  * HUOM: ohjelmassa ei vielä toimi koulutuksen ja työntekijän poistaminen
  * 
  * Testien alustus
@@ -45,6 +46,7 @@ import java.util.List;
  *  private Koulutus pitsi22; 
  *  private Koulutus pitsi12; 
  *  private Koulutus pitsi23;
+ *  private Relaatio rel1;
  *  
  *  public void alusta() {
  *    koulutusrekisteri = new Koulutusrekisteri();
@@ -99,9 +101,11 @@ public class Koulutusrekisteri {
      * int id2 = aku2.getTyontekijaTunnus();
      * int id3 = vesi1.getKoulutusTunnus();
      * int id4 = vesi2.getKoulutusTunnus();
+     * String id5 = vesi1.getKoulutus();
+     * String id6 = vesi2.getKoulutus();
      *      
-     * Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
-     * Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi();
+     * Relaatio rel1 = new Relaatio(id1, id3, id5); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
+     * Relaatio rel2 = new Relaatio(id2, id4, id6); rel2.vastaaRelaatio(); rel2.rekisteroi();
      *   
      *   koulutusrekisteri.annaRelaatiot(1).size() === 2;
      *   koulutusrekisteri.poistaTyontekijanKoulutus(rel1);
@@ -280,9 +284,11 @@ public class Koulutusrekisteri {
      * int id2 = aku2.getTyontekijaTunnus();
      * int id3 = vesi1.getKoulutusTunnus();
      * int id4 = vesi2.getKoulutusTunnus();
+     * String id5 = vesi1.getKoulutus();
+     * String id6 = vesi2.getKoulutus();
      *      
-     * Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
-     * Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi();
+     * Relaatio rel1 = new Relaatio(id1, id3, id5); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
+     * Relaatio rel2 = new Relaatio(id2, id4, id6); rel2.vastaaRelaatio(); rel2.rekisteroi();
      * 
      * koulutusrekisteri.lisaa(aku1); #THROWS SailoException
      * koulutusrekisteri.lisaa(aku2); #THROWS SailoException
@@ -342,9 +348,11 @@ public class Koulutusrekisteri {
        * int id2 = aku2.getTyontekijaTunnus();
        * int id3 = vesi1.getKoulutusTunnus();
        * int id4 = vesi2.getKoulutusTunnus();
+       * String id5 = vesi1.getKoulutus();
+       * String id6 = vesi2.getKoulutus();
        *      
-       * Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
-       * Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi(); 
+       * Relaatio rel1 = new Relaatio(id1, id3, id5); rel1.vastaaRelaatio(); rel1.rekisteroi(); 
+       * Relaatio rel2 = new Relaatio(id2, id4, id6); rel2.vastaaRelaatio(); rel2.rekisteroi(); 
        * 
        * String hakemisto = "testit";
        * File dir = new File(hakemisto);
@@ -516,9 +524,11 @@ public class Koulutusrekisteri {
              int id2 = aku2.getTyontekijaTunnus();
              int id3 = vesi1.getKoulutusTunnus();
              int id4 = vesi2.getKoulutusTunnus();
+             String id5 = vesi1.getKoulutus();
+             String id6 = vesi2.getKoulutus();
              
-             Relaatio rel1 = new Relaatio(id1, id3); rel1.vastaaRelaatio(); rel1.rekisteroi(); koulutusrekisteri.lisaa(rel1);
-             Relaatio rel2 = new Relaatio(id2, id4); rel2.vastaaRelaatio(); rel2.rekisteroi(); koulutusrekisteri.lisaa(rel2);
+             Relaatio rel1 = new Relaatio(id1, id3, id5); rel1.vastaaRelaatio(); rel1.rekisteroi(); koulutusrekisteri.lisaa(rel1);
+             Relaatio rel2 = new Relaatio(id2, id4, id6); rel2.vastaaRelaatio(); rel2.rekisteroi(); koulutusrekisteri.lisaa(rel2);
  
              System.out.println("============= Koulutusrekisterin testi =================");         
              

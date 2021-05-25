@@ -34,6 +34,7 @@ import koulutusRekisteri.Tyontekija;
  * @version 1.7, 20.5.2021  / HT7 viimeistelyjä
  * @version 1.8, 22.5.2021  / naytaTyontekijanKoulutukset() -aliohjelmaa muokkaus, jotta tulostaa vaaditulla tavalla
  * @version 1.9, 24.5.2021  / lisaaTyontekijalleKoulutus() muokkausta, jotta sille viedään klooni relaatiosta muokkaamista varten
+ * @version 2.0, 25.5.2021  / lisaaTyontekijalleKoulutus() lisätty relaation alustukseen getKoulutus(), jotta saadaan dialogi-ikkunaan koulutuksen nimi valmiiksi
  * HUOM: ohjelmassa ei vielä toimi koulutuksen poistaminen, työntekijän poistaminen, tulostaminen eikä apuohjeiden antaminen
  */
 public class KoulutusrekisteriGUIController implements Initializable {
@@ -502,7 +503,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
         if ( koulutusKohdalla == null ) return;
 
         try {
-            Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus());
+            Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus(), koulutusKohdalla.getKoulutus());
             rel = LisaaTyontekijalleKoulutusDialogController.uudenLisaaminen(null, rel.clone(), koulutusrekisteri);
             if ( rel == null ) return;
             hae(rel.getRelaatioTunnus());
