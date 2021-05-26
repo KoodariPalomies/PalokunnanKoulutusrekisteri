@@ -73,7 +73,7 @@ public class Relaatio implements Cloneable {
     
     
     /**
-     * Asettaa työntekijän koulutuksen nimen
+     * Asettaa työntekijän koulutuksen nimen, sisältää oikeellisuustarkistukset
      * @param koulutus työntekijän koulutuksen nimi
      * @return syötetty työntekijän koulutuksen nimi tai virheilmoitus
      */
@@ -86,7 +86,7 @@ public class Relaatio implements Cloneable {
     
     
     /**
-     * Asettaa työntekijän koulutuksen suorituspäivämäärän
+     * Asettaa työntekijän koulutuksen suorituspäivämäärän, sisältää oikeellisuustarkistukset
      * @param suoritettu työntekijän koulutuksen suorituspäivämäärä
      * @return syötetty työntekijän suorituspvm tai virheilmoitus
      */
@@ -99,7 +99,7 @@ public class Relaatio implements Cloneable {
     
     
     /**
-     * Asettaa työntekijän koulutuksen umpeutumispäivämäärän
+     * Asettaa työntekijän koulutuksen umpeutumispäivämäärän, sisältää oikeellisuustarkistukset
      * @param umpeutuu työntekijän koulutuksen umpeutumispäivämäärä
      * @return syötetty työntekijän umpeutumispvm tai virheilmoitus
      */

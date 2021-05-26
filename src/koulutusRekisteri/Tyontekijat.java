@@ -32,6 +32,7 @@ import java.util.NoSuchElementException;
  * @version 1.0, 20.4.2021  / Väärin pidetty versiokirjanpito
  * @version 1.1, 4.5.2021   / HT6 testejä
  * @version 1.2, 20.5.2021  / HT7 viimeistelyjä
+ * @version 1.3, 26.5.2021  / Muokattu tallenna(), jotta tallentaa suunnitelman mukaisesti --> pois fo.println(getKokoNimi()); + fo.println(tyontekijat.length);
  * HUOM: puuttuu työntekijän poistaminen
  */
 public class Tyontekijat implements Iterable<Tyontekija>{
@@ -171,7 +172,6 @@ public class Tyontekijat implements Iterable<Tyontekija>{
      * Tallentaa työntekijat tiedostoon.  
      * Tiedoston muoto:
      * <pre>
-     * 2
      * 1|Ankka Aku|Pelastustoiminta|Palomies
      * 2|Ankka Tupu|Pelastustoiminta|Palomies
      * </pre>
@@ -182,8 +182,7 @@ public class Tyontekijat implements Iterable<Tyontekija>{
         File ftied = new File(getTiedostonNimi());
 
         try ( PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath())) ) {
-            fo.println(getKokoNimi());
-            fo.println(tyontekijat.length);
+
             for (Tyontekija tyon : this) {
                 fo.println(tyon.toString());
             }

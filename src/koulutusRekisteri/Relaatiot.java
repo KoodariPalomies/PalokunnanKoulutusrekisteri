@@ -28,6 +28,7 @@ import java.io.PrintWriter;
  * @version 1.3, 13.5.2021  / Lisätty poistaTyontekijanKoulutus() + muokattu poista()
  * @version 1.4, 20.5.2021  / Muokattu lisaa() -aliohjelma toimimaan listalla
  * @version 1.5, 23.5.2021  / Lisätty korvaaTaiLisaa() ja etsiRelaatio()
+ * @version 1.6, 26.5.2021  / Muokattu tallenna() tekemään tiedostosta samanlaisen kuin suunnitelmassa  --> pois fo.println(alkiot.length); + fo.println(getKokoNimi());
  */
 public class Relaatiot implements Iterable<Relaatio> {
 
@@ -312,13 +313,12 @@ public class Relaatiot implements Iterable<Relaatio> {
             return;
         File ftied = new File(getTiedostonNimi());
 
-        try (PrintWriter fo = new PrintWriter(
-                new FileWriter(ftied.getCanonicalPath()))) {
-            fo.println(getKokoNimi());
-            fo.println(alkiot.length);
+        try (PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath()))) {
+            
             for (Relaatio rel : this) {
                 fo.println(rel.toString());
             }
+            
         } catch (FileNotFoundException ex) {
             throw new SailoException(
                     "Tiedosto " + ftied.getName() + " ei aukea");

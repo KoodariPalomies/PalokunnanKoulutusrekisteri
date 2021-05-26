@@ -136,7 +136,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */
     @FXML private void handleLisaaKoulutus() {
         Dialogs.showQuestionDialog("Lisää koulutus", "Lisätäänkö koulutus?", "Kyllä", "Ei");
-        //ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("KoulutusDialogView.fxml"), "Lisää koulutus", null, "");
         uusiKoulutus();
     }
     
@@ -190,8 +189,10 @@ public class KoulutusrekisteriGUIController implements Initializable {
         ModalController.showModal(KoulutusrekisteriGUIController.class.getResource("TietojaView.fxml"), "Tietoja", null, "");
     }
 
-//==============================================================================================================================
+    
+//==============================================================================================================================================================================================================
 // Tästä eteenpäin ei käyttöliittymään suoraan liittyvää koodia
+    
     
     private String              kayttajatunnus= "";
     private Koulutusrekisteri   koulutusrekisteri;
@@ -383,7 +384,6 @@ public class KoulutusrekisteriGUIController implements Initializable {
             koulutusrekisteri.annaKoulutus(i);
             rel.getSuoritettu();
             rel.getUmpeutuu();
-            //chooserTyontekijanKoulutukset.add(rel.getKoulutusTunnusString(), rel);
             chooserTyontekijanKoulutukset.add(rel);
             }
     }
@@ -488,7 +488,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
      */ 
     public void uusiKoulutus() { 
             Koulutus koul = new Koulutus();
-            koul = KoulutusDialogController.uudenLisaaminen(null, koul, koulutusrekisteri); // tämä lisätty jotta voidaan muokata uutta koulutusta
+            koul = KoulutusDialogController.uudenLisaaminen(null, koul, koulutusrekisteri); // tämä lisätty, jotta voidaan muokata uutta koulutusta
             if ( koul == null ) return;
             haeKoulutus(koul.getKoulutusTunnus());
             return;
@@ -504,7 +504,7 @@ public class KoulutusrekisteriGUIController implements Initializable {
 
         try {
             Relaatio rel = new Relaatio(tyontekijaKohdalla.getTyontekijaTunnus(), koulutusKohdalla.getKoulutusTunnus(), koulutusKohdalla.getKoulutus());
-            rel = LisaaTyontekijalleKoulutusDialogController.uudenLisaaminen(null, rel.clone(), koulutusrekisteri);
+            rel = LisaaTyontekijalleKoulutusDialogController.uudenLisaaminen(null, rel.clone(), koulutusrekisteri); // tämä lisätty, jotta voidaan lisätä ja muokata työntekijälle koulutus
             if ( rel == null ) return;
             hae(rel.getRelaatioTunnus());
         } catch (CloneNotSupportedException e) {

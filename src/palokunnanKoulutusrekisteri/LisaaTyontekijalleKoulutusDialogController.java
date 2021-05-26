@@ -14,6 +14,7 @@ import koulutusRekisteri.Koulutusrekisteri;
 import koulutusRekisteri.Relaatio;
 import koulutusRekisteri.SailoException;
 
+
 /**
  * Käsitellään koulutusten muokkausikkunan tapahtumat
  * @author mitulint
