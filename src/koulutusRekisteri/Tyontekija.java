@@ -66,10 +66,8 @@ public class Tyontekija implements Cloneable {
     
       /**
        * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
-       * TODO: poista kun kaikki toimii
        */
       public void vastaaAkuAnkka() {
-          //tyontekijaTunnus = 1;
           nimi          = "Ankka Aku";
           tehtavaAlue   = "Pelastus";
           virkaAsema    = "Palomies";

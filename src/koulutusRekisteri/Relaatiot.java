@@ -28,7 +28,7 @@ import java.io.PrintWriter;
  * @version 1.3, 13.5.2021  / Lisätty poistaTyontekijanKoulutus() + muokattu poista()
  * @version 1.4, 20.5.2021  / Muokattu lisaa() -aliohjelma toimimaan listalla
  * @version 1.5, 23.5.2021  / Lisätty korvaaTaiLisaa() ja etsiRelaatio()
- * @version 1.6, 26.5.2021  / Muokattu tallenna() tekemään tiedostosta samanlaisen kuin suunnitelmassa  --> pois fo.println(alkiot.length); + fo.println(getKokoNimi());
+ * @version 1.6, 26.5.2021  / Muokattu tallenna() tekemään tiedostosta samanlaisen kuin suunnitelmassa  --> pois fo.println(getKokoNimi()); + lueTiedostosta(String tied) muokattu vastaavat jutut pois
  */
 public class Relaatiot implements Iterable<Relaatio> {
 
@@ -260,14 +260,10 @@ public class Relaatiot implements Iterable<Relaatio> {
     public void lueTiedostosta(String tied) throws SailoException {
         setTiedostonPerusNimi(tied);
 
-        try (BufferedReader fi = new BufferedReader(
-                new FileReader(getTiedostonNimi()))) {
-            kokoNimi = fi.readLine();
-            if (kokoNimi == null)
-                throw new SailoException("Relaatio puuttuu");
+        try (BufferedReader fi = new BufferedReader(new FileReader(getTiedostonNimi()))) {
+
             String rivi = fi.readLine();
-            if (rivi == null)
-                throw new SailoException("Maksimikoko puuttuu");
+            if (rivi == null) throw new SailoException("Maksimikoko puuttuu");
 
             while ((rivi = fi.readLine()) != null) {
                 rivi = rivi.trim();
@@ -303,6 +299,7 @@ public class Relaatiot implements Iterable<Relaatio> {
      * Tallentaa relaatiot tiedostoon.
      * Tiedoston muoto:
      * <pre>
+     * 2
      * 1|1|1|Vesisukeltaja|1.1.2021|1.1.2031
      * 2|1|2|Kissankusettaja|1.1.2021|1.1.2031
      * </pre>
@@ -315,6 +312,7 @@ public class Relaatiot implements Iterable<Relaatio> {
 
         try (PrintWriter fo = new PrintWriter(new FileWriter(ftied.getCanonicalPath()))) {
             
+            fo.println(alkiot.length);
             for (Relaatio rel : this) {
                 fo.println(rel.toString());
             }

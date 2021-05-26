@@ -100,7 +100,6 @@ public class Koulutus {
     
     /**
      * Apumetodi, jolla saadaan täytettyä testiarvot työntekijälle.
-     * TODO: poista kun kaikki toimii
      */
     public void vastaaVesisukeltaja() {
         koulutus = "Vesisukeltaja";
@@ -210,11 +209,15 @@ public class Koulutus {
      * <pre name="test">
      * #THROWS CloneNotSupportedException 
      *   Koulutus koulutus = new Koulutus();
-     *   koulutus.parse("   3  |  Ankka Aku   | 123");
-     *   koulutus kopio = koulutus.clone();
+     *   koulutus.parse("   1  |  Vesisukeltaja ");
+     *   try {
+     *   Koulutus kopio = koulutus.clone();
      *   kopio.toString() === koulutus.toString();
-     *   koulutus.parse("   4  |  Ankka Tupu   | 123");
+     *   koulutus.parse("   2  |  Vesisukeltaja ");
      *   kopio.toString().equals(koulutus.toString()) === false;
+     *   } catch (CloneNotSupportedException e) {
+     *       System.err.println(e.getMessage());
+     *   }
      * </pre>
      */
     @Override
