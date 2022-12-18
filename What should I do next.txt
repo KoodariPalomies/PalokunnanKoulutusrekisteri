@@ -1,4 +1,0 @@
-What should I do next?
-
-- Authentication for Logging UI
-- Data storing with structure, for instance with SQL
